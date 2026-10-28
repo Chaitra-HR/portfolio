@@ -1,0 +1,30 @@
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) clamp(300px, 34vw, 420px); gap: 12px; }
+
+/* Pitch card: the text block sits in the vertical centre, not pinned to the top. */
+.lead { min-height: 440px; padding: clamp(28px, 3.4vw, 56px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+.heading { margin: 0; max-width: 16em; font-size: clamp(28px, 1.4vw + 18px, 38px); line-height: 1.1; font-weight: 500; letter-spacing: -.03em; color: var(--ink); }
+.heading :global(.g) { color: var(--grey-3); }
+.body { margin: 16px 0 0; max-width: 460px; font-size: 17px; line-height: 1.55; color: var(--muted); text-wrap: pretty; }
+.actions { margin-top: 32px; }
+
+.side { min-height: 440px; padding: clamp(24px, 2.2vw, 32px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: stretch; gap: 24px; }
+.buddy { width: 200px; height: 200px; align-self: center; }
+.say { align-self: center; }
+
+.bar { margin-top: 12px; padding: 16px 32px; display: flex; justify-content: space-between; gap: 16px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+/* the footprint link: underlined so it reads as a link; darkens on hover, dims on press */
+.bar a { color: var(--ink-soft); text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: rgba(0, 0, 0, .28); text-underline-offset: 3px; border-radius: 4px; transition: color .2s ease, text-decoration-color .2s ease, opacity .15s ease; }
+.bar a:hover { color: var(--ink); text-decoration-color: currentColor; }
+.bar a:active { opacity: .55; }
+.bar a:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* Phone: cards stack and shed the fixed desktop heights. */
+@media (max-width: 809.98px) {
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .lead { min-height: 0; padding: 40px 22px; }
+  .body { font-size: 16px; }
+  .actions { margin-top: 28px; }
+  .side { min-height: 380px; padding: 24px 22px; }
+  .buddy { width: 180px; height: 180px; }
+  .bar { flex-direction: column; gap: 6px; padding: 16px 22px; }
+}

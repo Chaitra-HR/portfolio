@@ -1,0 +1,17 @@
+/* Custom cursor in the style of protasevich.com: a 16px rounded arrow that
+   leans toward the screen centre, becomes a dot over anything interactive and
+   carries a pill label for [data-cursor-tooltip]. Solid black (a black pill
+   with white text) so it stays crisp over photos. */
+.cursor, .tip { position: fixed; top: 0; left: 0; z-index: 2147483646; pointer-events: none; }
+.cursor { z-index: 2147483647; width: 16px; height: 16px; transform-origin: 8px 0; will-change: transform; }
+.inner { width: 100%; height: 100%; opacity: 0; transform: scale(0); transform-origin: center top; transition: opacity .15s ease-out, transform .15s ease-out; }
+.visible .inner { opacity: 1; transform: scale(1); }
+.shape { display: block; width: 100%; height: 100%; overflow: visible; transform-origin: center top; }
+.shape path { fill: #000000; }
+
+.tip { will-change: transform; }
+.shell { position: absolute; left: 0; top: 0; width: 0; height: 0; overflow: hidden; border-radius: 999px; transform: translate(-50%, -50%); transition: width .22s cubic-bezier(.2, .8, .2, 1), height .22s cubic-bezier(.2, .8, .2, 1); }
+.surface { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); box-sizing: border-box; display: flex; align-items: center; justify-content: center; width: max-content; min-height: 24px; padding: 4px 10px; border-radius: 999px; background: #000000; }
+.label { font: 500 13px/16px var(--font-sans); color: #FFFFFF; white-space: nowrap; -webkit-font-smoothing: antialiased; }
+
+@media (prefers-reduced-motion: reduce) { .inner, .shell { transition: none; } }

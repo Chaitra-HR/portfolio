@@ -1,0 +1,5 @@
+.dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); flex: none; }
+.ring { box-shadow: 0 0 0 3px rgba(22, 163, 74, .16); }
+.pulse::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; background: var(--ok); opacity: .25; animation: ping 2s ease-out infinite; }
+@keyframes ping { 0% { transform: scale(.6); opacity: .35; } 100% { transform: scale(1.6); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .pulse::after { animation: none; } }

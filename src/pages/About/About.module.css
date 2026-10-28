@@ -1,0 +1,143 @@
+/* Carried over from AboutStack.dc.html; selectors kept so the cascade matches. */
+/* Type scale for the page's headings: the page title, then both section
+   titles one step down (same size), then card titles. */
+.pg { --h1: clamp(34px, 2.2vw + 10px, 44px); --h2: clamp(26px, 1vw + 14px, 30px); --h3: 20px; --sub: 16px; }
+.pg { color: var(--ink-soft); background: var(--paper); overflow-x: clip; -webkit-font-smoothing: antialiased; }
+.c { width: min(1020px, calc(100% - 48px)); margin: 0 auto; }
+
+/* intro */
+.intro { padding: 110px 0 80px; }
+.intro h1 { margin: 0 0 6px; font-size: var(--h1); line-height: 1.1; font-weight: 500; letter-spacing: -.03em; color: var(--ink); }
+.intro p { margin: 14px 0 0; max-width: 560px; font-size: 17px; line-height: 1.5; }
+.intro b, .lead b { font-weight: 500; color: var(--ink); }
+
+/* photo row: bleeds off both edges. Each edge photo always shows at least
+   --edge px (on narrower desktops the two middle columns give way, keeping
+   their 500:580 proportion), so it can be seen and hovered. */
+.row { --edge: 140px; --l: max(var(--edge), calc((100% - 1020px) / 2 - 22px)); --r: max(var(--edge), calc(100% - var(--l) - 1146px)); display: grid; grid-template-columns: var(--l) minmax(0, 500fr) minmax(0, 580fr) var(--r); column-gap: 22px; align-items: start; }
+.ph { position: relative; margin: 0; border-radius: 6px; background: #EEEEEE; overflow: hidden; display: flex; align-items: flex-end; padding: 14px; box-sizing: border-box; }
+.ph::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(135deg, rgba(0, 0, 0, .025) 0 2px, transparent 2px 14px); }
+.bleedL { height: 330px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.bleedR { height: 660px; width: calc(100% + 60px); border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.bleed-wrap { overflow: hidden; }
+.main-ph { height: 660px; }
+.rcol { height: 660px; display: flex; flex-direction: column; justify-content: space-between; }
+.leads { padding-top: 2px; }
+.lead { margin: 0 0 18px 88px; max-width: 420px; font-size: 17px; line-height: 1.5; }
+.lead:last-child { margin-bottom: 0; }
+.land { height: 300px; }
+
+/* photos: caption on hover */
+.mo { cursor: default; outline: none; }
+/* photos fade in over the striped placeholder once they've loaded */
+/* hover zoom uses `scale`, leaving `transform` to the scroll motion (useScrub "grow") */
+.mo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: scale .8s cubic-bezier(.2, .8, .2, 1), opacity .6s ease; }
+.mo img.loaded { opacity: 1; }
+.mo:hover img, .mo:focus-visible img { scale: 1.035; }
+.mo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .32)); opacity: 0; transition: opacity .35s ease; }
+.mo:hover::after, .mo:focus-visible::after { opacity: 1; }
+.mo-t { position: absolute; left: 14px; bottom: 14px; z-index: 2; display: inline-flex; align-items: center; gap: 8px; background: var(--paper); color: var(--ink); border-radius: var(--radius-pill); padding: 9px 14px; font-size: 14px; font-weight: 500; white-space: nowrap; opacity: 0; transform: translateY(10px); transition: opacity .3s ease, transform .4s var(--ease-spring); }
+.mo:hover .mo-t, .mo:focus-visible .mo-t { opacity: 1; transform: none; }
+.mo:focus-visible { box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--ink); }
+.bleedL .mo-t { left: auto; right: 14px; }
+.bleedR .mo-t { left: 14px; }
+.hint { display: inline-flex; align-items: center; gap: 8px; margin-top: 22px; font-size: 15px; color: var(--muted); }
+@media (hover: none) { .mo .mo-t { opacity: 1; transform: none; } .mo::after { opacity: 1; } }
+/* with the custom cursor the caption follows the pointer instead (keyboard focus still shows it here) */
+:global(html.has-custom-cursor) .mo:hover:not(:focus-visible) .mo-t { opacity: 0; transform: translateY(10px); }
+:global(html.has-custom-cursor) .mo:hover:not(:focus-visible)::after { opacity: 0; }
+
+.ast { width: 16px; height: 16px; flex: none; }
+.ast svg { width: 100%; height: 100%; animation: ast-spin 30s linear infinite; }
+
+/* things I like */
+.likes { display: grid; grid-template-columns: 240px repeat(3, minmax(0, 1fr)); gap: 22px; align-items: start; padding: 120px 0 0; }
+.likes h2 { margin: 0; font-size: var(--h2); line-height: 1.15; font-weight: 500; letter-spacing: -.02em; color: var(--ink); }
+.likes-sub { margin: 8px 0 0; font-size: var(--sub); line-height: 1.5; }
+.like1 { height: 440px; }
+.like2 { height: 520px; margin-top: 60px; }
+.like3 { height: 380px; margin-top: 20px; }
+
+/* how I work: cards that stack as you scroll (sizes and motion follow
+   together.agency/about; motion in stackMotion.ts) */
+.hw3 { padding: 140px 24px 0; }
+.hw3-h { margin: 0; text-align: center; font-size: var(--h2); line-height: 1.15; font-weight: 500; letter-spacing: -.02em; color: var(--ink); }
+.hw3-h span { display: block; margin-top: 8px; font-size: var(--sub); font-weight: 400; letter-spacing: 0; color: var(--grey-1); }
+/* padding-bottom reserves the cascade offset of the last card (100 × 5/6 px),
+   so the gap below the stack matches the page's section spacing */
+.stack { width: 100%; max-width: 650px; margin: 72px auto 0; padding-bottom: 84px; display: flex; flex-direction: column; gap: 32px; }
+.sc { position: sticky; top: 20vh; z-index: 10; }
+.sc-card { height: 270px; box-sizing: border-box; display: flex; align-items: center; padding: 20px; border-radius: 8px; background: #FAFAFA; transform: translateY(100px) translateZ(0); will-change: transform; }
+.sc-in { width: 100%; max-width: 542px; margin: 0 auto; }
+.sc-n { display: block; font-size: 13px; color: var(--grey-2); font-variant-numeric: tabular-nums; }
+.sc h3 { margin: 8px 0 0; font-size: var(--h3); line-height: 1.4; font-weight: 500; letter-spacing: -.01em; color: var(--ink); }
+/* the negative bottom margin trims the last line's leading and descenders,
+   so the text block sits optically centred in the card */
+.sc p { margin: 12px 0 -.4em; font-size: 18px; line-height: 1.5; color: var(--ink); }
+@media (max-width: 767.98px) {
+  .sc { top: 48px; }
+  .sc-card { height: auto; min-height: 320px; padding: 24px 20px; }
+}
+@media (prefers-reduced-motion: reduce) { .sc-card { transform: none; } }
+
+.footer { margin: 120px 12px 12px; }
+
+@media (prefers-reduced-motion: reduce) { .mo-t, .mo::after, .mo img { transition: none; } .ast svg { animation: none; } }
+
+/* Tablet and phone (like pixel-one.com/about): the bleeding row becomes a
+   tight two-column mosaic that keeps every photo, and the three short
+   paragraphs follow underneath. Cell heights follow the row's width (a
+   function of the viewport), so the mosaic keeps its proportions. */
+@media (max-width: 1199.98px) {
+  .row {
+    --cell: calc((min(1020px, 100vw - 48px) - 8px) / 2 * .64);
+    width: min(1020px, calc(100% - 48px));
+    margin: 0 auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, var(--cell)) auto;
+    grid-template-areas: "work books" "leaf books" "leaf land" "leads leads";
+    align-items: stretch;
+    gap: 8px;
+  }
+  .rcol, .bleed-wrap { display: contents; }
+  .row .ph { height: auto; width: auto; border-radius: 6px; }
+  .main-ph { grid-area: work; }
+  .bleedL { grid-area: leaf; }
+  .bleedR { grid-area: books; }
+  .land { grid-area: land; }
+  .leads { grid-area: leads; padding-top: 40px; max-width: 560px; }
+  .lead { margin: 0 0 16px; max-width: none; }
+  .bleedL .mo-t { left: 14px; right: auto; }
+
+  .likes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .likes > div:first-child { grid-column: 1 / -1; }
+  .like1 { height: 400px; }
+  .like2 { height: 460px; margin-top: 40px; }
+  .like3 { height: 360px; margin-top: 16px; }
+}
+
+/* Phone: the mosaics stay two columns; tighter vertical rhythm. */
+@media (max-width: 809.98px) {
+  .pg { --h1: 32px; --h2: 24px; --h3: 18px; --sub: 15px; }
+  .deskBreak { display: none; }
+  /* no hovering on a phone: drop the hint and the photo captions */
+  .hoverHint { display: none; }
+  .mo .mo-t, .mo::after { display: none; }
+  .c, .row { width: calc(100% - 40px); }
+  .intro { padding: 56px 0 36px; }
+  .row { gap: 6px; --cell: calc((100vw - 40px - 6px) / 2 * .66); }
+  .leads { padding-top: 32px; }
+
+  .likes { --cell: calc((100vw - 40px - 6px) / 2 * .72); grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto repeat(2, var(--cell)); gap: 6px; padding-top: 80px; }
+  .likes > div:first-child { grid-column: 1 / -1; margin-bottom: 14px; }
+  .likes { align-items: stretch; }
+  .likes .ph { height: auto; margin-top: 0; }
+  .like1 { grid-row: 2 / span 2; }
+
+  .mo-t { left: 8px; bottom: 8px; max-width: calc(100% - 16px); padding: 6px 10px; font-size: 12px; white-space: normal; }
+  .bleedL .mo-t { left: 8px; }
+
+  .hw3 { padding: 96px 20px 0; }
+  .stack { margin-top: 48px; }
+  .footer { margin-top: 88px; }
+}

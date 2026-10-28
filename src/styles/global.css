@@ -1,0 +1,42 @@
+@font-face {
+  font-family: "Mabry Pro";
+  src: url("/fonts/MabryPro-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Mabry Pro";
+  src: url("/fonts/MabryPro-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+/* No Bold file exists; weight 700 is synthesised from Medium, as in the exports. */
+
+html { -webkit-text-size-adjust: 100%; }
+/* text selection: a soft lavender wash with the text in violet, instead of the browser's blue.
+   iOS ignores ::selection (its highlight is system UI); the violet caret colour is the one
+   hint it may pick up, and colours text-field carets to match everywhere else. */
+::selection { background: var(--select-bg); color: var(--select-ink); }
+html { caret-color: var(--select-ink); }
+body { margin: 0; background: var(--paper); font-family: var(--font-sans); color: var(--ink); }
+a { color: var(--ink); }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+main:focus { outline: none; }
+
+/* Utilities repeated verbatim across the exports */
+.mut { color: var(--muted); }
+.lbl { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; margin: 0; color: var(--muted); }
+.card { background: var(--card); border-radius: var(--radius-card); }
+
+/* The custom cursor (CustomCursor.tsx) replaces the system one for mouse users on wider screens. */
+@media (min-width: 801px) and (pointer: fine) {
+  html.has-custom-cursor, html.has-custom-cursor * { cursor: none !important; }
+}
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip-link { position: absolute; left: 12px; top: -60px; z-index: 100; padding: 12px 18px; border-radius: var(--radius-pill); background: var(--ink); color: var(--paper); font-size: 15px; font-weight: 500; text-decoration: none; }
+.skip-link:hover { color: var(--paper); }
+.skip-link:focus { top: 12px; }

@@ -1,0 +1,8 @@
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.copied { color: var(--ok-ink); }
+
+/* the mail icon's flap is hinged on the envelope's top edge; it flips up (with a little spring) when the email is copied */
+.mail { overflow: visible; }
+.flap { transform-box: fill-box; transform-origin: 50% 0; transition: transform .45s cubic-bezier(.3, 1.5, .5, 1); }
+.open .flap { transform: scaleY(-1); }
+@media (prefers-reduced-motion: reduce) { .flap { transition: none; } }

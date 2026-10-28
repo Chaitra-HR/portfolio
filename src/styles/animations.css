@@ -1,0 +1,23 @@
+/* Staggered reveal used on every page. Each page root sets its own timing
+   (--rv-dur, --rv-step) to match its export; elements set --i. A CSS
+   animation, so it starts on the first paint and the browser runs it on its
+   own, however busy the page's script is (a JS-triggered transition waited
+   for a free frame, and showed up late on phones). Held while the loading
+   intro is on screen (lib/intro.ts sets .intro-active on <html>). */
+.rv {
+  animation: rv-in var(--rv-dur, .6s) ease backwards;
+  animation-delay: calc(var(--i, 0) * var(--rv-step, 80ms));
+}
+@keyframes rv-in { from { opacity: 0; transform: translateY(10px); } }
+:root.intro-active .rv { animation-play-state: paused; }
+/* Phones: no entrance at all. The preloader's fade (or the page change) is the
+   transition, and the whole screen is there at once instead of the top cards
+   arriving after the ones below them. */
+@media (max-width: 809.98px) { .rv { animation: none; } }
+
+@keyframes ast-spin { to { transform: rotate(360deg); } }
+@keyframes ast-blink { 0%, 93%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .rv { animation: none; }
+}

@@ -1,0 +1,4 @@
+.hero-mock { width: min(46%, 440px); transform: rotate(-2deg); }
+.ba-mock { width: 78%; }
+.skipped { display: block; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #DDDDDD; }
+@media (max-width: 809.98px) { .hero-mock { width: 78%; } }

@@ -1,0 +1,96 @@
+/* Building blocks for case studies, carried over from CaseFinal.dc.html. */
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 56px; padding: 72px 0 48px; align-items: end; }
+.buddy { width: 132px; height: 132px; margin: 0 0 18px -14px; filter: drop-shadow(0 12px 16px rgba(91, 63, 208, .16)); }
+.idx { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
+.idx b { font-weight: 500; color: var(--ink); background: var(--card); border-radius: var(--radius-pill); padding: 5px 10px; font-variant-numeric: tabular-nums; }
+.h1 { margin: 18px 0 0; font-size: clamp(36px, 4.17vw, 60px); line-height: 1.0; font-weight: 500; letter-spacing: -.045em; max-width: 720px; }
+.h1 :global(.g) { color: var(--grey-3); }
+.sub { margin: 18px 0 0; font-size: 18px; line-height: 1.5; color: var(--muted); max-width: 560px; }
+.meta { margin: 0; }
+.meta div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-top: 1px solid var(--rule); font-size: 15px; line-height: 1.45; }
+.meta div:last-child { border-bottom: 1px solid var(--rule); }
+.meta dt { color: var(--muted); }
+.meta dd { margin: 0; }
+.status { display: flex; align-items: center; gap: 8px; }
+
+/* media */
+.panel { background: var(--card); border-radius: var(--radius-card); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; aspect-ratio: var(--aspect, auto); }
+.cap { margin: 12px 2px 0; font-size: 13px; color: var(--grey-1); }
+
+/* mock-ups drawn in HTML */
+.mock { background: var(--paper); border-radius: 14px; box-shadow: 0 20px 44px rgba(0, 0, 0, .12); padding: 22px; box-sizing: border-box; text-align: left; }
+.mk-h { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0 0 12px; }
+.mk-q { font-size: 20px; font-weight: 700; margin: 0 0 14px; line-height: 1.2; letter-spacing: -.01em; }
+.opt { display: inline-flex; align-items: center; padding: 8px 14px; border-radius: var(--radius-pill); border: 1px solid #DDDDDD; font-size: 13px; font-weight: 500; margin: 0 6px 6px 0; }
+.sel { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.barr { display: block; height: 8px; border-radius: 4px; background: #EEEEEE; }
+.fld { display: block; height: 30px; border-radius: 8px; background: #F3F3F3; margin-top: 8px; }
+.skip { margin: 0; font-size: 13px; color: var(--grey-2); text-decoration: line-through; line-height: 1.7; }
+
+/* body + table of contents */
+.body { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 56px; padding-top: 110px; }
+.toc { position: sticky; top: 24px; align-self: start; display: flex; flex-direction: column; gap: 2px; }
+.toc a { display: flex; align-items: center; gap: 10px; min-height: 38px; padding: 0 12px; border-radius: var(--radius-pill); color: var(--grey-1); text-decoration: none; font-size: 15px; transition: color .2s ease, background-color .2s ease; }
+.toc a:hover { color: var(--ink); }
+.toc a.on { color: var(--ink); background: var(--card); }
+.mini { width: 14px; height: 14px; flex: none; opacity: 0; transform: scale(.4) rotate(-90deg); transition: opacity .25s ease, transform .45s cubic-bezier(.3, 1.5, .5, 1); }
+.toc a.on .mini { opacity: 1; transform: none; }
+.toc a:not(.on) .mini { width: 0; margin-right: -10px; }
+
+/* sections */
+.sec { scroll-margin-top: 24px; margin-bottom: 110px; max-width: 720px; }
+.sec h2 { margin: 12px 0 0; font-size: clamp(30px, 1.67vw + 12px, 36px); line-height: 1.08; font-weight: 500; letter-spacing: -.03em; }
+.wide { max-width: none; }
+.wide h2 { max-width: 720px; }
+.last { margin-bottom: 80px; }
+.t { margin: 18px 0 0; font-size: 17px; line-height: 1.6; color: var(--ink-body); }
+.ph { color: var(--grey-2); }
+.t.ph { color: var(--grey-2); }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; background: var(--card); border-radius: var(--radius-pill); padding: 7px 12px; font-size: 13px; font-weight: 500; white-space: nowrap; }
+.chip.tc { background: var(--tbc-bg); color: var(--tbc-ink); }
+
+/* before / after */
+.ba { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
+.ba .panel { aspect-ratio: 4/3.4; flex-direction: column; gap: 18px; padding: 28px; }
+.tag { position: absolute; top: 16px; left: 16px; font-size: 12px; font-weight: 500; background: var(--paper); border-radius: var(--radius-pill); padding: 6px 11px; }
+
+/* numbered decisions */
+.dec { margin-top: 24px; }
+.dec > div { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; padding: 20px 0; border-top: 1px solid var(--rule); }
+.dec > div:last-child { border-bottom: 1px solid var(--rule); }
+/* Deliberately broad, as in the export: it also styles placeholder notes and
+   chips inside a decision (13px grey, 3px top padding). */
+.dec span { font-size: 13px; color: var(--grey-1); font-variant-numeric: tabular-nums; padding-top: 3px; }
+.dec p { margin: 0; font-size: 17px; line-height: 1.55; color: var(--ink-body); }
+.dec b { font-weight: 500; color: var(--ink); }
+
+/* stats */
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
+.st { padding: 26px 24px; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; }
+.st b { font-size: 52px; line-height: 1; font-weight: 500; letter-spacing: -.05em; }
+.st p { margin: 0; font-size: 15px; line-height: 1.45; color: var(--muted); }
+
+/* Below 1000px the table of contents goes and the hero stacks. */
+@media (max-width: 999.98px) {
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .body { grid-template-columns: minmax(0, 1fr); padding-top: 88px; }
+  .toc { display: none; }
+  .sec { max-width: none; margin-bottom: 88px; }
+  .sec h2, .t { max-width: 720px; }
+}
+@media (max-width: 809.98px) {
+  .hero { padding: 40px 0 32px; }
+  .body { padding-top: 64px; }
+  .sec { margin-bottom: 72px; }
+  .last { margin-bottom: 48px; }
+  .ba, .stats { grid-template-columns: minmax(0, 1fr); }
+  .ba .panel { padding: 56px 20px 28px; }
+  .st { min-height: 160px; }
+  .st b { font-size: 44px; }
+  .meta div { grid-template-columns: 88px minmax(0, 1fr); }
+  /* keep feature panels tall enough for their mock-ups */
+  .panel { aspect-ratio: var(--aspect-sm, var(--aspect, auto)); }
+}
