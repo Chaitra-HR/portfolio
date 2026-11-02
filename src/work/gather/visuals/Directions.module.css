@@ -1,0 +1,30 @@
+.wrap { display: flex; flex-direction: column; gap: 20px; }
+.cards { display: flex; flex-direction: column; gap: 12px; }
+.card { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); align-items: center; gap: 28px; padding: 16px 20px 18px; border: 1px solid var(--page-rule); border-radius: var(--radius-card); }
+.n { display: block; margin-bottom: 12px; font-size: var(--t-xs); line-height: 1.5; color: var(--muted); font-variant-numeric: tabular-nums; }
+.card h3 { margin: 0; font-size: var(--t-body); line-height: 1.4; font-weight: 500; color: var(--ink); }
+.card p { margin: 4px 0 0; font-size: var(--t-body); line-height: 1.5; color: var(--muted); }
+.card p b { font-weight: 400; color: var(--ink); }
+
+.diagram { display: block; width: 100%; max-width: 470px; height: auto; margin: 0 auto; font-size: 8.8px; }
+.diagram rect { fill: #FFFFFF; stroke: #CFCFCB; stroke-width: .9; }
+.diagram text { fill: var(--ink); font-family: inherit; }
+.ink rect { fill: var(--ink); stroke: var(--ink); }
+.ink text { fill: #FFFFFF; }
+/* the weak spot: drawn dashed, in ink */
+.flag rect { fill: var(--lilac); stroke: var(--lilac); }
+.flag text { fill: var(--ink); font-size: 8.4px; font-weight: 500; }
+.line { fill: none; stroke: #A6A6A6; stroke-width: .9; }
+.dash { fill: none; stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 2.5; }
+.wait { fill: var(--ink) !important; font-size: 8.4px; font-weight: 500; }
+
+.chosen p { margin: 0 0 8px; font-size: var(--t-body); line-height: 1.5; color: var(--muted); }
+.chosen ol { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; counter-reset: flow; }
+.chosen li { counter-increment: flow; }
+.chosen a { display: flex; align-items: center; gap: 8px; min-height: 38px; padding: 0 14px; box-sizing: border-box; border-radius: var(--radius-pill); background: var(--tint); color: var(--ink); text-decoration: none; font-size: var(--t-body); line-height: 1.2; transition: background-color .2s ease; }
+.chosen a::before { content: counter(flow); color: var(--muted); font-variant-numeric: tabular-nums; }
+.chosen a:hover { background: var(--lilac); }
+
+@media (max-width: 689.98px) {
+  .card { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+}

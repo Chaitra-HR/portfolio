@@ -1,0 +1,26 @@
+/* After together.agency/careers: white cards on a pale field, a 96px object top
+   right, and a white layer behind the content that eases forward on hover. */
+.points { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; box-sizing: border-box; margin: var(--gap-block) 0; padding: 16px; border-radius: var(--radius-card); background: #FAFAFA; list-style: none; }
+.point { position: relative; min-width: 0; padding: 24px; }
+.point::before { content: ""; position: absolute; inset: 0; border-radius: 8px; background: var(--paper); transition: scale .8s var(--ease-out-expo), box-shadow .8s var(--ease-out-expo); }
+.object { position: relative; display: block; width: 96px; height: 96px; margin: 0 0 48px auto; mix-blend-mode: multiply; }
+.point h3 { position: relative; margin: 0 0 var(--gap-tight); font-size: var(--t-h3); line-height: var(--lh-h3); font-weight: 500; color: var(--ink); text-wrap: balance; }
+.point p { position: relative; margin: 0; font-size: var(--t-small); line-height: var(--lh-small); color: var(--ink-body); text-wrap: pretty; }
+
+/* one card to a row: the object on the left, the words beside it */
+.words { position: relative; min-width: 0; }
+.list { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.list .point { display: flex; align-items: center; gap: 20px; padding: 16px 20px; }
+.list .object { flex: none; width: 64px; height: 64px; margin: 0; }
+.list h3 { margin-bottom: 4px; }
+
+@media (hover: hover) {
+  .point:hover::before { scale: 1.02; box-shadow: 0 16px 48px rgba(0, 0, 0, .08); }
+}
+@media (max-width: 809.98px) {
+  .points { grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 12px; }
+  .object { margin-bottom: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .point::before { transition: none; }
+}

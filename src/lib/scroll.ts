@@ -3,9 +3,13 @@ import type { MouseEvent } from 'react';
 export const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/** A click the page should handle: the main button, no modifier keys, not already taken. */
+const isPlainClick = (e: MouseEvent<HTMLAnchorElement>) =>
+  !e.defaultPrevented && e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
+
 /** Click handler for a link to the top of the current page: smooth-scrolls up instead of jumping. */
 export function smoothScrollToTop(e: MouseEvent<HTMLAnchorElement>) {
-  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  if (!isPlainClick(e)) return;
   e.preventDefault();
   window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
 }
@@ -17,7 +21,7 @@ export function smoothScrollToTop(e: MouseEvent<HTMLAnchorElement>) {
  */
 export function smoothScrollTo(id: string) {
   return (e: MouseEvent<HTMLAnchorElement>) => {
-    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (!isPlainClick(e)) return;
     const el = document.getElementById(id);
     if (!el) return;
     e.preventDefault();

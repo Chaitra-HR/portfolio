@@ -1,20 +1,8 @@
-import { cx } from '../../lib/cx';
-import c from '../covers.module.css';
+import poster from '../../assets/images/website-revamp/film.jpg';
+import film from '../../assets/images/website-revamp/film.mp4';
+import { FilmCover } from '../FilmCover';
 import type { ArtProps } from '../types';
 
 export function WebsiteCover({ className }: ArtProps) {
-  return (
-    <span className={cx(c.cover, c.ws, className)}>
-      <span>
-        <span className={c.wsK}>
-          Asked before the redesign
-        </span>
-        <span className={c.wsH}>
-          Who is this
-          <br />
-          site for?
-        </span>
-      </span>
-    </span>
-  );
+  return <FilmCover film={film} poster={poster} className={className} />;
 }

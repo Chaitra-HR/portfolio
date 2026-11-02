@@ -12,7 +12,7 @@ import { prefersReducedMotion } from './scroll';
 /** Decided once, at startup: every load, unless reduced motion is on. */
 export const introPlays = typeof window !== 'undefined' && !prefersReducedMotion();
 
-/** The intro hands over to Home's sidebar at this size (and lets the others boot early). */
+/** The desktop layout: Home's sticky sidebar, which the intro hands over to, and the case-study margin. */
 export const DESKTOP_QUERY = '(min-width: 1200px)';
 
 let finish: () => void = () => {};

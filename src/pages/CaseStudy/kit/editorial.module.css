@@ -1,0 +1,97 @@
+/* The editorial blocks every case study draws from. They stay on the study's type and spacing
+   tokens (see CaseStudy.module.css) and its greys: a hairline and a small corner label do the work a colour or an icon would. The
+   lilac square is the contents marker, reused to say "this is the point". Hover only appears
+   where something responds, always .2s, and reduced motion drops it. */
+
+.lead { margin: var(--gap-text) 0; font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink); text-wrap: pretty; }
+.lead b { font-weight: 500; }
+
+.bullets { display: grid; gap: 8px; margin: var(--gap-text) 0; padding: 0; list-style: none; font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body); }
+.bullets li { position: relative; padding-left: 16px; }
+.bullets li::before { content: ""; position: absolute; left: 0; top: .62em; width: 4px; height: 4px; background: var(--grey-3); }
+.bullets b { font-weight: 500; }
+
+/* key insight: one quiet step above the prose */
+.insight { margin: var(--gap-block) 0; padding: var(--gap-heading); border-radius: var(--radius-card); background: var(--card); }
+.insight-label { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; font-size: var(--t-xs); line-height: var(--lh-small); color: var(--muted); }
+.insight-label::before { content: ""; flex: none; width: 7px; height: 7px; background: var(--lilac-deep); }
+.insight-text { margin: 0; font-size: var(--t-body); line-height: var(--lh-body); font-weight: 500; color: var(--ink); text-wrap: pretty; }
+.insight-text em { font-style: normal; }
+
+/* findings: a hairline over each, with the heading doing the scanning */
+.findings { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap-heading); margin: var(--gap-block) 0; padding: 0; list-style: none; font-size: var(--t-small); line-height: var(--lh-small); color: var(--ink-body); }
+.findings-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.findings li { padding-top: var(--gap-tight); border-top: 1px solid var(--page-rule); }
+.findings b { display: block; margin-bottom: 4px; font-weight: 500; color: var(--ink); }
+.findings-visual { row-gap: var(--gap-block); }
+.findings-visual li { padding-top: 0; border-top: 0; }
+.findings-note { margin: calc(var(--gap-tight) - var(--gap-block)) 0 var(--gap-block); font-size: var(--t-xs); line-height: var(--lh-small); color: var(--muted); }
+
+/* reasoning */
+.reasoning { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-text) var(--gap-heading); margin: var(--gap-heading) 0; padding-top: var(--gap-tight); border-top: 1px solid var(--page-rule); }
+.reasoning-one { grid-template-columns: minmax(0, 1fr); }
+.reasoning dt { font-size: var(--t-xs); line-height: var(--lh-small); color: var(--muted); }
+.reasoning dd { margin: 4px 0 0; font-size: var(--t-small); line-height: var(--lh-small); color: var(--ink-body); }
+.reasoning dd b { font-weight: 500; }
+
+/* alternatives: the same shape each time, so the difference is what you see */
+.alts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap-tight); margin: var(--gap-block) 0; padding: 0; list-style: none; }
+.alts-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.alt { display: flex; flex-direction: column; padding: 16px 18px 18px; border: 1px solid var(--page-rule); border-radius: var(--radius-card); font-size: var(--t-small); line-height: var(--lh-small); }
+.alt-chosen { border-color: var(--ink); }
+.alt .alt-head { min-height: 21px; margin: 0 0 var(--gap-heading); font-size: var(--t-xs); line-height: var(--lh-small); color: var(--muted); }
+.alt .alt-pick { display: flex; align-items: center; gap: 8px; margin-top: auto; padding-top: var(--gap-tight); font-size: var(--t-xs); line-height: var(--lh-small); color: var(--ink); }
+.alt-pick::before { content: ""; flex: none; width: 7px; height: 7px; background: var(--lilac-deep); }
+.alt b { font-weight: 500; color: var(--ink); }
+.alt p { margin: 6px 0 0; color: var(--ink-body); }
+
+/* outcomes: the lead takes the height, the rest stack beside it, the uncertain sit below */
+.outcomes { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); grid-template-rows: repeat(var(--rows), auto); gap: var(--gap-tight); margin: var(--gap-block) 0; }
+.outcomes-one { grid-template-columns: minmax(0, 1fr); }
+.outcome { display: flex; flex-direction: column; padding: 16px 20px 18px; border: 1px solid var(--page-rule); border-radius: var(--radius-card); }
+.outcome-lead { grid-row: span var(--rows); }
+.outcome-status { display: flex; align-items: center; gap: 8px; margin: 0 0 var(--gap-text); font-size: var(--t-xs); line-height: var(--lh-small); color: var(--muted); }
+.outcome-status::before { content: ""; flex: none; width: 7px; height: 7px; background: var(--ink); }
+.outcome-value { margin: 0; font-size: var(--t-h3); line-height: var(--lh-h3); font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; text-wrap: balance; }
+.outcome-lead .outcome-value { font-size: var(--t-h2); line-height: var(--lh-title); }
+.outcome-lead .outcome-status { margin-bottom: var(--gap-block); }
+.outcome-body { margin: 6px 0 0; font-size: var(--t-small); line-height: var(--lh-small); color: var(--ink-body); }
+.outcome-lead .outcome-body { margin-top: auto; padding-top: var(--gap-tight); }
+/* each kind of evidence reads differently before a word of it is read */
+.reported { grid-column: 1 / -1; border-color: transparent; background: var(--tbc-bg); }
+.reported .outcome-status { color: var(--tbc-ink); }
+.reported .outcome-status::before { background: var(--tbc-ink); }
+.anticipated { grid-column: 1 / -1; border-style: dashed; border-color: var(--grey-3); }
+.anticipated .outcome-status::before { background: none; box-shadow: inset 0 0 0 1px var(--grey-1); }
+.observed .outcome-status::before, .qualitative .outcome-status::before { background: var(--grey-3); }
+
+/* what to notice: a small label, then the note, under the figure it belongs to */
+.notice { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 4px var(--gap-text); margin: var(--gap-tight) 0 0; font-size: var(--t-small); line-height: var(--lh-small); color: var(--ink-body); }
+.notice > p { margin: 0; padding-top: 1.5px; font-size: var(--t-xs); line-height: var(--lh-small); color: var(--muted); }
+.notice b { font-weight: 500; }
+
+/* more: Pixel One's small pill and chevron */
+.more { margin: var(--gap-text) 0; }
+.more-toggle { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px 0 14px; border: 0; border-radius: var(--radius-pill); background: var(--card); color: var(--ink); font: inherit; font-size: var(--t-xs); line-height: var(--lh-small); cursor: pointer; transition: background-color .2s ease; }
+.more-toggle:hover { background: var(--card-hover); }
+.more-toggle:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.more-chev { flex: none; width: 12px; height: 12px; transition: rotate .25s ease; }
+.more-chev-open { rotate: 180deg; }
+.more-panel { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .3s ease, opacity .25s ease; }
+.more-panel > div { min-height: 0; overflow: hidden; font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body); }
+.more-panel > div > :first-child { margin-top: var(--gap-tight); }
+.more-panel-open { grid-template-rows: 1fr; opacity: 1; }
+
+@media (max-width: 809.98px) {
+  .insight { padding: var(--gap-text); }
+  .findings, .findings-two, .alts, .alts-two, .reasoning { grid-template-columns: minmax(0, 1fr); }
+  .alts, .alts-two { gap: var(--gap-tight); }
+  .alt .alt-head { margin-bottom: var(--gap-tight); }
+  .outcomes { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; }
+  .outcome-lead { grid-row: auto; }
+  .outcome-lead .outcome-status { margin-bottom: var(--gap-heading); }
+  .notice { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .more-toggle, .more-chev, .more-panel { transition: none; }
+}

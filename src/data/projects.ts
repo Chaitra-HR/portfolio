@@ -4,7 +4,7 @@
  * lives in src/work/<slug>/.
  */
 
-export type ProjectStatus = 'Shipped' | 'Pre-beta';
+type ProjectStatus = 'Shipped' | 'Pre-beta';
 
 export interface CaseStudyProject {
   kind: 'case';
@@ -48,9 +48,9 @@ export const caseStudies: CaseStudyProject[] = [
     color: '#1D3FE0',
     proves: 'Proves: ships, and moves a number.',
     gist: {
-      problem: 'A long, one-size-fits-all intake stalled new clients before they reached a plan.',
-      decision: 'Ask only what each client’s situation needs, and skip the rest.',
-      outcome: 'Plan-ready in days, not weeks (estimate).',
+      problem: 'A 47-question spreadsheet stalled new clients before planning could begin.',
+      decision: 'Ask what applies, let clients finish in stages, and show advisors what’s missing.',
+      outcome: 'Reported: 3 weeks to under 4 days, pending verification.',
     },
   },
   {
@@ -91,7 +91,7 @@ export const caseStudies: CaseStudyProject[] = [
     cardTitle: 'Website Revamp for Conversions',
     summary: 'Positioning for a wealth firm',
     status: 'Shipped',
-    color: '#B9DB4C',
+    color: '#F5F1E0',
     proves: 'Proves: positioning and conversion thinking.',
     gist: {
       problem: 'The firm hadn’t decided who its site was for.',

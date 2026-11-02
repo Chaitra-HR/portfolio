@@ -37,11 +37,14 @@ src/
   components/
     layout/       SiteHeader, BentoFooter (+ FooterParts), usePageMeta
     ui/           Pill, SmartLink, StatusDot, Asterisk (arms + glyph), SvgDefs
-    interactions/ CustomCursor, GradientBuddy (cursor-following mascot), PokeBuddy, ScrubText
-  hooks/          useMelbourneTime, useLookAt, useCopyToClipboard,
-                  useActiveSection, useMediaQuery, useReadAlong
+    interactions/ CustomCursor, GradientBuddy (cursor-following mascot), PokeBuddy, ScrubText,
+                  ReadWords, Intro, TravelGuide, glass/ (three.js mascot)
+  hooks/          useMelbourneTime, useLookAt, useCopyToClipboard, useMediaQuery,
+                  useReadAlong, useScrub, useBandReveal
+  lib/            cx (class names), intro, scroll
   data/           site.ts (links + contact), projects.ts (metadata), testimonials.ts
-  work/           per-project art and case-study pages, plus the index.ts registry
+  work/           per-project covers and case-study pages, FilmCover (video tiles),
+                  plus the index.ts registry
   pages/
     Home/         sidebar, gist panel (+ GistBuddy), tiles, testimonials
     About/        page + Photo
@@ -54,7 +57,7 @@ public/fonts/     Mabry Pro Regular + Medium (Latin subset, WOFF2)
 **Styling.** Design tokens are CSS variables in `styles/tokens.css`. Each page
 and component has a CSS Module. The exports' CSS was carried over with its
 selectors intact, so the cascade (and the rendering) matches. Kebab-case
-classes in CSS are used as camelCase in TSX (`.mk-h` → `s.mkH`). Global
+classes in CSS are used as camelCase in TSX (`.side-head` → `s.sideHead`). Global
 classes are kept to the few utilities repeated verbatim across the exports:
 `.card`, `.lbl`, `.mut` and the `.rv` reveal.
 
@@ -98,21 +101,25 @@ Display headings scale fluidly with `clamp()` and hit their exported sizes at
 2. **Art.** Create `src/work/<slug>/Cover.tsx` and register it in `workArt`
    in `src/work/index.ts`. Size everything in `cqw` (see
    `src/work/covers.module.css`): the same cover then fills a Home tile and
-   shrinks into the case-study previous/next cards. To place it on Home, add
+   shrinks into the case study's More case studies tiles. To place it on Home, add
    `[slug, aspect]` to `COLUMNS` in `pages/Home/HomePage.tsx` (each column
    pairs a `24/25` card with a `6/5` one so the columns end level).
 3. **Page.** Create `src/work/<slug>/<Name>CaseStudy.tsx` with a default
-   export taking `{ project }`, and add it to `caseStudyPages` in
+   export (it's passed `{ project }` if it wants it), and add it to `caseStudyPages` in
    `src/work/index.ts`. It gets its own code-split chunk. Until it's
    registered, `/work/<slug>` shows a "not published yet" page.
 
-A case study composes what it needs from `pages/CaseStudy/kit`: `CaseHero`,
-`MediaPanel`, `CaseBody` (sticky TOC + scroll-spy), `CaseSection`, `Text`,
-`Chips`/`Chip`/`ToConfirm`/`Placeholder`, `BeforeAfter`, `DecisionList`,
-`StatGrid`, and the `Mock*` primitives. Nothing forces a template. Any element
-inside `CaseBody` with `data-sec="<id>"` and `id="cs-<id>"` joins the TOC, so a
-bespoke full-bleed section, video or interactive demo can sit between kit
-sections. Put project-only styles in a module next to the study, as
+A case study composes what it needs from `pages/CaseStudy/kit`: `CaseHero`
+(hero image, then the overview and facts, with `TeamStack` for the team),
+`CaseBody` (takes the title and the contents, with the back link, title and
+contents in a sticky left column from 1024px, centred with the study as one block, and a
+contents bar below that width; the hero and sections are its children),
+`CaseSection`, `CaseSub`, `Text`, `Evidence`, and the editorial blocks in
+`Editorial.tsx` (`Lead`, `Bullets`, `KeyInsight`, `Findings`, `Reasoning`,
+`Alternatives`, `OutcomeCards`, `Notice`, `AnnotatedImage`,
+`More`). Nothing forces a template. Any element
+inside `CaseBody` with `id="cs-<id>"` can be a contents entry, so a bespoke
+section, video or interactive demo can sit between kit sections. Put project-only styles in a module next to the study, as
 `work/gather/Gather.module.css` does.
 
 ## Content still to replace
@@ -122,7 +129,9 @@ Everything in [brackets] is the exports' own placeholder text, kept verbatim:
 - `src/data/site.ts`: email, LinkedIn and website-carbon URLs. The
   Résumé button points to `/resume.pdf`; add the file to `public/`.
 - `src/data/testimonials.ts`: quote, name, role and an optional square `photo` URL per card.
-- Gather case study: grey `[...]` notes and the yellow "to confirm" chips.
+- Gather case study: the "3 weeks → under 4 days" figure stays marked "to
+  confirm" until it's verified (`REPORTED` in `GatherCaseStudy.tsx`, and the
+  panel at the bottom of `visuals/Results.tsx`).
 - Side projects have no links yet. Add `href` in `projects.ts`.
 - Only Gather has a case-study page. FinScribe, Compliance Trust System and
   Website Revamp link to "not published yet".
@@ -260,7 +269,7 @@ to the pixel; the measured differences are:
   Home's sidebar can take over; on phones after the intro has gone), each in
   its own idle moment; on touch devices no sooner than 1.2 s after it mounts,
   so the page's entrance plays first.
-- **Desktop mascot handover** (Home, 1200px+, `DesktopGuide`): one mascot on
+- **Desktop mascot handover** (Home, 1200px+, `TravelGuide`): one mascot on
   screen at a time. It lives in the sidebar's gist panel (`[data-buddy="gist"]`)
   until the footer comes into view, then jumps down into the footer, growing
   to full size, and hands over to the footer's pokeable mascot; scrolling back

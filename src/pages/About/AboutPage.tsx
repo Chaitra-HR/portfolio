@@ -15,7 +15,6 @@ import working from '../../assets/images/about/working.jpg';
 import { BentoFooter } from '../../components/layout/BentoFooter';
 import { SiteHeader } from '../../components/layout/SiteHeader';
 import { usePageMeta } from '../../components/layout/usePageMeta';
-import { AsteriskGlyph } from '../../components/ui/Asterisk';
 import { ScrubText } from '../../components/interactions/ScrubText';
 import { useScrub } from '../../hooks/useScrub';
 import { cx } from '../../lib/cx';
@@ -70,9 +69,6 @@ export default function AboutPage() {
             </ScrubText>
           </p>
           <p className={s.hint} data-scrub="intro">
-            <span className={s.ast} aria-hidden="true">
-              <AsteriskGlyph />
-            </span>
             <span>
               The rest is probably better told in photos.<span className={s.hoverHint}> Hover around.</span>
             </span>

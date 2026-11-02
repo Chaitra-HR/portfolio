@@ -1,6 +1,5 @@
 import { useLoaderData, type LoaderFunctionArgs } from 'react-router';
 import { BentoFooter } from '../../components/layout/BentoFooter';
-import { SiteHeader } from '../../components/layout/SiteHeader';
 import { usePageMeta } from '../../components/layout/usePageMeta';
 import { findCaseStudy } from '../../data/projects';
 import { hiringPitch } from '../../data/site';
@@ -31,7 +30,6 @@ function CaseStudyPage({ project, Study }: { project: NonNullable<Loaded['projec
 
   return (
     <div className={s.pg}>
-      <SiteHeader current="work" width="wide" />
       <main id="main" tabIndex={-1} className={s.wrap} aria-label="Case study">
         {/* key: a fresh mount (and reveal) when moving between studies */}
         <Study key={project.slug} project={project} />

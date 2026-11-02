@@ -2,10 +2,9 @@
    cover keeps its composition from phone to desktop. The tile passes a class
    for its hover lift; the root fills the card. */
 .cover { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.film { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* FinScribe — a soft, out-of-focus asterisk that sharpens on hover */
-.fs-mark { width: 44%; height: auto; filter: blur(1.5cqw); transition: filter .6s ease, transform .9s cubic-bezier(.2, .8, .2, 1); }
-a:hover .fs-mark, a:focus-visible .fs-mark { filter: blur(.25cqw); transform: rotate(60deg); }
 
 /* Gather — the intake, before and after */
 .ga-stack { display: flex; flex-direction: column; align-items: center; gap: 1.2cqw; }
@@ -15,9 +14,6 @@ a:hover .fs-mark, a:focus-visible .fs-mark { filter: blur(.25cqw); transform: ro
 .ga-done { background: var(--lilac); color: #111111; transform: rotate(-1.5deg); }
 
 /* Website — the question asked before any pixels */
-.ws { justify-content: flex-start; padding: 0 7cqw; color: #111111; text-align: left; }
-.ws-k { display: block; margin: 0; font-size: 2.3cqw; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: rgba(0, 0, 0, .55); }
-.ws-h { display: block; margin: 2cqw 0 0; font-size: 10.8cqw; font-weight: 700; line-height: .98; letter-spacing: -.045em; }
 
 /* Compliance — a flagged card with its reason and fix */
 .cp { position: relative; width: 58%; aspect-ratio: 1.38; }
@@ -29,4 +25,3 @@ a:hover .fs-mark, a:focus-visible .fs-mark { filter: blur(.25cqw); transform: ro
 .cp-flag { transform: rotate(-2deg); }
 .cp-why { background: #000000; color: #FFFFFF; }
 
-@media (prefers-reduced-motion: reduce) { .fs-mark { transition: none; } }

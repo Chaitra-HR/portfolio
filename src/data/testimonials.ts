@@ -1,5 +1,5 @@
 /** Kind words on Home. Still placeholders — swap in real quotes, verbatim. */
-export interface Testimonial {
+interface Testimonial {
   quote: string;
   name: string;
   role: string;

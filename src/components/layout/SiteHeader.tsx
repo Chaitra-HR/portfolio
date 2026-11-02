@@ -9,14 +9,12 @@ import s from './SiteHeader.module.css';
 
 interface SiteHeaderProps {
   current?: 'work' | 'about';
-  /** Matches the page's content column: About is 1020px, case studies 1180px. */
-  width?: 'narrow' | 'wide';
   /** Home's nav card instead (Work, About, LinkedIn), a little wider than Home's. */
   card?: boolean;
 }
 
 /** Top navigation for About, case studies and fallback pages. Home has its own sidebar. */
-export function SiteHeader({ current, width = 'narrow', card = false }: SiteHeaderProps) {
+export function SiteHeader({ current, card = false }: SiteHeaderProps) {
   const link = (key: SiteHeaderProps['current']) =>
     current === key ? { className: s.on, 'aria-current': 'page' as const } : {};
   const pill = (key: SiteHeaderProps['current']) =>
@@ -44,7 +42,7 @@ export function SiteHeader({ current, width = 'narrow', card = false }: SiteHead
   }
 
   return (
-    <header className={cx(s.nav, s[width])}>
+    <header className={cx(s.nav, s.narrow)}>
       <Link className={s.brand} to="/">
         {site.name}
       </Link>

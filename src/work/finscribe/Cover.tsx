@@ -1,12 +1,8 @@
-import { AsteriskGlyph } from '../../components/ui/Asterisk';
-import { cx } from '../../lib/cx';
-import c from '../covers.module.css';
+import poster from '../../assets/images/finscribe/film.jpg';
+import film from '../../assets/images/finscribe/film.mp4';
+import { FilmCover } from '../FilmCover';
 import type { ArtProps } from '../types';
 
 export function FinScribeCover({ className }: ArtProps) {
-  return (
-    <span className={cx(c.cover, className)}>
-      <AsteriskGlyph className={c.fsMark} />
-    </span>
-  );
+  return <FilmCover film={film} poster={poster} className={className} />;
 }

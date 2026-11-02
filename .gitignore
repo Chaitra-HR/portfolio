@@ -6,3 +6,4 @@ dist
 .claude/
 .vite/
 *.log
+*.tsbuildinfo

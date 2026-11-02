@@ -1,14 +1,14 @@
 import { useEffect, useRef } from 'react';
-import { GradientBuddy } from '../../components/interactions/GradientBuddy';
+import { GradientBuddy } from './GradientBuddy';
 import { prefersReducedMotion } from '../../lib/scroll';
-import s from './Home.module.css';
+import s from './TravelGuide.module.css';
 
 /*
- * Desktop only. There is one mascot on screen at a time: it lives in the
- * sidebar's gist panel (`[data-buddy="gist"]`) until the footer comes into
- * view, then jumps down into the footer, growing to full size, and hands over
- * to the footer's pokeable mascot (`[data-buddy="footer"]`). Scrolling back up
- * sends it home to the sidebar. Whichever copy isn't showing stops rendering.
+ * There is one mascot on screen at a time: it lives at its spot on the page
+ * (`[data-buddy="<from>"]`, Home's gist panel) until the
+ * footer comes into view, then jumps down into the footer, growing to full
+ * size, and hands over to the footer's pokeable mascot (`[data-buddy="footer"]`).
+ * Scrolling back up sends it home. Whichever copy isn't showing stops rendering.
  */
 
 /** Rendered at the footer's size and scaled down for the sidebar, so the 3D never re-sizes mid-flight. */
@@ -37,13 +37,13 @@ function follow(a: Axis, goal: number, dt: number) {
   }
 }
 
-export function DesktopGuide() {
+export function TravelGuide({ from }: { from: string }) {
   const wrap = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = wrap.current;
     const body = el?.firstElementChild as HTMLElement | null;
-    const gist = document.querySelector<HTMLElement>('[data-buddy="gist"]');
+    const gist = document.querySelector<HTMLElement>(`[data-buddy="${from}"]`);
     const footer = document.querySelector<HTMLElement>('[data-buddy="footer"]');
     if (!el || !body || !gist || !footer) return;
     const still = prefersReducedMotion();
@@ -131,7 +131,7 @@ export function DesktopGuide() {
       gist.style.visibility = '';
       footer.style.visibility = '';
     };
-  }, []);
+  }, [from]);
 
   return (
     <div ref={wrap} className={s.guide} style={{ width: SIZE, height: SIZE }} aria-hidden="true">

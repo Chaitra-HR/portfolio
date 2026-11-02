@@ -1,0 +1,80 @@
+/* The market and the logic behind the product. FinScribe's orange marks FinScribe and nothing else. */
+.matrix { position: relative; padding: 44px 48px; border: 1px solid var(--ink); border-radius: var(--radius-card); font-size: var(--t-xs); line-height: 1.3; color: var(--ink); }
+.plot { position: relative; aspect-ratio: 5 / 4; }
+.h { position: absolute; left: 0; right: 0; top: 50%; border-top: 2px dashed var(--grey-3); }
+.v { position: absolute; top: 0; bottom: 0; left: 50%; border-left: 2px dashed var(--grey-3); }
+.axis { position: absolute; font-weight: 500; white-space: nowrap; }
+.top { top: 16px; left: 50%; translate: -50% 0; }
+.bottom { bottom: 16px; left: 50%; translate: -50% 0; }
+.left { left: 14px; top: 50%; writing-mode: vertical-rl; rotate: 180deg; translate: 0 -50%; }
+.right { right: 14px; top: 50%; writing-mode: vertical-rl; translate: 0 -50%; }
+.tool { position: absolute; z-index: 1; display: flex; align-items: center; gap: 8px; translate: -50% 50%; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; }
+.tool:hover, .tool:focus, .open { z-index: 3; }
+.tool:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 12px; }
+.mark { display: block; flex: none; width: 44px; height: 44px; overflow: hidden; border-radius: 10px; box-shadow: 0 0 0 1px rgba(0, 0, 0, .08); transition: scale .2s var(--ease-spring); }
+.mark img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.mark .inset { box-sizing: border-box; padding: 9px; object-fit: contain; }
+.tool:hover .mark, .tool:focus .mark, .open .mark { scale: 1.1; }
+.us strong { font-size: var(--t-h3); line-height: 1; font-weight: 500; color: var(--ink); }
+/* why it sits there, in the same dark tip as the team portraits */
+.note { position: absolute; left: 50%; bottom: calc(100% + 10px); width: 220px; padding: 10px 12px; border-radius: 8px; background: #2B2F3A; color: var(--paper); font-weight: 400; line-height: 1.4; text-align: left; opacity: 0; pointer-events: none; transform: translate(-50%, 4px); transition: opacity .15s ease, transform .15s ease; }
+.note b { display: block; margin-bottom: 2px; font-weight: 500; }
+.below .note { top: calc(100% + 10px); bottom: auto; }
+.from-left .note { left: 0; transform: translate(0, 4px); }
+.from-right .note { left: auto; right: 0; transform: translate(0, 4px); }
+.tool:hover .note, .tool:focus .note, .open .note { opacity: 1; transform: translate(-50%, 0); }
+.from-left:hover .note, .from-left:focus .note, .from-left.open .note, .from-right:hover .note, .from-right:focus .note, .from-right.open .note { transform: none; }
+
+.scroll { overflow-x: auto; scrollbar-width: none; padding: 20px; border: 1px solid var(--ink); border-radius: var(--radius-card); }
+.table { width: 100%; min-width: 520px; border-collapse: collapse; font-size: var(--t-xs); line-height: 1.35; color: var(--ink); }
+.table th { font-weight: 500; }
+.table thead th { padding: 0 6px 10px; text-align: center; vertical-align: bottom; }
+.table tbody th { padding: 9px 12px 9px 0; font-weight: 400; text-align: left; color: var(--ink-body); }
+.table tbody tr { border-top: 1px solid var(--card-hover); }
+.table td { padding: 9px 6px; text-align: center; }
+.table .ours { background: color-mix(in srgb, #D85D32 8%, transparent); color: #B8491F; }
+.dot { display: inline-block; width: 12px; height: 12px; box-sizing: border-box; border-radius: 50%; vertical-align: -1px; }
+.yes { background: var(--ink); }
+.part { background: linear-gradient(90deg, var(--ink) 50%, transparent 50%); box-shadow: inset 0 0 0 1px var(--ink); }
+.no { box-shadow: inset 0 0 0 1px var(--grey-3); }
+.key { display: flex; gap: 16px; margin: 12px 0 0; padding: 0; list-style: none; font-size: var(--t-xs); color: var(--muted); }
+.key li { display: flex; align-items: center; gap: 6px; }
+
+/* a plain chat window: nothing here is FinScribe, so it borrows none of the page's colour */
+.chat { position: relative; display: flex; flex-direction: column; box-sizing: border-box; height: 340px; padding: 16px 16px 14px; border-radius: 12px; background: var(--paper); box-shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 18px 44px rgba(0, 0, 0, .08); text-align: left; font-size: var(--t-small); line-height: 1.45; color: #0D0D0D; }
+.chat-pause { position: absolute; z-index: 1; top: 10px; right: 10px; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 50%; background: var(--paper); color: #8E8E8E; cursor: pointer; }
+.chat-pause svg { width: 10px; height: 10px; }
+.chat-pause:hover { color: #0D0D0D; }
+.chat-pause:focus-visible { outline: 2px solid #0D0D0D; outline-offset: 1px; }
+.thread { display: flex; flex: 1; flex-direction: column; justify-content: flex-end; gap: 10px; min-height: 0; overflow: hidden; padding-bottom: 12px; }
+.thread p { flex: none; margin: 0; }
+.mine { align-self: flex-end; max-width: 78%; padding: 8px 14px; border-radius: 18px; background: #F4F4F4; }
+.theirs { max-width: 92%; }
+.thread .ask { margin: auto 0; font-size: 20px; line-height: 1.3; font-weight: 500; text-align: center; }
+.input { display: flex; flex: none; align-items: center; gap: 10px; min-height: 48px; box-sizing: border-box; padding: 8px 8px 8px 14px; border-radius: 26px; background: var(--paper); box-shadow: 0 0 0 1px #E5E5E5, 0 2px 8px rgba(0, 0, 0, .05); }
+.input p { flex: 1; min-width: 0; margin: 0; overflow: hidden; white-space: nowrap; }
+.input .hint { color: #8E8E8E; }
+.input i { display: inline-block; width: 1px; height: 1.1em; margin-left: 1px; vertical-align: -.2em; background: #0D0D0D; animation: caret 1s steps(2, jump-none) infinite; }
+@keyframes caret { to { opacity: 0; } }
+.plus { flex: none; font-size: 20px; line-height: 1; color: #5D5D5D; }
+.send-key { display: flex; flex: none; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: #E5E5E5; color: var(--paper); font-weight: 500; transition: background-color .15s ease; }
+.send-ready { background: #0D0D0D; }
+
+
+
+@media (max-width: 809.98px) {
+  .matrix { padding: 36px 30px; font-size: 12px; }
+  .plot { aspect-ratio: 4 / 5; }
+  .mark { width: 32px; height: 32px; border-radius: 8px; }
+  .mark .inset { padding: 6px; }
+  .us strong { font-size: 16px; }
+  .note { width: 170px; }
+  .scroll { padding: 12px; }
+  .chat { height: 320px; padding: 12px 10px 10px; }
+  .input { border-radius: 22px; }
+  .input p { white-space: normal; }
+      }
+@media (prefers-reduced-motion: reduce) {
+  .mark, .note, .send-key { transition: none; }
+  .input i { animation: none; }
+}
