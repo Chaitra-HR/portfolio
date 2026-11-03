@@ -6,13 +6,6 @@
 
 /* FinScribe — a soft, out-of-focus asterisk that sharpens on hover */
 
-/* Gather — the intake, before and after */
-.ga-stack { display: flex; flex-direction: column; align-items: center; gap: 1.2cqw; }
-.ga-pill { font-size: 5.2cqw; font-weight: 500; line-height: 1; letter-spacing: -.02em; padding: .42em .72em .46em; border-radius: .5em; white-space: nowrap; box-shadow: 0 1cqw 2.4cqw rgba(0, 0, 40, .18); }
-.ga-old { background: rgba(255, 255, 255, .45); color: #1D3FE0; text-decoration: line-through; text-decoration-thickness: .07em; transform: rotate(-2.5deg) translateX(1.5cqw); box-shadow: none; }
-.ga-now { background: #FFFFFF; color: #1D3FE0; font-size: 6cqw; transform: rotate(1.5deg); }
-.ga-done { background: var(--lilac); color: #111111; transform: rotate(-1.5deg); }
-
 /* Website — the question asked before any pixels */
 
 /* Compliance — a flagged card with its reason and fix */

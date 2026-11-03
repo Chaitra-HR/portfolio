@@ -10,12 +10,11 @@ const AVATARS = { engineer, founderA, founderB, me, teammate };
 
 interface MetaRow {
   term: string;
-  value: ReactNode;
+  /** A list shows as chips, one per item. */
+  value: ReactNode | string[];
 }
 
 interface CaseHeroProps {
-  /** Goes first under the image, on its own row. */
-  summary: ReactNode;
   meta: MetaRow[];
   /** The hero image, at the top of the column. */
   media?: ReactNode;
@@ -27,7 +26,7 @@ interface Member {
   title: string;
 }
 
-/** The people on a study: grey portraits that come into colour with their title. */
+/** The people on a study, in colour: the one you point at lifts with its title and the rest go grey. */
 export function TeamStack({ members, label }: { members: Member[]; label: string }) {
   return (
     <>
@@ -48,23 +47,31 @@ export function TeamStack({ members, label }: { members: Member[]; label: string
   );
 }
 
-/** Case-study opener: the hero image, then the overview and the facts. The title lives in `CaseBody`. */
-export function CaseHero({ summary, meta, media }: CaseHeroProps) {
+/** Case-study opener under the title and subtitle: the facts in two columns, then the hero image. The title lives in `CaseBody`. */
+export function CaseHero({ meta, media }: CaseHeroProps) {
   return (
-    <section id="cs-overview" className={s.hero}>
-      {media}
-      <dl className={`${s.meta} rv`} style={{ '--i': 3 }}>
-        <div className={s.overview}>
-          <dt>Overview</dt>
-          <dd>{summary}</dd>
-        </div>
-        {meta.map((row) => (
-          <div key={row.term}>
-            <dt>{row.term}</dt>
-            <dd>{row.value}</dd>
-          </div>
-        ))}
-      </dl>
-    </section>
+    <>
+      <div className={s.head}>
+        <dl className={`${s.meta} rv`} style={{ '--i': 1 }}>
+          {meta.map((row) => (
+            <div key={row.term}>
+              <dt>{row.term}</dt>
+              <dd>
+                {Array.isArray(row.value) ? (
+                  <ul className={s.chips}>
+                    {row.value.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  row.value
+                )}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      {media && <div className={s.hero}>{media}</div>}
+    </>
   );
 }

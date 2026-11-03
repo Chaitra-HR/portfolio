@@ -1,0 +1,50 @@
+/* The identity board, measured from the Augment presentation she sent (2000px wide): two rows
+   that don't share columns (top 645 / 810 / 390, bottom 522 / 803 / 520), tiles rounded alike
+   and one gap between everything. It sits straight on the figure's Warm cream: no frame or
+   fill of its own, so there is only ever one background, and its margin to the field's edge
+   is the same as the gaps between tiles.
+   Like Pixel One's board on a phone, it never rearranges: every size is a share of its own
+   width (cqw, 1cqw ≈ 6px at the desktop column), so it shrinks as one picture, and the swatch
+   names step aside once they'd be too small to read. */
+@font-face { font-family: "HoA Gascogne"; src: url("/fonts/GascogneSerial-Regular.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "HoA Karla"; src: url("/fonts/Karla-Latin.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+
+.board { container-type: inline-size; font-family: "HoA Karla", system-ui, sans-serif; }
+.board ul { margin: 0; padding: 0; list-style: none; }
+.inner { --gap: 1.7cqw; --r: 2cqw; padding: var(--gap); }
+.top, .bottom { display: grid; gap: var(--gap); }
+.top { grid-template-columns: 645fr 810fr 390fr; aspect-ratio: 1905 / 770; }
+.bottom { grid-template-columns: 522fr 803fr 520fr; aspect-ratio: 1905 / 612; margin-top: 1.7cqw; }
+.top > *, .bottom > * { min-width: 0; min-height: 0; border-radius: var(--r); overflow: hidden; }
+.photo { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* a swatch: its name over its code, in the corner that stays visible */
+.top li { display: flex; flex-direction: column; gap: .15cqw; color: #FAF8F6; font-size: 1.55cqw; line-height: 1.2; }
+.top li span:first-child { letter-spacing: .06em; text-transform: uppercase; }
+.top li span:last-child { opacity: .85; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+.onLight { color: #3B2A23 !important; }
+
+/* core palette: bands stacked like cards, each laid over the bottom of the one above with a
+   rounded corner. A band's lowest --r is covered by the next, so its label sits near its top,
+   name and code both clear of the overlap */
+.core { display: flex; flex-direction: column; background: #FAF8F6; }
+.core li { position: relative; flex: 1; margin-top: calc(var(--r) * -1); padding: 1.3cqw 2cqw 0; border-radius: var(--r) 0 0 0; }
+.core li:first-child { margin-top: 0; padding-top: 1.5cqw; border-radius: 0; }
+
+/* the two typefaces, each on its own tile: the serif on Primary, Karla on Off white */
+.face { display: flex; flex-direction: column; justify-content: flex-end; gap: 1cqw; margin: 0; padding: 2.7cqw 3cqw 3cqw; font-size: 1.9cqw; line-height: 1.3; }
+.face span { font-size: 12.8cqw; line-height: .9; }
+.serif { background: #3B2A23; color: #F6F1EB; }
+.serif span { font-family: "HoA Gascogne", Georgia, serif; }
+.sans { background: #FAF8F6; color: #3B2A23; }
+.sans span { letter-spacing: -.02em; }
+
+/* extended palette: twelve supporting colours, three across, each named */
+.extended { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); }
+.extended li { display: flex; flex-direction: column; justify-content: flex-end; gap: .15cqw; padding: 0 1.35cqw 1cqw; color: #FAF8F6; font-size: 1.55cqw; line-height: 1.2; }
+.extended li span:first-child { letter-spacing: .06em; text-transform: uppercase; }
+.extended li span:last-child { opacity: .85; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+
+@container (max-width: 480px) {
+  .top li span, .extended li span { display: none; }
+}

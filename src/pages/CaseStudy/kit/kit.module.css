@@ -1,38 +1,42 @@
 /* Building blocks for case studies, carried over from CaseFinal.dc.html. */
 
-/* the head of the left column: the way back, then who the work was for */
-.back { display: inline-flex; align-items: center; gap: 4px; min-height: 36px; padding: 0 14px 0 10px; border-radius: var(--radius-pill); background: #F7F7F7; color: var(--ink); font-size: var(--t-small); font-weight: 500; text-decoration: none; transition: background-color .15s ease; }
-.back svg { width: 16px; height: 16px; transition: translate .2s ease; }
-.back:hover { background: var(--card); }
+/* the top of the page: the way back, the title and a one-line subtitle, the facts in two
+   columns with plain grey names, then the hero image, all on the same two edges */
+.top { display: flex; flex-direction: column; margin-bottom: var(--gap-section); padding: 4px 0 0; scroll-margin-top: 20px; }
+/* the way back: a soft, near-white pill in slate ink, roomy like a close button */
+.back { align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 22px 0 18px; border-radius: var(--radius-pill); background: #F7F8FA; color: #2B2F3A; font-size: var(--t-small); font-weight: 500; text-decoration: none; transition: background-color .2s ease; }
+.back svg { width: 14px; height: 14px; transition: translate .2s ease; }
+.back:hover { background: #EEF0F3; }
 .back:hover svg, .back:focus-visible svg { translate: -2px 0; }
-.client { display: flex; align-items: center; gap: 8px; margin: var(--gap-heading) 0 0; font-size: var(--t-small); line-height: var(--lh-small); font-weight: 500; color: var(--ink); }
-.client img { display: block; flex: none; border-radius: 6px; }
-
-/* hero: the image, then the overview and the facts, all one width */
-.hero { max-width: var(--col); margin: 0 auto var(--gap-section); padding: 12px 0 0; scroll-margin-top: 20px; }
-.h1 { margin: var(--gap-tight) 0 0; font-size: var(--t-h1); line-height: var(--lh-title); font-weight: 500; text-wrap: balance; }
-.h1 :global(.g) { display: block; }
-.meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: var(--gap-heading); margin: var(--gap-block) 0 0; }
-.overview { grid-column: 1 / -1; margin-bottom: 72px; }
+.head { width: 100%; max-width: var(--head); margin: 0 auto; }
+.top > .head:first-of-type { margin-top: var(--gap-sub); }
+.h1 { margin: 0; font-size: var(--t-h1); line-height: var(--lh-title); font-weight: 500; letter-spacing: var(--tr-h1); text-wrap: pretty; }
+.h1 :global(.g) { display: inline; }
+.lede { max-width: 46em; margin: var(--gap-heading) 0 0; font-size: var(--t-body); line-height: var(--lh-body); color: var(--muted); text-wrap: pretty; }
+.meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-block) var(--gap-heading); margin: var(--gap-sub) 0 0; }
 .meta dt { font-size: var(--t-xs); line-height: var(--lh-small); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
-.meta dd { margin: 8px 0 0; font-size: var(--t-small); line-height: var(--lh-small); color: var(--ink-body); text-wrap: pretty; }
-.meta .overview dd { margin-top: var(--gap-tight); font-size: var(--t-body); line-height: var(--lh-body); }
-/* grey portraits in a row: the one you're on lifts into colour and shows its title */
-.team { display: flex; gap: 2px; margin: 2px 0 0; padding: 0; list-style: none; }
+.meta dd { margin: 8px 0 0; font-size: var(--t-small); line-height: 1.75; color: var(--ink); text-wrap: pretty; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.chips li { padding: 3px 10px; white-space: nowrap; border-radius: var(--radius-pill); background: var(--card); font-size: 13px; line-height: var(--lh-small); color: var(--ink); }
+.hero { width: 100%; max-width: var(--hero-w); margin: var(--gap-sub) auto 0; }
+/* the overview opens the study column, beside the start of the contents */
+.overview { font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body); text-wrap: pretty; }
+
+/* portraits in a row, in colour: the one you're on lifts and shows its title, the rest go grey */
+.team { display: flex; gap: 4px; margin: 2px 0 0; padding: 0; list-style: none; }
 .team li { position: relative; }
 .member { display: block; width: 34px; height: 34px; overflow: hidden; border-radius: 8px; background: var(--card); cursor: default; transition: scale .25s var(--ease-spring), box-shadow .25s ease; }
-.member img { display: block; width: 100%; height: 100%; image-rendering: pixelated; filter: grayscale(1) opacity(.72); transition: filter .25s ease; }
-.tip { position: absolute; z-index: 5; left: 50%; bottom: calc(100% + 10px); padding: 5px 10px; border-radius: 8px; background: #2B2F3A; color: var(--paper); font-size: var(--t-xs); line-height: 1.5; white-space: nowrap; opacity: 0; pointer-events: none; transform: translate(-50%, 4px); transition: opacity .15s ease, transform .15s ease; }
+.member img { display: block; width: 100%; height: 100%; image-rendering: pixelated; transition: filter .25s ease; }
+.team:has(.member:hover, .member:focus) .member img { filter: grayscale(1) opacity(.72); }
+.tip { position: absolute; z-index: 5; left: 50%; bottom: calc(100% + 10px); padding: 6px 12px; border-radius: 10px; background: #2B2F3A; color: var(--paper); font-size: var(--t-xs); line-height: 1.5; white-space: nowrap; opacity: 0; pointer-events: none; transform: translate(-50%, 4px); transition: opacity .15s ease, transform .15s ease; }
 .team li:first-child .tip { left: 0; transform: translate(0, 4px); }
 .member:hover, .member:focus-visible { position: relative; z-index: 4; scale: 1.14; box-shadow: 0 8px 20px rgba(0, 0, 0, .16); }
-.member:hover img, .member:focus img { filter: none; }
+.team:has(.member:hover, .member:focus) .member:is(:hover, :focus) img { filter: none; }
 .member:hover + .tip, .member:focus + .tip { opacity: 1; transform: translate(-50%, 0); }
 .team li:first-child .member:hover + .tip, .team li:first-child .member:focus + .tip { transform: none; }
 
-/* the left column: the way back, the title and the contents, from the top of the page to
-   the end of the study. Your place is the deep lilac, the text and the square together. */
-.side { max-width: var(--col); margin: 0 auto; padding: 4px 0 8px; }
-.side nav { margin-top: var(--gap-heading); }
+/* the left column: the contents, from the end of the hero to the end of the study.
+   Your place is the deep lilac, the text and the square together. */
 .side-head { margin: 0 0 var(--gap-tight) 14px; font-size: var(--t-xs); line-height: var(--lh-small); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
 .items, .kids { margin: 0; padding: 0; list-style: none; }
 .items li + li { margin-top: 10px; }
@@ -60,15 +64,15 @@
 .sheet li + li { margin-top: 14px; }
 .sheet .kids { margin-top: 14px; }
 
-/* sections: a small grey name, the headline, then the story */
-.sec { max-width: var(--col); margin: 0 auto var(--gap-section); scroll-margin-top: 16px; }
-.sec-name { margin: 0 0 var(--gap-tight); font-size: var(--t-xs); line-height: var(--lh-small); font-weight: 400; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
-.story { margin: 0 0 var(--gap-heading); font-size: var(--t-h2); line-height: var(--lh-h2); font-weight: 500; color: var(--ink); text-wrap: balance; }
+/* sections: the headline, then the story, each set off from the last by a hairline.
+   A contents jump lands on the headline, not the rule above it. */
+.sec { max-width: var(--col); margin: 0 auto var(--gap-sub); scroll-margin-top: 16px; }
+.sec + .sec { padding-top: var(--gap-sub); border-top: 1px solid var(--rule-alt); scroll-margin-top: calc(16px - var(--gap-sub)); }
+.story { margin: 0 0 var(--gap-heading); font-size: var(--t-sec); line-height: var(--lh-h2); font-weight: 500; letter-spacing: var(--tr-h2); color: var(--ink); text-wrap: balance; }
 .sub { margin: var(--gap-sub) 0; scroll-margin-top: 40px; }
-.sec > .sec-name + * { margin-top: 0; }
 .story + .sub { margin-top: var(--gap-block); }
 .kicker { margin: 0 0 4px; font-size: var(--t-xs); line-height: var(--lh-small); color: var(--muted); }
-.sub > h3 { margin: 0; font-size: var(--t-h3); line-height: var(--lh-h3); font-weight: 500; color: var(--ink); text-wrap: balance; }
+.sub > h3 { margin: 0; font-size: var(--t-step); line-height: var(--lh-step); font-weight: 500; letter-spacing: var(--tr-h3); color: var(--ink); text-wrap: balance; }
 .t { margin: var(--gap-text) 0; font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body); text-wrap: pretty; }
 .t b { font-weight: 500; }
 
@@ -90,9 +94,9 @@
 }
 
 @media (min-width: 1024px) {
-  .body { display: grid; grid-template-columns: var(--rail) var(--col); column-gap: var(--rail-gap); justify-content: center; padding-top: 28px; }
-  .side { position: sticky; top: 28px; align-self: start; max-height: calc(100vh - 56px); margin: 0; padding: 0; overflow-y: auto; scrollbar-width: none; }
-  .hero { padding: 0; }
+  .top { max-width: var(--hero-w); margin: 0 auto var(--gap-section); padding-top: 28px; }
+  .body { display: grid; grid-template-columns: var(--rail) var(--col); column-gap: var(--rail-gap); justify-content: center; }
+  .side { position: sticky; top: 28px; align-self: start; max-height: calc(100vh - 56px); overflow-y: auto; scrollbar-width: none; }
 }
 
 @media (max-width: 809.98px) {

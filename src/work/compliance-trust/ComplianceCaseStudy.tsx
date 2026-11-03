@@ -1,4 +1,3 @@
-import finscribe from '../../assets/images/logos/finscribe.svg';
 import { Alternatives, Bullets, CaseBody, CaseHero, CaseSection, CaseSub, KeyInsight, Lead, OutcomeCards, Reasoning, TeamStack, Text, type TocEntry } from '../../pages/CaseStudy/kit';
 import { Figure, ToAdd } from '../gather/Figure';
 import g from '../gather/Gather.module.css';
@@ -30,9 +29,7 @@ const ILLUSTRATIVE = 'Illustrative, with sample copy.';
 export default function ComplianceCaseStudy() {
   return (
     <div className={g.study}>
-      <CaseBody client={{ name: 'FinScribe', logo: finscribe }} title="Making AI-generated financial content safer to publish" toc={TOC}>
-        <CaseHero
-          summary={
+      <CaseBody title="Making AI-generated financial content safer to publish" toc={TOC} overview={
             <>
               Designing a compliance review experience for financial advisors, with region-specific guidance and a built-in review history.
               <br />
@@ -42,9 +39,11 @@ export default function ComplianceCaseStudy() {
               <br />
               This case study is about how I approached that problem, why I decided a compliance review feature was worth building, and what eight advisors taught me about making the feedback actually useful.
             </>
-          }
+          } hero={
+        <CaseHero
           meta={[
-            { term: 'My role', value: 'Founder & Product Designer' },
+            { term: 'Role', value: 'Founder & Product Designer' },
+            { term: 'Timeline', value: '2026–Present' },
             {
               term: 'Team',
               value: (
@@ -59,8 +58,7 @@ export default function ComplianceCaseStudy() {
                 />
               ),
             },
-            { term: 'Timeline', value: '2026–Present' },
-            { term: 'Skills', value: 'Product Strategy · UX Research · AI Product Design · Interaction Design' },
+            { term: 'Skills', value: ['Product Strategy', 'UX Research', 'AI Product Design', 'Interaction Design'] },
           ]}
           media={
             <Figure tone="field" className={`${g.heroFig} rv`} style={{ '--i': 2 }} caption="The compliance review experience. Illustrative, with sample copy.">
@@ -68,6 +66,7 @@ export default function ComplianceCaseStudy() {
             </Figure>
           }
         />
+      }>
 
         <CaseSection id="problem" label="The problem" title="AI can write a month’s worth of content. That doesn’t mean an advisor can publish it.">
           <Text>Ask ChatGPT to write a LinkedIn post about retirement planning and it’ll give you something fairly convincing in seconds.</Text>

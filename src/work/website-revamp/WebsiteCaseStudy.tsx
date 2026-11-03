@@ -1,30 +1,21 @@
-import houseOfAlpha from '../../assets/images/logos/house-of-alpha.png';
 import { useEffect, useRef, useState } from 'react';
-import cardClose from '../../assets/images/website-revamp/brand/card-close.jpg';
-import cardWide from '../../assets/images/website-revamp/brand/card-wide.jpg';
-import folder from '../../assets/images/website-revamp/brand/folder.jpg';
-import reception from '../../assets/images/website-revamp/brand/reception.jpg';
-import cta from '../../assets/images/website-revamp/cta.jpg';
-import faqs from '../../assets/images/website-revamp/faqs.jpg';
-import homepage from '../../assets/images/website-revamp/homepage.jpg';
-import process from '../../assets/images/website-revamp/process.jpg';
-import services from '../../assets/images/website-revamp/services.jpg';
+import cardsArmrest from '../../assets/images/website-revamp/brand/cards-armrest.jpg';
+import sign from '../../assets/images/website-revamp/brand/sign.jpg';
 import poster from '../../assets/images/website-revamp/showcase-poster.jpg';
 import showcase from '../../assets/images/website-revamp/showcase.mp4';
-import testimonials from '../../assets/images/website-revamp/testimonials.jpg';
-import webinarBenefits from '../../assets/images/website-revamp/brand/webinar-benefits.jpg';
-import webinarCta from '../../assets/images/website-revamp/brand/webinar-cta.jpg';
-import webinarFaqs from '../../assets/images/website-revamp/brand/webinar-faqs.jpg';
-import webinarFit from '../../assets/images/website-revamp/brand/webinar-fit.jpg';
-import webinarIntro from '../../assets/images/website-revamp/brand/webinar-intro.jpg';
+import coverFilm from '../../assets/images/website-revamp/film.mp4';
+import coverPoster from '../../assets/images/website-revamp/film.jpg';
+import film from '../../assets/images/website-revamp/film-16x10.mp4';
+import filmPoster from '../../assets/images/website-revamp/film-16x10.jpg';
+import uiKit from '../../assets/images/website-revamp/ui-kit.jpg';
 import webinarPoster from '../../assets/images/website-revamp/brand/webinar-scroll-poster.jpg';
 import webinarScroll from '../../assets/images/website-revamp/brand/webinar-scroll.mp4';
-import webinarTestimonials from '../../assets/images/website-revamp/brand/webinar-testimonials.jpg';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { CaseBody, CaseHero, CaseSection, CaseSub, KeyInsight, Lead, TeamStack, Text, type TocEntry } from '../../pages/CaseStudy/kit';
-import { Figure, ToAdd } from '../gather/Figure';
+import { CaseBody, CaseHero, CaseSection, CaseSub, Lead, More, TeamStack, Text, type TocEntry } from '../../pages/CaseStudy/kit';
+import { Figure } from '../gather/Figure';
 import g from '../gather/Gather.module.css';
 import { Confetti } from './Confetti';
+import { BrandBento } from './BrandBento';
 import { PointCards } from './PointCards';
 import w from './Website.module.css';
 
@@ -47,36 +38,9 @@ const TOC: TocEntry[] = [
   { id: 'outcome', label: 'Outcome' },
 ];
 
-const SCREENS = [
-  { src: homepage, alt: 'House of Alpha homepage introduction: Helping you retire with confidence' },
-  { src: services, alt: 'Six service cards under the heading Craft your ideal retirement and lifestyle plan' },
-  { src: process, alt: 'A goals question beside the step Discover your dream life' },
-  { src: cta, alt: 'A call to action card: Your life is unique, and so should be your retirement plan' },
-];
-
-const BRAND = [
-  { src: cardClose, alt: 'House of Alpha business cards in deep brown and cream on tan leather' },
-  { src: cardWide, alt: 'Stacks of brown, mustard and cream business cards on limestone' },
-  { src: reception, alt: 'A reception with the House of Alpha logo on a brown wall' },
-  { src: folder, alt: 'A brown folder and The Alpha approach booklet on a walnut table' },
-];
-
-const MODULES = [
-  { label: 'Page introductions', src: homepage, alt: SCREENS[0].alt },
-  { label: 'Services', src: services, alt: SCREENS[1].alt },
-  { label: 'Process explanations', src: process, alt: SCREENS[2].alt },
-  { label: 'Testimonials', src: testimonials, alt: 'A client testimonial section with a portrait' },
-  { label: 'FAQs', src: faqs, alt: 'Frequently asked questions, with the fees answer open' },
-  { label: 'Calls to action', src: cta, alt: SCREENS[3].alt },
-];
-
-const WEBINAR = [
-  { label: 'Page introduction', src: webinarIntro, alt: 'The webinar page introduction' },
-  { label: 'Call to action', src: webinarCta, alt: 'A dark call to action panel' },
-  { label: 'Benefits', src: webinarBenefits, alt: 'Cards listing what the webinar will do for you' },
-  { label: 'Who it’s for', src: webinarFit, alt: 'Two lists: a good fit and might not be a fit' },
-  { label: 'Testimonials', src: webinarTestimonials, alt: 'Three client testimonials' },
-  { label: 'FAQs', src: webinarFaqs, alt: 'Frequently asked questions with one answer open' },
+const BRAND_PHOTOS: [{ src: string; alt: string }, { src: string; alt: string }] = [
+  { src: cardsArmrest, alt: 'Two House of Alpha business cards on a wooden armrest: a brown card reading Don’t Just Retire-ReFire!, and a white card for Bhuvanaa Shreeram, CFP, with the House of Alpha wordmark' },
+  { src: sign, alt: 'A brown hanging sign with the cream House of Alpha wordmark on a stone building, reflected in the shop window beside it' },
 ];
 
 /** A silent loop with a way to stop it. `lazy` waits until it's on screen. Holds on the first frame for reduced motion. */
@@ -132,11 +96,11 @@ function Preview({ src, poster, label, className, lazy }: { src: string; poster:
   );
 }
 
-/** The site's screens, on the page's opening frame. */
+/** The home page's tile film, on the page's opening frame. */
 function HeroVideo() {
   return (
     <div className={`${g.heroFig} rv`} style={{ '--i': 2 }}>
-      <Preview src={showcase} poster={poster} label="Screens from the redesigned House of Alpha website" />
+      <Preview className={w.cover} src={coverFilm} poster={coverPoster} label="The live House of Alpha site scrolling section by section in a glass frame over a moving amber flame" />
     </div>
   );
 }
@@ -171,23 +135,31 @@ function IntroVideo() {
 export default function WebsiteCaseStudy() {
   return (
     <div className={g.study}>
-      <CaseBody client={{ name: 'House of Alpha', logo: houseOfAlpha }} title={
+      <CaseBody title={
       <>
         Redesigning House of Alpha’s website <span className="g">to attract better-fit clients</span>
       </>
-    } toc={TOC}>
-        <CaseHero
-          summary={
+    } toc={TOC} overview={
             <>
               House of Alpha is a wealth management firm helping high-net-worth individuals and senior executives plan for retirement and manage their wealth.
               <br />
               <br />
               I led the brand and website revamp, from positioning and messaging to the website experience and a modular design system that made future marketing pages easier to build.
             </>
-          }
+          } hero={
+        <CaseHero
           meta={[
-            { term: 'Client', value: 'House of Alpha · Wealth Management' },
-            { term: 'My role', value: 'Product Design · Brand & Web Design' },
+            {
+              term: 'Role',
+              value: (
+                <>
+                  Product designer, end to end
+                  <br />
+                  Capital Design Studio
+                </>
+              ),
+            },
+            { term: 'Timeline', value: '8 weeks' },
             {
               term: 'Team',
               value: (
@@ -202,10 +174,11 @@ export default function WebsiteCaseStudy() {
                 />
               ),
             },
-            { term: 'Timeline', value: '8 weeks' },
+            { term: 'Scope', value: ['Product Design', 'Brand & Web Design'] },
           ]}
           media={<HeroVideo />}
         />
+      }>
 
         <CaseSection id="impact" label="Impact" title="Better-fit enquiries. A webinar page launched in just 2 days.">
           <Text>The redesigned website brought in more qualified enquiries than in previous months. Prospects also arrived at discovery calls better informed, allowing advisors to spend less time explaining their services.</Text>
@@ -230,7 +203,6 @@ export default function WebsiteCaseStudy() {
             ]}
           />
           <Lead>The challenge was to attract better-fit clients while giving the business a website it could continue building on.</Lead>
-          <ToAdd>Original website with annotations showing generic messaging, unclear hierarchy, and limited page flexibility.</ToAdd>
         </CaseSection>
 
         <CaseSection id="solution" label="Solution">
@@ -238,40 +210,30 @@ export default function WebsiteCaseStudy() {
             <Text>The existing brand lacked the distinction and consistency we wanted to carry into the new website.</Text>
             <Text>I explored a visual direction that felt confident and established, without falling back on the usual financial services imagery and design conventions.</Text>
             <Text>The refreshed identity gave us a consistent foundation for typography, imagery, page layouts, and other brand applications.</Text>
-            <Figure tone="field" caption="Concept applications, made for this case study.">
-              <ul className={w.screens}>
-                {BRAND.map((item) => (
-                  <li key={item.alt}>
-                    <img src={item.src} alt={item.alt} loading="lazy" />
-                  </li>
-                ))}
-              </ul>
+            <Figure tone="field" className={w.boardFig} style={{ '--tint': '#FFF4E5' }} caption="The identity on one board: two concept applications made for this case study, the palette and the typefaces.">
+              <BrandBento photos={BRAND_PHOTOS} />
             </Figure>
           </CaseSub>
 
-          <CaseSub id="website" kicker="Redesigning the website" title="Answering the important questions before the first call.">
+          <CaseSub id="website" title="Redesigning the website">
             <Text>Previously, visitors had to work harder than necessary to understand whether House of Alpha was right for them.</Text>
             <Text>I reorganised the website around the questions a prospective client would naturally have.</Text>
-            <PointCards
-              list
-              items={[
-                { object: 'mirror', title: '01. Is this for someone like me?', body: 'The homepage speaks directly to senior professionals preparing for retirement.' },
-                { object: 'compass', title: '02. How can they help me?', body: 'Instead of simply listing services, the content explains the firm’s approach to retirement planning and managing wealth over the long term.' },
-                { object: 'mugs', title: '03. Who will I be working with?', body: 'We gave more attention to the firm’s people, philosophy, and advisory process to help visitors understand the relationship before making contact.' },
-                { object: 'signpost', title: '04. What happens next?', body: 'A more purposeful enquiry flow collects relevant information about prospective clients and their goals.' },
-              ]}
-            />
-            <KeyInsight>
-              The aim wasn’t to add more content, but <em>to help visitors find what they needed before speaking to an advisor.</em>
-            </KeyInsight>
-            <Figure tone="field">
-              <ul className={w.screens}>
-                {SCREENS.map((screen) => (
-                  <li key={screen.alt}>
-                    <img src={screen.src} alt={screen.alt} loading="lazy" />
-                  </li>
-                ))}
-              </ul>
+            <More label="Here are those questions">
+              <PointCards
+                list
+                items={[
+                  { object: 'mirror', title: '01. Is this for someone like me?', body: 'The homepage speaks directly to senior professionals preparing for retirement.' },
+                  { object: 'compass', title: '02. How can they help me?', body: 'Instead of simply listing services, the content explains the firm’s approach to retirement planning and managing wealth over the long term.' },
+                  { object: 'mugs', title: '03. Who will I be working with?', body: 'We gave more attention to the firm’s people, philosophy, and advisory process to help visitors understand the relationship before making contact.' },
+                  { object: 'signpost', title: '04. What happens next?', body: 'A more purposeful enquiry flow collects relevant information about prospective clients and their goals.' },
+                ]}
+              />
+            </More>
+            <div className={g.heroFig}>
+              <Preview src={showcase} poster={poster} label="Screens from the redesigned House of Alpha website" lazy />
+            </div>
+            <Figure tone="plain">
+              <Preview className={w.reel} src={film} poster={filmPoster} label="The live House of Alpha site scrolling section by section on a 16:10 screen, in a glass frame over a moving amber flame" lazy />
             </Figure>
           </CaseSub>
 
@@ -286,15 +248,8 @@ export default function WebsiteCaseStudy() {
             <Text>Designing each page independently would have meant more work for both designers and engineers, with consistency becoming harder to maintain.</Text>
             <Text>I created a lightweight modular design system built around reusable website sections.</Text>
             <Lead>One trade-off was deliberate: slightly less freedom in individual layouts, in exchange for consistency and faster implementation.</Lead>
-            <Figure tone="field">
-              <ul className={w.modules}>
-                {MODULES.map((module) => (
-                  <li key={module.label}>
-                    <img src={module.src} alt={module.alt} loading="lazy" />
-                    <span>{module.label}</span>
-                  </li>
-                ))}
-              </ul>
+            <Figure tone="plain" caption="The website system: named tokens, components in every state, 14 reusable sections, and each page as an order of those sections.">
+              <img className={w.kit} src={uiKit} alt="A zoomed-out design file headed House of Alpha, Website system, in four frames. Foundations: colour tokens with their roles and contrast ratios, the Gascogne Serial and Karla type scale, twelve spacing steps and five corner radii. Components: buttons in default, hover, focus and disabled states, text fields, goal chips, the FAQ accordion, cards, navigation and carousel controls. Sections: the navigation and fourteen numbered full-width sections cropped from the live site. Pages: Home, About and Process marked with their section numbers, the webinar page built from existing sections in two days, and three rules for new pages" loading="lazy" />
             </Figure>
           </CaseSub>
         </CaseSection>
@@ -303,16 +258,6 @@ export default function WebsiteCaseStudy() {
           <Text>When the team needed a new webinar landing page, engineers could work with the existing sections rather than building everything from scratch.</Text>
           <Lead>The page was assembled and launched in just two days.</Lead>
           <Text>It was a useful demonstration of why we’d invested in the system alongside the redesign.</Text>
-          <Figure tone="field" caption="The webinar page, broken into its sections." style={{ '--tint': '#FFFBD4' }}>
-            <ul className={w.modules}>
-              {WEBINAR.map((section) => (
-                <li key={section.label}>
-                  <img src={section.src} alt={section.alt} loading="lazy" />
-                  <span>{section.label}</span>
-                </li>
-              ))}
-            </ul>
-          </Figure>
           <Figure tone="field" caption="The final page." style={{ '--tint': '#7C4933' }}>
             <Preview className={w.frame} src={webinarScroll} poster={webinarPoster} label="Scrolling through the whole House of Alpha webinar page, from the introduction to the final call to action" lazy />
           </Figure>

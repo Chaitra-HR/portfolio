@@ -4,20 +4,18 @@ import s from './kit.module.css';
 interface CaseSectionProps {
   /** Becomes the element id `cs-<id>`. */
   id: string;
-  /** The section's name, above the story. */
+  /** The section's name: its heading when there's no headline, otherwise for screen readers only. */
   label: string;
   /** The story's heading. */
   title?: ReactNode;
   children?: ReactNode;
 }
 
-/** A section of the case-study article. The headline is its heading; without one, the name is. */
+/** A section of the case-study article, set off from the last by a rule. The headline is its heading; without one, the name is. */
 export function CaseSection({ id, label, title, children }: CaseSectionProps) {
-  const Name = title ? 'p' : 'h2';
   return (
-    <section id={`cs-${id}`} className={s.sec}>
-      <Name className={s.secName}>{label}</Name>
-      {title && <h2 className={s.story}>{title}</h2>}
+    <section id={`cs-${id}`} className={s.sec} aria-label={title ? label : undefined}>
+      <h2 className={s.story}>{title ?? label}</h2>
       {children}
     </section>
   );

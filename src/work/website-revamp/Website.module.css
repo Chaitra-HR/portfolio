@@ -18,21 +18,15 @@
 .film:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { .play { transition: none; } }
 
-/* the final screens: the homepage across, the rest in a row beneath it */
-.screens { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; }
-.screens li { min-width: 0; }
-.screens li:first-child { grid-column: 1 / -1; }
-.screens img { display: block; width: 100%; height: auto; border-radius: 8px; }
-.screens li:first-child img { aspect-ratio: 460 / 309; }
-.screens li:not(:first-child) img { aspect-ratio: 3 / 2; object-fit: cover; object-position: top; }
+/* the brand board sets its own margin, equal to its gaps, so the field adds none */
+.board-fig > div { padding: 0; }
 
-/* the module library: one captioned tile per reusable section */
-.modules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; }
-.modules li { min-width: 0; }
-.modules img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; object-position: top; border-radius: 8px; }
-.modules span { display: block; margin-top: 8px; font-size: var(--t-xs); line-height: var(--lh-small); color: var(--ink); }
+/* the case-study cut of the home film: the same flame tile, its glass window a 16:10 screen */
+.reel { overflow: hidden; border-radius: var(--radius-card); }
+.reel video { aspect-ratio: 6 / 5; }
 
-@media (max-width: 809.98px) {
-  .modules { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-  .screens { grid-template-columns: minmax(0, 1fr); gap: 14px; }
-}
+/* the home tile's film as the opening frame, at its own 6:5 */
+.cover video { aspect-ratio: 6 / 5; }
+
+/* the UI kit canvas: a single image with its own canvas grey, square like a design file */
+.kit { display: block; width: 100%; height: auto; }

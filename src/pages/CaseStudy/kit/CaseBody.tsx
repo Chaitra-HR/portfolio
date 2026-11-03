@@ -1,15 +1,10 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Link } from 'react-router';
+import { Link, useParams } from 'react-router';
+import { findCaseStudy } from '../../../data/projects';
 import { useMediaQuery } from '../../../hooks/useMediaQuery';
 import { cx } from '../../../lib/cx';
 import { smoothScrollTo } from '../../../lib/scroll';
 import s from './kit.module.css';
-
-/** Who the work was for, shown as their icon and name above the title. */
-export interface Client {
-  name: string;
-  logo: string;
-}
 
 export interface TocEntry {
   /** The element in the body it points to has the id `cs-<id>`. */
@@ -64,13 +59,16 @@ function Contents({ toc, index, kid, onPick }: { toc: TocEntry[]; index: number;
 }
 
 /**
- * The study's frame. On wide screens a left column holds the way back, the title and the
- * contents from the top of the page to the end of the study, with the current section
- * marked, and the two columns sit on the centre of the page as one block. Below that the title sits on top and a bar
- * at the foot of the screen opens the same list. Sections join in by carrying the ids in `toc`.
+ * The study's frame. The way back, the title and subtitle, the facts and the hero image run across the top of the page;
+ * under them, on wide screens, a left column holds the contents to the end of the study with
+ * the current section marked, and the two columns sit on the centre of the page as one block.
+ * Below that a bar at the foot of the screen opens the same list. Sections join in by carrying
+ * the ids in `toc`.
  */
-export function CaseBody({ client, title, toc: sections, children }: { client: Client; title: ReactNode; toc: TocEntry[]; children: ReactNode }) {
+export function CaseBody({ title, lede, overview, hero, toc: sections, children }: { title: ReactNode; lede?: string; overview: ReactNode; hero: ReactNode; toc: TocEntry[]; children: ReactNode }) {
   const toc = useMemo(() => [OVERVIEW, ...sections], [sections]);
+  /** Under the title: the study's own line, or the one-line approach from the project's gist. */
+  const subtitle = lede ?? findCaseStudy(useParams().slug)?.gist.decision;
   const root = useRef<HTMLDivElement>(null);
   const bar = useRef<HTMLDivElement>(null);
   const wide = useMediaQuery(RAIL_QUERY);
@@ -129,25 +127,26 @@ export function CaseBody({ client, title, toc: sections, children }: { client: C
   }, [open]);
 
   return (
-    <div className={s.body} ref={root}>
-      <div className={s.side}>
-        <Link to="/" className={s.back}>
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="m10 3-5 5 5 5" />
-          </svg>
-          Back
-        </Link>
-        <p className={`${s.client} rv`}>
-          <img src={client.logo} alt="" width="24" height="24" />
-          {client.name}
-        </p>
+    <>
+    <header id="cs-overview" className={s.top}>
+      <Link to="/" className={s.back}>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="m10 3-5 5 5 5" />
+        </svg>
+        Back
+      </Link>
+      <div className={s.head}>
         <h1 className={`${s.h1} rv`}>{title}</h1>
-        {wide && (
-          <nav className="rv" style={{ '--i': 1 }} aria-label="On this page">
-            <Contents toc={toc} index={index} kid={kid} />
-          </nav>
-        )}
+        {subtitle && <p className={`${s.lede} rv`}>{subtitle}</p>}
       </div>
+      {hero}
+    </header>
+    <div className={s.body} ref={root}>
+      {wide && (
+        <nav className={`${s.side} rv`} style={{ '--i': 1 }} aria-label="On this page">
+          <Contents toc={toc} index={index} kid={kid} />
+        </nav>
+      )}
       {!wide && (
         <div ref={bar} className={cx(s.barWrap, !reached && s.off)}>
           {open && (
@@ -168,7 +167,14 @@ export function CaseBody({ client, title, toc: sections, children }: { client: C
           </button>
         </div>
       )}
-      <div className={s.column}>{children}</div>
+      <div className={s.column}>
+        <section className={s.sec}>
+          <h2 className="sr-only">Overview</h2>
+          <div className={s.overview}>{overview}</div>
+        </section>
+        {children}
+      </div>
     </div>
+    </>
   );
 }

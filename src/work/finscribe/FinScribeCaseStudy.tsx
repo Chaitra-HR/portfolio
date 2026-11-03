@@ -1,5 +1,4 @@
 import { Link } from 'react-router';
-import finscribe from '../../assets/images/logos/finscribe.svg';
 import { caseStudyPath } from '../../data/projects';
 import { Alternatives, Bullets, CaseBody, CaseHero, CaseSection, CaseSub, Findings, KeyInsight, Lead, TeamStack, Text, type TocEntry } from '../../pages/CaseStudy/kit';
 import { ReviewDashboard } from '../compliance-trust/ReviewDashboard';
@@ -43,9 +42,7 @@ const SOURCES = 'Based on public product information, November 2026.';
 export default function FinScribeCaseStudy() {
   return (
     <div className={g.study}>
-      <CaseBody client={{ name: 'FinScribe', logo: finscribe }} title="Designing an AI writing workflow for financial advisors" toc={TOC}>
-        <CaseHero
-          summary={
+      <CaseBody title="Designing an AI writing workflow for financial advisors" toc={TOC} overview={
             <>
               What does an AI writing tool look like when the user doesn’t know what to write?
               <br />
@@ -55,9 +52,11 @@ export default function FinScribeCaseStudy() {
               <br />
               FinScribe is an AI-native marketing assistant I’m building to rethink that blank box, helping advisors get from <b>“I should post something”</b> to something worth publishing.
             </>
-          }
+          } hero={
+        <CaseHero
           meta={[
             { term: 'Role', value: 'Founder & Product Designer' },
+            { term: 'Timeline', value: '2026 — Present' },
             {
               term: 'Team',
               value: (
@@ -70,22 +69,9 @@ export default function FinScribeCaseStudy() {
                 />
               ),
             },
-            { term: 'Timeline', value: '2026 — Present' },
             {
               term: 'Skills',
-              value: (
-                <>
-                  Product strategy
-                  <br />
-                  Customer research
-                  <br />
-                  UX/UI
-                  <br />
-                  Prototyping
-                  <br />
-                  AI product design
-                </>
-              ),
+              value: ['Product strategy', 'Customer research', 'UX/UI', 'Prototyping', 'AI product design'],
             },
           ]}
           media={
@@ -94,6 +80,7 @@ export default function FinScribeCaseStudy() {
             </Figure>
           }
         />
+      }>
 
         <CaseSection id="solution" label="Solution" title="FinScribe turns advisor expertise into content worth publishing.">
           <Text>Rather than dropping advisors into a blank composer, FinScribe helps them find a direction, turns it into a draft using their existing context, then gives them control to shape it.</Text>

@@ -1,4 +1,3 @@
-import moneyworks from '../../assets/images/logos/moneyworks.svg';
 import { Bullets, CaseBody, CaseHero, CaseSection, CaseSub, Evidence, KeyInsight, Lead, More, Reasoning, TeamStack, Text, type TocEntry } from '../../pages/CaseStudy/kit';
 import { Benefits, BeforeAfter, Figure, Reported } from './Figure';
 import { AdvisorScreen, GatewayScreen } from './product/Product';
@@ -47,48 +46,38 @@ const ADVISORS = 'Reported by advisors. Client records weren’t available to me
 export default function GatherCaseStudy() {
   return (
     <div className={g.study}>
-      <CaseBody client={{ name: 'MoneyWorks', logo: moneyworks }} title={
+      <CaseBody title={
       <>
         Reducing onboarding <span className="g">from 3 weeks to under 4 days</span>
       </>
-    } toc={TOC}>
+    } lede="An adaptive intake for a wealth-management firm, so each client only answers what their situation needs." toc={TOC} overview="Before an advisor could start planning, every new MoneyWorks client had to fill in a 47-question spreadsheet. I replaced it with an intake that asks only what applies, lets clients finish in stages and shows advisors exactly what’s missing." hero={
         <CaseHero
-          summary="Before an advisor could start planning, every new MoneyWorks client had to fill in a 47-question spreadsheet. I replaced it with an intake that asks only what applies, lets clients finish in stages and shows advisors exactly what’s missing."
           meta={[
             {
-              term: 'Client',
+              term: 'Role',
               value: (
                 <>
-                  MoneyWorks
+                  Product designer, end to end
                   <br />
-                  Wealth Management
-                  <br />
-                  India
-                </>
-              ),
-            },
-            {
-              term: 'My role',
-              value: (
-                <>
-                  Product Design
-                  <br />
-                  UX Research
-                  <br />
-                  Interaction Design
-                </>
-              ),
-            },
-            {
-              term: 'Team',
-              value: (
-                <>
-                  <TeamStack label="Me" members={[{ avatar: 'me', title: 'Product Designer (me)' }]} />
-                  <Reported>To confirm</Reported>
+                  Capital Design Studio
                 </>
               ),
             },
             { term: 'Timeline', value: <Reported>To confirm</Reported> },
+            {
+              term: 'Team',
+              value: (
+                <TeamStack
+                  label="Me, four advisors and an engineer"
+                  members={[
+                    { avatar: 'me', title: 'Product Designer (me)' },
+                    { avatar: 'founderA', title: '4 Advisors' },
+                    { avatar: 'engineer', title: 'Engineer' },
+                  ]}
+                />
+              ),
+            },
+            { term: 'Scope', value: ['Product Design', 'UX Research', 'Interaction Design'] },
           ]}
           media={
             <Figure tone="field" className={`${g.heroFig} rv`} style={{ '--i': 2 }}>
@@ -96,6 +85,7 @@ export default function GatherCaseStudy() {
             </Figure>
           }
         />
+      }>
 
         <CaseSection id="outcomes" label="Outcomes">
           <Outcomes />
