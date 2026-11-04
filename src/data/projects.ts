@@ -124,6 +124,18 @@ export const sideProjects: SideProject[] = [
     color: '#000000',
     gist: 'A shipped emotional-design prototype.',
   },
+  {
+    kind: 'side',
+    slug: 'rayaru',
+    title: 'Rayara Antaranga',
+    role: 'Personal',
+    status: 'Live',
+    description: 'A scroll-driven 3D tribute to Sri Raghavendra Tirtha. A small seva.',
+    chips: ['3D web', 'Live'],
+    color: '#16150F',
+    gist: 'A scroll-driven 3D tribute to Sri Raghavendra Tirtha.',
+    href: 'https://www.lifeofrayaru.com/',
+  },
 ];
 
 export type Project = CaseStudyProject | SideProject;

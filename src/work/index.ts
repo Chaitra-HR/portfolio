@@ -7,6 +7,7 @@ import type { CaseStudyProject } from '../data/projects';
 import { ComplianceCover } from './compliance-trust/Cover';
 import { FinScribeCover } from './finscribe/Cover';
 import { GatherCover } from './gather/Cover';
+import { RayaruCover } from './rayaru/Cover';
 import { ReframeCover } from './reframe/Cover';
 import { ScreenEduCover } from './screenedu/Cover';
 import type { ArtProps } from './types';
@@ -24,6 +25,7 @@ export const workArt: Record<string, WorkArt> = {
   'website-revamp': { Cover: WebsiteCover },
   screenedu: { Cover: ScreenEduCover },
   reframe: { Cover: ReframeCover },
+  rayaru: { Cover: RayaruCover },
 };
 
 interface CaseStudyProps {
