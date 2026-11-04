@@ -26,11 +26,9 @@
 .cl { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: var(--radius-pill); color: var(--muted); text-decoration: none; font-size: 15px; font-weight: 500; transition: background-color .2s ease, color .2s ease; }
 .cl:hover { color: var(--ink); }
 .con { background: var(--paper); color: var(--ink); }
-/* LinkedIn is a Pill (black flood + magnetic on hover), as on Home */
+/* LinkedIn is a Pill (white flood on hover), as on Home */
 .cardNav .cext { margin-left: auto; padding: 0 16px; }
-.li { width: 18px; height: 18px; border-radius: 4px; background: var(--ink); color: var(--paper); font: 700 11px/18px "Helvetica Neue", Arial, sans-serif; text-align: center; letter-spacing: -.02em; transition: background-color .3s ease, color .3s ease; }
-.cardNav .cext:hover .li, .cardNav .cext:focus-visible .li { background: var(--paper); color: var(--ink); }
 /* phones: full width inside the page gutters, then tighter, as on Home */
 @media (max-width: 809.98px) { .cardWrap { width: calc(100% - 40px); } }
 @media (max-width: 420px) { .cl, .cardNav .cext { padding: 0 12px; } }
-@media (max-width: 360px) { .cl, .cardNav .cext { padding: 0 10px; } .li { display: none; } }
+@media (max-width: 360px) { .cl, .cardNav .cext { padding: 0 10px; } }

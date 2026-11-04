@@ -11,11 +11,8 @@
 .nl { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: var(--radius-pill); color: var(--muted); text-decoration: none; font-size: 15px; font-weight: 500; transition: background-color .2s ease, color .2s ease; }
 .nl:hover { color: var(--ink); }
 .nl.on { background: var(--paper); color: var(--ink); }
-/* LinkedIn is a Pill (black flood + magnetic on hover); sized to sit with the nav links */
+/* LinkedIn is a Pill (white flood on hover); sized to sit with the nav links */
 .nav .ext { margin-left: auto; padding: 0 16px; }
-.li { width: 18px; height: 18px; border-radius: 4px; background: var(--ink); color: var(--paper); font: 700 11px/18px "Helvetica Neue", Arial, sans-serif; text-align: center; letter-spacing: -.02em; transition: background-color .3s ease, color .3s ease; }
-/* the badge inverts with the flood: white tile, black "in" */
-.nav .ext:hover .li, .nav .ext:focus-visible .li { background: var(--paper); color: var(--ink); }
 .inl { color: var(--muted); text-decoration: none; transition: color .18s ease; }
 .inl:hover { color: var(--ink); }
 
@@ -174,5 +171,4 @@
 }
 @media (max-width: 360px) {
   .nl, .nav .ext { padding: 0 10px; }
-  .li { display: none; }
 }

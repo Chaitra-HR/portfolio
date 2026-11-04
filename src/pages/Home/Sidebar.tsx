@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import { CopyEmailButton } from '../../components/layout/FooterParts';
+import { ExternalArrow } from '../../components/ui/ExternalArrow';
 import { Pill } from '../../components/ui/Pill';
 import { StatusDot } from '../../components/ui/StatusDot';
 import { caseStudyPath } from '../../data/projects';
@@ -29,10 +30,8 @@ export function Sidebar({ hot, hops }: SidebarProps) {
           About
         </Link>
         <Pill fill="none" className={s.ext} href={site.linkedin} aria-label="LinkedIn (opens in a new tab)">
-          <span className={s.li} aria-hidden="true">
-            in
-          </span>
           LinkedIn
+          <ExternalArrow />
         </Pill>
       </nav>
 
@@ -52,7 +51,7 @@ export function Sidebar({ hot, hops }: SidebarProps) {
         <div className={s.ctas}>
           <CopyEmailButton />
           <Pill fill="lilac" href={site.resume}>
-            Résumé
+            Resume
           </Pill>
         </div>
       </header>

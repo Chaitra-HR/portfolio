@@ -138,7 +138,7 @@ kit). Put project-only styles in a module next to the study, as
 Everything in [brackets] is the exports' own placeholder text, kept verbatim:
 
 - `src/data/site.ts`: email, LinkedIn and website-carbon URLs. The
-  Résumé button points to `/resume.pdf`; add the file to `public/`.
+  Resume button points to `/resume.pdf`; add the file to `public/`.
 - `src/data/testimonials.ts`: quote, name, role and an optional square `photo` URL per card.
 - Gather case study: the "3 weeks → under 4 days" figure stays marked "to
   confirm" until it's verified (`REPORTED` in `GatherCaseStudy.tsx`, and the
@@ -167,12 +167,12 @@ to the pixel; the measured differences are:
   films; Compliance's is its review dashboard, animated in code on a white-to-orange
   wash.
   Titles stay below the cards. FinScribe's field is now light grey.
-- **Kind words** is now a swipeable deck of quote cards; the export's large
-  photos with blurred side panels are gone. Portraits are small 44px avatars.
-  Motion runs on a small spring engine (`pages/Home/deckMotion.ts`, no
-  dependency): drag 1:1, flick momentum carried into the throw, the next card
-  rising as you pull, the thrown card tucking in behind; also trackpad
-  two-finger swipes, arrow buttons and arrow keys. Reduced motion snaps.
+- **Kind words** is one quote at a time on a flat grey panel: the gradient
+  quote mark and count up top, the person (square 52px portrait, name, role)
+  anchored at the bottom, and the arrows docked in the bottom-right corner as
+  one joined control. Slides glide sideways on a track: drag 1:1 and flick,
+  trackpad two-finger swipes, arrow buttons and arrow keys. Reduced motion
+  snaps.
 - **Asterisk mascot** (`GradientBuddy`) is a 3D asterisk in iridescent liquid
   glass, rendered with three.js (`glass/glassAsterisk.ts`). Its shape is
   exactly the 2D mark's (six straight rounded arms, as in the Home sidebar),
@@ -203,7 +203,7 @@ to the pixel; the measured differences are:
   body. In the footer, each poke spins it a full turn into a new outfit, face
   and line (`PokeBuddy` → `STEPS`): reading glasses ("open to new
   roles"), shades + headphones ("that song again"), a blush ("the purple
-  one’s her résumé"), then back to bare ("AI helps her build…"); each has its
+  one’s her resume"), then back to bare ("AI helps her build…"); each has its
   own mouth. Edit the lines in `STEPS`.
 - **Phone guide** (Home, phones only; like adamperlis.com on mobile): hover
   means nothing on touch, so each case study shows its gist in a speech
@@ -286,7 +286,7 @@ to the pixel; the measured differences are:
   up sends it home. Hidden copies stop rendering.
 - **Home details**: case-study status pills (Shipped, Pre-beta) use the
   side-project chip style; testimonial cards open with a quote mark in the
-  asterisk gradient, and the arrows are Pills (black flood, magnetic, press).
+  asterisk gradient, and the arrows are Pills (grey flood, press).
 - **Copy email**: while "Email copied" shows, the envelope icon's flap
   flips open (hinged on its top edge, with a little spring) and closes again
   after.
@@ -301,17 +301,17 @@ to the pixel; the measured differences are:
 - **About on phones**: no hovering, so the intro hint drops "Hover around."
   and the photos show without caption pills or the dark caption gradient.
 - **About nav (every width)**: Home's nav card (Work and About as pills,
-  LinkedIn as the magnetic pill CTA), 520px wide on desktop and tablet (Home's
+  LinkedIn as the pill CTA), 520px wide on desktop and tablet (Home's
   is 420), full width inside the 20px gutters on phones, centred over the
   column; no name or "Let's talk" there (`SiteHeader card`). Case studies and
   the 404 keep the regular header.
-- **Buttons (pills)** follow together.agency's: on hover a black fill floods
-  out from the point the pointer enters and drains back on leave (label turns
-  white); pressing shrinks to 95% and springs back. They're magnetic too —
-  leaning toward the cursor (label a little further) and springing back on
-  leave (mouse only). No lift or shadow. Home's menu LinkedIn is a pill as well
-  (its "in" badge inverts on hover). Home's
-  intro card now offers Copy email + Résumé (the same `CopyEmailButton` as
+- **Buttons (pills)** follow together.agency's: on hover a fill floods
+  out from the point the pointer enters and drains back on leave, in a shade of
+  the pill's own colour (white → grey, purple → deeper purple, grey → darker
+  grey, a bare pill → white), so the label stays dark; pressing shrinks to 95% and springs back. No pull
+  toward the cursor, lift or shadow. Home's menu LinkedIn is a pill as well,
+  with a ↗ that nudges out on hover. Home's
+  intro card now offers Copy email + Resume (the same `CopyEmailButton` as
   the footer).
 - **Custom cursor** (`components/interactions/CustomCursor.tsx`), modelled on
   protasevich.com: a 16px rounded arrow that leans up to 60° toward the screen
@@ -348,7 +348,7 @@ to the pixel; the measured differences are:
 - **Footer (every page)** is the shared bento footer, simplified at your
   request: no "Before you go" label, status chip or LinkedIn pill; a smaller
   headline (38px desktop → 28px phone) vertically centred in its card; Copy
-  email and Résumé; the pokeable mascot, centred (no clock); © bar with an
+  email and Resume; the pokeable mascot, centred (no clock); © bar with an
   underlined footprint link (darkens on hover, dims on press; no "by
   Chaitra"). The mascot has no tap highlight on phones. Home passes its own
   copy, "You’ve made it this far. Might as well say hello."

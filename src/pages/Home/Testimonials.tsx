@@ -1,11 +1,14 @@
-import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 import { Pill } from '../../components/ui/Pill';
 import { testimonials } from '../../data/testimonials';
 import { cx } from '../../lib/cx';
-import { prefersReducedMotion } from '../../lib/scroll';
-import { createDeckMotion, type DeckMotion, type Step } from './deckMotion';
 import home from './Home.module.css';
 import s from './Testimonials.module.css';
+
+type Step = 1 | -1;
+
+/** The live site marks sample quotes; the local view shows the layout as it will look. */
+const TAG_SAMPLES = import.meta.env.PROD;
 
 /** A drag counts as a swipe past this distance, or when flicked faster than this. */
 const SWIPE_PX = 60;
@@ -32,29 +35,18 @@ function releaseVelocity(samples: Array<[number, number]>): number {
   return dt > 0 ? ((end[1] - start[1]) / dt) * 1000 : 0;
 }
 
-/** "Kind words": a swipeable deck of testimonial cards — drag, flick, trackpad, arrow buttons or arrow keys. */
+/**
+ * "Kind words": one quote at a time on a calm panel, the person anchored at the bottom and the
+ * arrows docked in the corner. Slides glide sideways — drag, flick, trackpad, arrows or arrow keys.
+ */
 export function Testimonials() {
   const n = testimonials.length;
   const [index, setIndex] = useState(0);
   const stage = useRef<HTMLDivElement>(null);
-  const deck = useRef<HTMLDivElement>(null);
-  const cards = useRef<(HTMLElement | null)[]>([]);
-  const motion = useRef<DeckMotion | null>(null);
+  const track = useRef<HTMLDivElement>(null);
   const gesture = useRef<Gesture | null>(null);
 
-  // Before first paint, so the deck never shows unfanned.
-  useLayoutEffect(() => {
-    if (!deck.current) return;
-    const m = createDeckMotion({ cards: cards.current, deck: deck.current, index: 0, reducedMotion: prefersReducedMotion });
-    motion.current = m;
-    return () => m.destroy();
-  }, []);
-
-  const step = (dir: Step, velocity?: number) => {
-    setIndex((i) => (i + dir + n) % n);
-    if (velocity === undefined) motion.current?.go(dir);
-    else motion.current?.release(velocity, dir);
-  };
+  const step = (dir: Step) => setIndex((i) => (i + dir + n) % n);
 
   // Two-finger horizontal swipes on a trackpad.
   useEffect(() => {
@@ -76,7 +68,6 @@ export function Testimonials() {
         travel = 0;
         lockedUntil = now + WHEEL_LOCK_MS;
         setIndex((i) => (i + dir + n) % n);
-        motion.current?.go(dir);
       }
     };
     el.addEventListener('wheel', onWheel, { passive: false });
@@ -85,6 +76,11 @@ export function Testimonials() {
       clearTimeout(idle);
     };
   }, [n]);
+
+  // While dragging, the track follows the pointer 1:1 from where it rests.
+  const follow = (dx: number) => {
+    if (track.current) track.current.style.translate = dx ? `calc(${-index * 100}% + ${dx}px) 0` : '';
+  };
 
   const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
@@ -99,7 +95,7 @@ export function Testimonials() {
     const dy = e.clientY - g.y;
     if (!g.axis) {
       if (Math.hypot(dx, dy) < 6) return;
-      // Decide once: horizontal drags move the deck, vertical ones scroll the page.
+      // Decide once: horizontal drags move the slides, vertical ones scroll the page.
       g.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
       if (g.axis === 'x') {
         stage.current?.classList.add(s.dragging);
@@ -113,7 +109,7 @@ export function Testimonials() {
     if (g.axis !== 'x') return;
     g.samples.push([e.timeStamp, e.clientX]);
     if (g.samples.length > 8) g.samples.shift();
-    motion.current?.drag(dx);
+    follow(dx);
   };
 
   const endGesture = (e: PointerEvent<HTMLDivElement>, cancelled = false) => {
@@ -121,11 +117,11 @@ export function Testimonials() {
     gesture.current = null;
     if (!g || g.axis !== 'x') return;
     stage.current?.classList.remove(s.dragging);
+    follow(0);
     const dx = e.clientX - g.x;
     const v = cancelled ? 0 : releaseVelocity([...g.samples, [e.timeStamp, e.clientX]]);
     const flicked = Math.abs(v) > FLICK_PX_PER_S && Math.sign(v) === Math.sign(dx);
-    if (!cancelled && (Math.abs(dx) > SWIPE_PX || flicked)) step((flicked ? v : dx) < 0 ? 1 : -1, v);
-    else motion.current?.release(v);
+    if (!cancelled && (Math.abs(dx) > SWIPE_PX || flicked)) step((flicked ? v : dx) < 0 ? 1 : -1);
   };
 
   const onKeyDown = (e: KeyboardEvent) => {
@@ -153,53 +149,41 @@ export function Testimonials() {
         onPointerCancel={(e) => endGesture(e, true)}
         onKeyDown={onKeyDown}
       >
-        <div ref={deck} className={s.deck}>
-          {testimonials.map((t, i) => {
-            const depth = (i - index + n) % n;
-            return (
-              <figure
-                key={i}
-                ref={(el) => {
-                  cards.current[i] = el;
-                }}
-                className={cx(s.card, depth > 2 && s.gone)}
-                aria-hidden={depth !== 0}
-                aria-roledescription="slide"
-                aria-label={`${i + 1} of ${n}`}
-              >
-                {/* an opening quote, in the asterisk's gradient */}
-                <svg className={s.mark} viewBox="0 0 32 24" aria-hidden="true" focusable="false">
-                  <path
-                    fill="url(#ast-grad)"
-                    d="M0 24V14.4C0 6.7 3.9 1.9 11.5 0l1.5 3.4C8.9 4.7 6.9 7.3 6.6 11H12v13H0Zm19 0V14.4C19 6.7 22.9 1.9 30.5 0L32 3.4C27.9 4.7 25.9 7.3 25.6 11H31v13H19Z"
-                  />
-                </svg>
-                <blockquote className={s.quote}>{t.quote}</blockquote>
-                <figcaption className={s.who}>
-                  <span className={s.avatar} aria-hidden="true">
-                    {t.photo && <img src={t.photo} alt="" loading="lazy" decoding="async" draggable={false} />}
-                  </span>
-                  <span>
-                    <span className={s.name}>{t.name}</span>
-                    <span className={s.role}>{t.role}</span>
-                  </span>
-                </figcaption>
-              </figure>
-            );
-          })}
+        <div ref={track} className={s.track} style={{ '--at': index }}>
+          {testimonials.map((t, i) => (
+            <figure key={i} className={s.slide} aria-hidden={i !== index} inert={i !== index} aria-roledescription="slide" aria-label={`${i + 1} of ${n}`}>
+              {/* an opening quote: two chunky slabs leaning into the words, in the brand lilac */}
+              <svg className={s.mark} viewBox="0 0 37 30" aria-hidden="true" focusable="false">
+                <path d="M0 30V16.5C0 9.8 3.4 4 9.6 0H16c-3.7 3.6-5.6 7.6-6 12h6v18H0Zm21 0V16.5c0-6.7 3.4-12.5 9.6-16.5H37c-3.7 3.6-5.6 7.6-6 12h6v18H21Z" />
+              </svg>
+              <blockquote className={s.quote}>{t.quote}</blockquote>
+              <figcaption className={s.who}>
+                <span className={s.avatar} aria-hidden="true">
+                  {t.photo && <img src={t.photo} alt="" loading="lazy" decoding="async" draggable={false} />}
+                </span>
+                <span>
+                  <span className={s.name}>{t.name}</span>
+                  <span className={s.role}>{t.role}</span>
+                </span>
+                {t.sample && TAG_SAMPLES && <span className={s.sample}>Sample</span>}
+              </figcaption>
+            </figure>
+          ))}
         </div>
+
+        <span className={s.count} aria-live="polite">
+          {index + 1} / {n}
+        </span>
+        {/* on the attribution's line, bottom right */}
         <div className={s.controls}>
           <Pill className={s.btn} type="button" aria-label="Previous testimonial" onClick={() => step(-1)}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M19 12H5M11 6l-6 6 6 6" />
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="m14.5 6-6 6 6 6" />
             </svg>
           </Pill>
-          <span className={s.count} aria-live="polite">
-            {index + 1} / {n}
-          </span>
           <Pill className={s.btn} type="button" aria-label="Next testimonial" onClick={() => step(1)}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M5 12h14M13 6l6 6-6 6" />
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="m9.5 6 6 6-6 6" />
             </svg>
           </Pill>
         </div>

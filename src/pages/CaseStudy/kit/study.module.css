@@ -1,6 +1,5 @@
 /* The shared frame every case study is set in: its paper-note colours, figures and captions,
-   the hero frame, and the few small blocks more than one study uses. Lilac, the Résumé
-   button's colour, is the only accent: the marker on your place, the active toggle, the one
+   the hero frame, and the few small blocks more than one study uses. Lilac is the only accent: the marker on your place, the active toggle, the one
    sentence the research lands on. Amber means not yet verified. */
 .study {
   --note-yellow: #FCE68F; --note-peach: #FBCDB4; --note-lilac: #EBD3FC; --note-mint: #C8EBCF;
@@ -30,7 +29,7 @@
 .pin { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 20px; height: 20px; border-radius: 50%; background: var(--ink); color: #FFFFFF; font-size: 11px; font-weight: 500; font-variant-numeric: tabular-nums; }
 .reported { display: inline-block; padding: 2px 8px; border-radius: 6px; background: var(--tbc-bg); color: var(--tbc-ink); font-size: var(--t-xs); line-height: var(--lh-small); }
 
-/* before / after: the Résumé button, doing a job */
+/* before / after: the Resume button, doing a job */
 .toggle { display: flex; gap: 2px; width: max-content; margin: 0 auto 20px; padding: 4px; border-radius: var(--radius-pill); background: var(--paper); }
 .toggle button { min-width: 84px; padding: 7px 16px; border: 0; border-radius: var(--radius-pill); background: none; color: var(--muted); font: inherit; font-size: var(--t-body); font-weight: 500; line-height: 1.4; cursor: pointer; transition: color .2s ease, background-color .2s ease; }
 .toggle button:hover { color: var(--ink); }

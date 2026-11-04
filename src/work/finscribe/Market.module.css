@@ -17,7 +17,7 @@
 .tool:hover .mark, .tool:focus .mark, .open .mark { scale: 1.1; }
 .us strong { font-size: var(--t-h3); line-height: 1; font-weight: 500; color: var(--ink); }
 /* why it sits there, in the same dark tip as the team portraits */
-.note { position: absolute; left: 50%; bottom: calc(100% + 10px); width: 220px; padding: 10px 12px; border-radius: 8px; background: #2B2F3A; color: var(--paper); font-weight: 400; line-height: 1.4; text-align: left; opacity: 0; pointer-events: none; transform: translate(-50%, 4px); transition: opacity .15s ease, transform .15s ease; }
+.note { position: absolute; left: 50%; bottom: calc(100% + 10px); width: 220px; padding: 10px 12px; border-radius: 8px; background: var(--ink); color: var(--paper); font-weight: 400; line-height: 1.4; text-align: left; opacity: 0; pointer-events: none; transform: translate(-50%, 4px); transition: opacity .15s ease, transform .15s ease; }
 .note b { display: block; margin-bottom: 2px; font-weight: 500; }
 .below .note { top: calc(100% + 10px); bottom: auto; }
 .from-left .note { left: 0; transform: translate(0, 4px); }

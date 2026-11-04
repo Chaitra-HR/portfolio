@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-/** The Résumé lilac and the asterisk's colours. */
+/** The site's lilac and the asterisk's colours. */
 const COLORS = ['#D69FF9', '#F35BC2', '#9A6CF2', '#4F7BF7'];
 const PIECES = 70;
 const LIFE = 2800;

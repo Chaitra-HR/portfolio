@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import { site } from '../../data/site';
 import { cx } from '../../lib/cx';
 import { smoothScrollTo } from '../../lib/scroll';
+import { ExternalArrow } from '../ui/ExternalArrow';
 import { Pill } from '../ui/Pill';
 import { SmartLink } from '../ui/SmartLink';
 import { StatusDot } from '../ui/StatusDot';
@@ -31,10 +32,8 @@ export function SiteHeader({ current, card = false }: SiteHeaderProps) {
             About
           </Link>
           <Pill fill="none" className={s.cext} href={site.linkedin} aria-label="LinkedIn (opens in a new tab)">
-            <span className={s.li} aria-hidden="true">
-              in
-            </span>
             LinkedIn
+            <ExternalArrow />
           </Pill>
         </nav>
       </header>
