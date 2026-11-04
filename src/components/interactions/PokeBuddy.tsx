@@ -9,7 +9,7 @@ const STEPS: Array<{ outfit: Outfit; mouth: Mouth; say: string }> = [
   { outfit: 'none', mouth: 'rest', say: 'Poke me. I don’t bite.' },
   { outfit: 'specs', mouth: 'smile', say: 'Glasses on. She’s open to new roles. I told her I’d spread the word.' },
   { outfit: 'cool', mouth: 'smirk', say: 'Headphones on. She’s playing that song again. I thought we were done with it.' },
-  { outfit: 'blush', mouth: 'cat', say: 'Oh, you’re making me blush. Anyway, the purple one’s her résumé.' },
+  { outfit: 'blush', mouth: 'cat', say: 'Oh, you’re making me blush. Anyway, the purple one’s her resume.' },
   { outfit: 'none', mouth: 'grin', say: 'Back to me. AI helps her build. I still think I’m the best thing she’s made.' },
 ];
 /** After the last step, the cycle restarts at the first outfit (not the opening line). */

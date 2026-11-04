@@ -1,96 +1,102 @@
 /* Building blocks for case studies, carried over from CaseFinal.dc.html. */
 
-/* hero */
-.hero { display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 56px; padding: 72px 0 48px; align-items: end; }
-.buddy { width: 132px; height: 132px; margin: 0 0 18px -14px; filter: drop-shadow(0 12px 16px rgba(91, 63, 208, .16)); }
-.idx { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
-.idx b { font-weight: 500; color: var(--ink); background: var(--card); border-radius: var(--radius-pill); padding: 5px 10px; font-variant-numeric: tabular-nums; }
-.h1 { margin: 18px 0 0; font-size: clamp(36px, 4.17vw, 60px); line-height: 1.0; font-weight: 500; letter-spacing: -.045em; max-width: 720px; }
-.h1 :global(.g) { color: var(--grey-3); }
-.sub { margin: 18px 0 0; font-size: 18px; line-height: 1.5; color: var(--muted); max-width: 560px; }
-.meta { margin: 0; }
-.meta div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-top: 1px solid var(--rule); font-size: 15px; line-height: 1.45; }
-.meta div:last-child { border-bottom: 1px solid var(--rule); }
-.meta dt { color: var(--muted); }
-.meta dd { margin: 0; }
-.status { display: flex; align-items: center; gap: 8px; }
+/* the top of the page: the title and a one-line subtitle, the facts in two
+   columns with plain grey names, then the hero image, all on the same two edges */
+.top { display: flex; flex-direction: column; margin-bottom: var(--gap-section); padding: 4px 0 0; scroll-margin-top: 20px; }
+.head { width: 100%; max-width: var(--head); margin: 0 auto; }
+.top > .head:first-of-type { margin-top: var(--gap-sub); }
+.h1 { margin: 0; font-size: var(--t-h1); line-height: var(--lh-title); font-weight: 500; letter-spacing: var(--tr-h1); text-wrap: pretty; }
+.h1 :global(.g) { display: inline; }
+.lede { max-width: 46em; margin: var(--gap-heading) 0 0; font-size: var(--t-body); line-height: var(--lh-body); color: var(--muted); text-wrap: pretty; }
+.meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-block) var(--gap-heading); margin: var(--gap-sub) 0 0; }
+.meta dt { font-size: var(--t-xs); line-height: var(--lh-small); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.meta dd { margin: 8px 0 0; font-size: var(--t-small); line-height: 1.75; color: var(--ink); text-wrap: pretty; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.chips li { padding: 3px 10px; white-space: nowrap; border-radius: var(--radius-pill); background: var(--card); font-size: 13px; line-height: var(--lh-small); color: var(--ink); }
+.hero { width: 100%; max-width: var(--hero-w); margin: var(--gap-sub) auto 0; }
+/* the overview opens the study column, beside the start of the contents */
+.overview { font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body); text-wrap: pretty; }
 
-/* media */
-.panel { background: var(--card); border-radius: var(--radius-card); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; aspect-ratio: var(--aspect, auto); }
-.cap { margin: 12px 2px 0; font-size: 13px; color: var(--grey-1); }
+/* portraits in a row, in colour: the one you're on lifts and shows its title, the rest go grey */
+.team { display: flex; gap: 4px; margin: 2px 0 0; padding: 0; list-style: none; }
+.team li { position: relative; }
+.member { display: block; width: 34px; height: 34px; overflow: hidden; border-radius: 8px; background: var(--card); cursor: default; transition: scale .25s var(--ease-spring), box-shadow .25s ease; }
+.member img { display: block; width: 100%; height: 100%; image-rendering: pixelated; transition: filter .25s ease; }
+.team:has(.member:hover, .member:focus) .member img { filter: grayscale(1) opacity(.72); }
+.tip { position: absolute; z-index: 5; left: 50%; bottom: calc(100% + 10px); padding: 6px 12px; border-radius: 10px; background: var(--ink); color: var(--paper); font-size: var(--t-xs); line-height: 1.5; white-space: nowrap; opacity: 0; pointer-events: none; transform: translate(-50%, 4px); transition: opacity .15s ease, transform .15s ease; }
+.team li:first-child .tip { left: 0; transform: translate(0, 4px); }
+.member:hover, .member:focus-visible { position: relative; z-index: 4; scale: 1.14; box-shadow: 0 8px 20px rgba(0, 0, 0, .16); }
+.team:has(.member:hover, .member:focus) .member:is(:hover, :focus) img { filter: none; }
+.member:hover + .tip, .member:focus + .tip { opacity: 1; transform: translate(-50%, 0); }
+.team li:first-child .member:hover + .tip, .team li:first-child .member:focus + .tip { transform: none; }
 
-/* mock-ups drawn in HTML */
-.mock { background: var(--paper); border-radius: 14px; box-shadow: 0 20px 44px rgba(0, 0, 0, .12); padding: 22px; box-sizing: border-box; text-align: left; }
-.mk-h { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0 0 12px; }
-.mk-q { font-size: 20px; font-weight: 700; margin: 0 0 14px; line-height: 1.2; letter-spacing: -.01em; }
-.opt { display: inline-flex; align-items: center; padding: 8px 14px; border-radius: var(--radius-pill); border: 1px solid #DDDDDD; font-size: 13px; font-weight: 500; margin: 0 6px 6px 0; }
-.sel { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-.barr { display: block; height: 8px; border-radius: 4px; background: #EEEEEE; }
-.fld { display: block; height: 30px; border-radius: 8px; background: #F3F3F3; margin-top: 8px; }
-.skip { margin: 0; font-size: 13px; color: var(--grey-2); text-decoration: line-through; line-height: 1.7; }
+/* the left column: the contents, from the end of the hero to the end of the study.
+   Your place is the deep lilac, the text and the square together. */
+.side-head { margin: 0 0 var(--gap-tight) 14px; font-size: var(--t-xs); line-height: var(--lh-small); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.items, .kids { margin: 0; padding: 0; list-style: none; }
+.items li + li { margin-top: 10px; }
+.items a { position: relative; display: block; padding-left: 14px; color: var(--muted); text-decoration: none; font-size: var(--t-xs); line-height: var(--lh-small); transition: color .2s ease; }
+.items a::before { content: ""; position: absolute; left: 0; top: .42em; width: 7px; height: 7px; background: var(--grey-3); opacity: 0; scale: .4; transition: opacity .2s ease, scale .2s ease, background-color .2s ease; }
+.items a:hover, .items a.within { color: var(--ink); }
+.items a:hover::before { opacity: 1; scale: 1; }
+.items a.on { color: var(--lilac-deep); font-weight: 500; }
+.items a.on::before { opacity: 1; scale: 1; background: var(--lilac-deep); }
+.kids { margin: 8px 0 0 14px; }
 
-/* body + table of contents */
-.body { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 56px; padding-top: 110px; }
-.toc { position: sticky; top: 24px; align-self: start; display: flex; flex-direction: column; gap: 2px; }
-.toc a { display: flex; align-items: center; gap: 10px; min-height: 38px; padding: 0 12px; border-radius: var(--radius-pill); color: var(--grey-1); text-decoration: none; font-size: 15px; transition: color .2s ease, background-color .2s ease; }
-.toc a:hover { color: var(--ink); }
-.toc a.on { color: var(--ink); background: var(--card); }
-.mini { width: 14px; height: 14px; flex: none; opacity: 0; transform: scale(.4) rotate(-90deg); transition: opacity .25s ease, transform .45s cubic-bezier(.3, 1.5, .5, 1); }
-.toc a.on .mini { opacity: 1; transform: none; }
-.toc a:not(.on) .mini { width: 0; margin-right: -10px; }
+/* the same list, from a bar at the foot of the screen, where the margin is gone */
+/* hidden until the first section is on screen */
+.off { opacity: 0; translate: 0 8px; pointer-events: none; visibility: hidden; transition: opacity .3s ease, translate .3s ease, visibility 0s .3s; }
+.bar-wrap { --read: 0; position: fixed; z-index: 30; left: 50%; bottom: 12px; transform: translateX(-50%); width: min(340px, calc(100vw - 32px)); transition: opacity .3s ease, translate .3s ease; }
+.bar { position: relative; display: flex; align-items: center; gap: 8px; width: 100%; min-height: 48px; padding: 0 18px; border: 0; border-radius: 24px; background: var(--lilac); color: var(--ink); font: inherit; font-size: var(--t-small); text-align: left; cursor: pointer; overflow: hidden; box-shadow: 0 8px 24px rgba(0, 0, 0, .14); }
+.bar-count { flex: none; font-variant-numeric: tabular-nums; opacity: .6; }
+.bar-label { flex: 1; min-width: 0; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chev { flex: none; width: 12px; height: 12px; transition: rotate .2s ease; }
+.chev-open { rotate: 180deg; }
+.bar-fill { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--ink); transform: scaleX(var(--read)); transform-origin: left; transition: transform .25s ease; }
+.sheet { max-height: calc(100vh - 110px); margin-bottom: 8px; padding: 6px 18px 18px 6px; box-sizing: border-box; overflow-y: auto; border-radius: 20px; background: var(--paper); box-shadow: 0 12px 36px rgba(0, 0, 0, .14), 0 0 0 1px var(--rule-alt); animation: ev-in .2s ease; }
+.sheet .side-head { margin-top: 12px; }
+.sheet a { font-size: var(--t-small); }
+.sheet li + li { margin-top: 14px; }
+.sheet .kids { margin-top: 14px; }
 
-/* sections */
-.sec { scroll-margin-top: 24px; margin-bottom: 110px; max-width: 720px; }
-.sec h2 { margin: 12px 0 0; font-size: clamp(30px, 1.67vw + 12px, 36px); line-height: 1.08; font-weight: 500; letter-spacing: -.03em; }
-.wide { max-width: none; }
-.wide h2 { max-width: 720px; }
-.last { margin-bottom: 80px; }
-.t { margin: 18px 0 0; font-size: 17px; line-height: 1.6; color: var(--ink-body); }
-.ph { color: var(--grey-2); }
-.t.ph { color: var(--grey-2); }
-.chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
-.chip { display: inline-flex; align-items: center; gap: 6px; background: var(--card); border-radius: var(--radius-pill); padding: 7px 12px; font-size: 13px; font-weight: 500; white-space: nowrap; }
-.chip.tc { background: var(--tbc-bg); color: var(--tbc-ink); }
+/* sections: the headline, then the story, each set off from the last by a hairline.
+   A contents jump lands on the headline, not the rule above it. */
+.sec { max-width: var(--col); margin: 0 auto var(--gap-sub); scroll-margin-top: 16px; }
+.sec + .sec { padding-top: var(--gap-sub); border-top: 1px solid var(--rule-alt); scroll-margin-top: calc(16px - var(--gap-sub)); }
+.story { margin: 0 0 var(--gap-heading); font-size: var(--t-sec); line-height: var(--lh-h2); font-weight: 500; letter-spacing: var(--tr-h2); color: var(--ink); text-wrap: balance; }
+.sub { margin: var(--gap-sub) 0; scroll-margin-top: 40px; }
+.story + .sub { margin-top: var(--gap-block); }
+.kicker { margin: 0 0 4px; font-size: var(--t-xs); line-height: var(--lh-small); color: var(--muted); }
+.sub > h3 { margin: 0; font-size: var(--t-step); line-height: var(--lh-step); font-weight: 500; letter-spacing: var(--tr-h3); color: var(--ink); text-wrap: balance; }
+.t { margin: var(--gap-text) 0; font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink-body); text-wrap: pretty; }
+.t b { font-weight: 500; }
 
-/* before / after */
-.ba { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
-.ba .panel { aspect-ratio: 4/3.4; flex-direction: column; gap: 18px; padding: 28px; }
-.tag { position: absolute; top: 16px; left: 16px; font-size: 12px; font-weight: 500; background: var(--paper); border-radius: var(--radius-pill); padding: 6px 11px; }
-
-/* numbered decisions */
-.dec { margin-top: 24px; }
-.dec > div { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; padding: 20px 0; border-top: 1px solid var(--rule); }
-.dec > div:last-child { border-bottom: 1px solid var(--rule); }
-/* Deliberately broad, as in the export: it also styles placeholder notes and
-   chips inside a decision (13px grey, 3px top padding). */
-.dec span { font-size: 13px; color: var(--grey-1); font-variant-numeric: tabular-nums; padding-top: 3px; }
-.dec p { margin: 0; font-size: 17px; line-height: 1.55; color: var(--ink-body); }
-.dec b { font-weight: 500; color: var(--ink); }
-
-/* stats */
-.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
-.st { padding: 26px 24px; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; }
-.st b { font-size: 52px; line-height: 1; font-weight: 500; letter-spacing: -.05em; }
-.st p { margin: 0; font-size: 15px; line-height: 1.45; color: var(--muted); }
-
-/* Below 1000px the table of contents goes and the hero stacks. */
-@media (max-width: 999.98px) {
-  .hero { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .body { grid-template-columns: minmax(0, 1fr); padding-top: 88px; }
-  .toc { display: none; }
-  .sec { max-width: none; margin-bottom: 88px; }
-  .sec h2, .t { max-width: 720px; }
+/* evidence footnotes: the asterisk after a number opens its source. */
+.ev { position: relative; display: inline; white-space: nowrap; }
+.ev .ev-mark { position: relative; display: inline-flex; vertical-align: super; width: max(.42em, 10px); height: max(.42em, 10px); margin-left: .08em; padding: 0; border: 0; background: none; color: inherit; cursor: pointer; transition: transform .45s var(--ease-hop); }
+/* a 32px tap target around the small mark */
+.ev .ev-mark::before { content: ""; position: absolute; inset: 50% auto auto 50%; width: 32px; height: 32px; transform: translate(-50%, -50%); }
+.ev .ev-mark svg { width: 100%; height: 100%; }
+.ev .ev-mark:hover, .ev .ev-mark[aria-expanded="true"] { transform: rotate(60deg); }
+.ev .ev-pop { position: absolute; z-index: 20; top: calc(100% + 10px); left: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: min(300px, calc(100vw - 32px)); box-sizing: border-box; padding: 14px 16px; border-radius: 14px; background: var(--paper); box-shadow: 0 20px 44px rgba(0, 0, 0, .14), 0 0 0 1px var(--rule); font-size: var(--t-xs); font-weight: 400; line-height: 1.5; color: var(--ink-body); white-space: normal; text-align: left; transform: translateX(var(--dx, 0)); animation: ev-in .25s var(--ease-spring); }
+.ev .ev-status { padding: 4px 9px; border-radius: var(--radius-pill); background: var(--card); color: var(--ink); font-size: var(--t-xs); font-weight: 500; }
+.ev .ev-status.ev-open { background: var(--tbc-bg); color: var(--tbc-ink); }
+.ev .ev-note { padding: 0; font-size: var(--t-xs); color: var(--ink-body); }
+@keyframes ev-in { from { opacity: 0; translate: 0 -4px; } }
+@media (prefers-reduced-motion: reduce) {
+  .ev .ev-mark { transition: none; }
+  .ev .ev-pop { animation: none; }
 }
+
+@media (min-width: 1024px) {
+  .top { max-width: var(--hero-w); margin: 0 auto var(--gap-section); padding-top: 28px; }
+  .body { display: grid; grid-template-columns: var(--rail) var(--col); column-gap: var(--rail-gap); justify-content: center; }
+  .side { position: sticky; top: 28px; align-self: start; max-height: calc(100vh - 56px); overflow-y: auto; scrollbar-width: none; }
+}
+
 @media (max-width: 809.98px) {
-  .hero { padding: 40px 0 32px; }
-  .body { padding-top: 64px; }
-  .sec { margin-bottom: 72px; }
-  .last { margin-bottom: 48px; }
-  .ba, .stats { grid-template-columns: minmax(0, 1fr); }
-  .ba .panel { padding: 56px 20px 28px; }
-  .st { min-height: 160px; }
-  .st b { font-size: 44px; }
-  .meta div { grid-template-columns: 88px minmax(0, 1fr); }
-  /* keep feature panels tall enough for their mock-ups */
-  .panel { aspect-ratio: var(--aspect-sm, var(--aspect, auto)); }
+  .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-heading); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bar-fill, .member, .member img, .tip, .items a, .items a::before { transition: none; }
 }

@@ -1,4 +1,19 @@
-.hero-mock { width: min(46%, 440px); transform: rotate(-2deg); }
-.ba-mock { width: 78%; }
-.skipped { display: block; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #DDDDDD; }
-@media (max-width: 809.98px) { .hero-mock { width: 78%; } }
+/* Gather's own colour coding. Findings are paper notes: yellow, peach and lilac are the three
+   frictions wherever they appear, and the journey wall shares them, with mint for its positive
+   moments. MoneyWorks' own green stays inside the product screens. */
+.relevance { --fr-bg: var(--note-peach); }
+.effort { --fr-bg: var(--note-yellow); }
+.trust { --fr-bg: var(--note-lilac); }
+
+/* the headline numbers under the problem */
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap-heading); margin: var(--gap-block) 0; }
+.stats dt { font-size: var(--t-h2); line-height: var(--lh-title); font-weight: 500; color: var(--ink); }
+.stats dd { margin: 6px 0 0; font-size: var(--t-small); line-height: var(--lh-small); color: var(--ink-body); }
+
+@media (max-width: 809.98px) {
+  .stats { grid-template-columns: minmax(0, 1fr); gap: var(--gap-text); }
+  .stats dd { margin: 2px 0 0; }
+}
+
+/* the hero: the home tile's film at 3:2, the proportion of the More case studies thumbnails */
+.hero-film { position: relative; display: block; aspect-ratio: 3 / 2; container-type: inline-size; overflow: hidden; }

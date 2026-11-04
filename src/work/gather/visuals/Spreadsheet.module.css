@@ -1,0 +1,65 @@
+/* The old world: Arial, hairlines and no design at all. It should look nothing like the new product. */
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 252px; gap: 20px; }
+.sheet { --cell: #D9D9D9; align-self: start; border-radius: 8px; overflow: hidden; background: #FFFFFF; box-shadow: 0 0 0 1px rgba(0, 0, 0, .1), 0 12px 28px rgba(0, 0, 0, .08); font-family: Arial, "Helvetica Neue", sans-serif; font-size: 12px; color: #222222; }
+.title { display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 10px; background: #EFEFEF; border-bottom: 1px solid var(--cell); font-size: 12px; color: #444444; }
+.title i { width: 12px; height: 12px; border-radius: 2px; background: #2E7D4F; }
+.formula { display: grid; grid-template-columns: 44px 22px minmax(0, 1fr); align-items: center; height: 24px; border-bottom: 1px solid var(--cell); color: #444444; }
+.formula span:first-child { padding-left: 8px; border-right: 1px solid var(--cell); }
+.formula i { text-align: center; font-family: Georgia, serif; color: #888888; }
+
+.row { display: grid; grid-template-columns: 32px minmax(0, 1fr) 150px; min-height: 24px; border-bottom: 1px solid #E6E6E6; transition: opacity .18s ease; }
+.row > span { display: flex; align-items: center; min-width: 0; padding: 2px 6px; border-right: 1px solid #E6E6E6; line-height: 1.2; }
+.row > span:last-child { border-right: 0; }
+.cols { min-height: 20px; background: #F3F3F3; color: #666666; }
+.cols span { justify-content: center; }
+.n { justify-content: center; background: #F3F3F3; color: #6E6E6E; font-size: 11px; }
+.a { position: relative; justify-content: space-between; color: #1B3A9E; }
+.notice { padding: 6px 8px; border-bottom: 1px solid var(--cell); background: #FFF9DB; color: #5C4A00; font-weight: 700; }
+.section { display: flex; align-items: center; justify-content: space-between; min-height: 24px; padding: 0 8px; border-bottom: 1px solid var(--cell); background: #E4E4E4; font-weight: 700; }
+.section span:last-child { font-weight: 400; color: #5E5E5E; }
+.tabs { display: flex; align-items: flex-end; gap: 2px; height: 28px; padding: 0 8px; background: #EFEFEF; color: #555555; }
+.tabs span { padding: 6px 10px 5px; }
+.tab-on { background: #FFFFFF; border-radius: 3px 3px 0 0; color: #222222; font-weight: 700; }
+.tally, .flagged-only { margin-left: auto; padding-right: 2px !important; color: #6E6E6E; }
+.flagged-only { display: none; }
+
+/* flagged rows: the same three tints as the notes */
+.flagged .a { background: var(--fr-bg); color: #222222; }
+.row-pin { width: 16px; height: 16px; margin: -2px -2px -2px 4px; font-size: 10px; }
+
+/* hovering a note leaves only its rows standing */
+.sheet[data-focus] .row:not(.cols) { opacity: .28; }
+.sheet[data-focus="relevance"] [data-friction="relevance"],
+.sheet[data-focus="effort"] [data-friction="effort"],
+.sheet[data-focus="trust"] [data-friction="trust"] { opacity: 1 !important; }
+
+.rail { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.docs { padding: 12px 13px 10px; border-radius: 8px; background: #FFFFFF; box-shadow: 0 0 0 1px rgba(0, 0, 0, .1); font-family: Arial, "Helvetica Neue", sans-serif; font-size: 12px; color: #222222; }
+.docs-title { display: flex; justify-content: space-between; margin: 0 0 8px; font-weight: 700; }
+.docs-title span { font-weight: 400; color: #6E6E6E; }
+.docs ul { list-style: none; margin: 0; padding: 0; }
+.docs li { display: flex; align-items: center; gap: 7px; padding: 3px 0; line-height: 1.25; }
+.docs li::before { content: ""; flex: none; width: 10px; height: 10px; box-shadow: inset 0 0 0 1px #9E9E9E; }
+
+.notes { position: sticky; top: 20px; display: flex; flex-direction: column; gap: 14px; }
+.note { display: block; width: 100%; padding: 0; border: 0; background: none; font: inherit; text-align: left; cursor: pointer; }
+.note-paper { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 8px; padding: 12px; font-size: var(--t-xs); line-height: 1.4; color: var(--ink); transition: box-shadow .18s ease; }
+.note b { display: block; margin-bottom: 2px; font-size: var(--t-body); line-height: 1.3; font-weight: 500; }
+.note:hover .note-paper, .note-on .note-paper { box-shadow: 0 0 0 2px var(--ink); }
+
+/* a few rows, for the "before" side of a solution */
+.slice { max-width: 660px; margin: 0 auto; }
+.slice-label { margin: 0 0 12px; font-size: var(--t-body); line-height: 1.45; color: var(--ink); text-align: center; }
+.slice .row { min-height: 32px; }
+
+/* Phones: every row stays, in narrower columns. */
+@media (max-width: 809.98px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .row { grid-template-columns: 26px minmax(0, 1fr) 96px; }
+  .row > span { padding: 4px 5px; }
+  .notes { position: static; }
+  .docs { order: 2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .row, .note { transition: none; }
+}

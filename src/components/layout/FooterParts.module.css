@@ -1,5 +1,7 @@
 .actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.copied { color: var(--ok-ink); }
+/* Copy email: a white pill with a hairline edge, so it holds its shape on the grey cards */
+/* blends into its card at rest; on hover a white fill floods in, so it reads as a button */
+button.copy { border: 0; }
 
 /* the mail icon's flap is hinged on the envelope's top edge; it flips up (with a little spring) when the email is copied */
 .mail { overflow: visible; }

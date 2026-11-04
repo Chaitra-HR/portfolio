@@ -1,32 +1,43 @@
 /* Home tile covers. Sizes are in cqw (percent of the card's width), so each
    cover keeps its composition from phone to desktop. The tile passes a class
-   for its hover lift; the root fills the card. */
+   for its hover lift; the root fills the card. FinScribe, Gather and Website
+   are films (FilmCover); Compliance is a film played in code. */
 .cover { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.media { position: absolute; inset: 0; }
+/* the poster sits over the film until it plays; both are the same first frame */
+.film { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+.film.hidden { opacity: 0; }
 
-/* FinScribe — a soft, out-of-focus asterisk that sharpens on hover */
-.fs-mark { width: 44%; height: auto; filter: blur(1.5cqw); transition: filter .6s ease, transform .9s cubic-bezier(.2, .8, .2, 1); }
-a:hover .fs-mark, a:focus-visible .fs-mark { filter: blur(.25cqw); transform: rotate(60deg); }
+/* Arrival, measured from together.agency/work: unclip from 7% in (1.2s) while fading in (.6s), the film settling from 108% */
+.arrive { clip-path: inset(7% round 2px); opacity: 0; }
+.arrive .media { scale: 1.08; }
+.arrive.shown { clip-path: inset(0 round 0); opacity: 1; transition: clip-path 1.2s cubic-bezier(.16, 1, .3, 1), opacity .6s cubic-bezier(.16, 1, .3, 1); }
+.arrive.shown .media { scale: 1; transition: scale 1.2s cubic-bezier(.16, 1, .3, 1); }
+@media (prefers-reduced-motion: reduce) {
+  .arrive { clip-path: none; opacity: 1; }
+  .arrive .media { scale: none; }
+}
 
-/* Gather — the intake, before and after */
-.ga-stack { display: flex; flex-direction: column; align-items: center; gap: 1.2cqw; }
-.ga-pill { font-size: 5.2cqw; font-weight: 500; line-height: 1; letter-spacing: -.02em; padding: .42em .72em .46em; border-radius: .5em; white-space: nowrap; box-shadow: 0 1cqw 2.4cqw rgba(0, 0, 40, .18); }
-.ga-old { background: rgba(255, 255, 255, .45); color: #1D3FE0; text-decoration: line-through; text-decoration-thickness: .07em; transform: rotate(-2.5deg) translateX(1.5cqw); box-shadow: none; }
-.ga-now { background: #FFFFFF; color: #1D3FE0; font-size: 6cqw; transform: rotate(1.5deg); }
-.ga-done { background: var(--lilac); color: #111111; transform: rotate(-1.5deg); }
+/* Compliance — the review, playing in a window on a wash that warms from pale peach to orange.
+   It starts on a tint, not white, so the card's top edge doesn't dissolve into the white page. */
+.cp-wash { container-type: inline-size; overflow: hidden; background: linear-gradient(180deg, #FFE8D8 0%, #FFDDC6 22%, #FDC79F 55%, #FB8A3C 82%, #F9731C 100%); }
+/* the window sizes itself to the dashboard; the pale pane around it (the second shadow) catches the light */
+.cp-window { position: absolute; top: 50%; left: 7%; right: 7%; max-height: 80%; translate: 0 -46%; overflow: hidden; border-radius: .5cqw; background: #FFFFFF; box-shadow: 0 0 0 1px rgba(0, 0, 0, .06), 0 0 0 1.25cqw rgba(255, 255, 255, .34), 0 2cqw 6cqw rgba(160, 60, 0, .2); }
+.cp-screen { position: absolute; top: 0; left: 0; transform-origin: 0 0; pointer-events: none; }
+.cp-screen > :first-child { border-radius: 0; }
+.cp-cursor { position: absolute; top: 0; left: 0; z-index: 2; width: 26px; height: 26px; fill: #111111; stroke: #FFFFFF; stroke-width: 1.4; stroke-linejoin: round; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .25)); transition: translate 1s cubic-bezier(.45, 0, .2, 1), scale .15s ease; }
+.cp-press { scale: .82; }
 
-/* Website — the question asked before any pixels */
-.ws { justify-content: flex-start; padding: 0 7cqw; color: #111111; text-align: left; }
-.ws-k { display: block; margin: 0; font-size: 2.3cqw; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: rgba(0, 0, 0, .55); }
-.ws-h { display: block; margin: 2cqw 0 0; font-size: 10.8cqw; font-weight: 700; line-height: .98; letter-spacing: -.045em; }
+/* Stages played in code (FinScribe, Gather): a photo field behind the product's window. */
+.film-scene { container-type: inline-size; overflow: hidden; background: #E9DCCB; }
+.film-ground { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; }
+/* the product's window, centred top to bottom, with Compliance's glass edge; the app inside is laid out at
+   its own size and scaled to fit (.film-view), so the whole screen is always in view */
+.film-window { position: absolute; top: 50%; left: 7%; right: 7%; translate: 0 -50%; overflow: hidden; border-radius: .5cqw; background: #FFFFFF; box-shadow: 0 0 0 1px rgba(0, 0, 0, .06), 0 0 0 1.25cqw rgba(255, 255, 255, .34), 0 2cqw 6cqw rgba(90, 50, 60, .22); }
+.film-view { position: absolute; top: 0; left: 0; overflow: hidden; transform-origin: 0 0; }
+.film-screen { position: absolute; inset: 0; }
 
-/* Compliance — a flagged card with its reason and fix */
-.cp { position: relative; width: 58%; aspect-ratio: 1.38; }
-.cp-back, .cp-front { position: absolute; inset: 0; border-radius: .6cqw; }
-.cp-back { background: #1D3FE0; transform: translate(5cqw, 3.5cqw) rotate(3deg); }
-.cp-front { background: #FF3D0F; transform: rotate(-3deg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4cqw; box-shadow: 0 1.5cqw 3cqw rgba(0, 0, 0, .3); }
-.cp-row { display: flex; gap: 1.4cqw; transform: rotate(2deg); }
-.cp-tag { font-size: 5.6cqw; font-weight: 500; line-height: 1; letter-spacing: -.01em; text-transform: uppercase; padding: .16em .3em .2em; border-radius: .16em; background: #FFFFFF; color: #000000; }
-.cp-flag { transform: rotate(-2deg); }
-.cp-why { background: #000000; color: #FFFFFF; }
-
-@media (prefers-reduced-motion: reduce) { .fs-mark { transition: none; } }
+/* Stages (Gather): a 1000-wide design scaled to the tile from the top left, so a window can be pinned to the
+   corner and run off the edges at a readable size. The cursor is part of the stage. */
+.stage-host { position: absolute; top: 0; left: 0; width: 1000px; height: 1000px; transform-origin: 0 0; }
+.stage-cursor { position: absolute; top: 0; left: 0; z-index: 5; width: 34px; height: 34px; margin: -6px 0 0 -8px; fill: #111111; stroke: #FFFFFF; stroke-width: 1.3; stroke-linejoin: round; filter: drop-shadow(0 3px 5px rgba(0, 0, 0, .3)); transition: scale .15s ease; }

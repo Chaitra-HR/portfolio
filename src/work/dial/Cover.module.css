@@ -1,0 +1,29 @@
+/* Dial: a machined knob on an anodised plate. The grip (knurl, cap, notch) turns; the light on the metal is
+   a separate fixed layer, so highlights stay where the lamp is, as on a real knob. Type: engraved numbers in
+   a condensed mono and a recessed LCD readout, not the site's sans. Sizes in cqw. */
+.field { --warm: .4; container-type: inline-size; position: absolute; inset: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 6cqw; background: radial-gradient(60% 80% at 32% 50%, rgba(255, calc(160 - var(--warm) * 100), calc(70 - var(--warm) * 55), calc(.14 + var(--warm) * .36)) 0%, transparent 70%), linear-gradient(180deg, #232428, #141518); transition: background .5s ease; font-family: ui-monospace, "SF Mono", Menlo, monospace; cursor: default; user-select: none; -webkit-user-select: none; }
+
+/* the plate: a scale of ticks and engraved numbers round a recessed well */
+.plate { position: relative; width: 32cqw; aspect-ratio: 1; }
+.plate i { position: absolute; left: 50%; top: 1.6cqw; width: .35cqw; height: 1.4cqw; margin-left: -.175cqw; border-radius: .2cqw; background: rgba(255, 255, 255, .16); transform-origin: 50% 14.4cqw; transition: background .2s ease, box-shadow .2s ease; }
+.plate i.major { height: 2.2cqw; width: .45cqw; }
+.plate i[data-on] { background: rgb(255, calc(196 - var(--warm) * 110), calc(120 - var(--warm) * 90)); box-shadow: 0 0 .8cqw rgba(255, 150, 80, .5); }
+.plate em { position: absolute; translate: -50% -50%; font-size: 1.4cqw; font-style: normal; color: rgba(255, 255, 255, .38); letter-spacing: .04em; text-shadow: 0 -.08cqw 0 rgba(0, 0, 0, .8), 0 .08cqw 0 rgba(255, 255, 255, .08); }
+.well { position: absolute; inset: 5cqw; border-radius: 50%; background: #0D0E10; box-shadow: inset 0 .6cqw 1.4cqw rgba(0, 0, 0, .9), 0 .15cqw 0 rgba(255, 255, 255, .06); }
+
+/* the knob: sits in the well, casting a soft shadow down and right */
+.face { position: absolute; inset: 6cqw; border-radius: 50%; box-shadow: .6cqw 1.6cqw 2.4cqw rgba(0, 0, 0, .7), 0 .3cqw .5cqw rgba(0, 0, 0, .6); }
+.turn { position: absolute; inset: 0; border-radius: 50%; will-change: transform; }
+/* the grip: fine machined ridges round the rim */
+.knurl { position: absolute; inset: 0; border-radius: 50%; background: repeating-conic-gradient(from 0deg, #3B3D43 0deg 3deg, #1B1C20 3deg 6deg); }
+.cap { position: absolute; inset: 1.8cqw; border-radius: 50%; background: repeating-radial-gradient(circle at 50% 50%, #474A51 0 .15cqw, #3E4047 .15cqw .3cqw); box-shadow: 0 0 0 .2cqw #222327, inset 0 .2cqw .3cqw rgba(255, 255, 255, .12); }
+.notch { position: absolute; left: 50%; top: 2.6cqw; width: .8cqw; height: 3cqw; margin-left: -.4cqw; border-radius: .6cqw; background: #F4EEE6; box-shadow: inset 0 .15cqw .2cqw rgba(0, 0, 0, .4), 0 0 1cqw rgba(255, 210, 160, .35); }
+/* fixed light: a soft top-left sheen and a darker lower-right, never turning with the grip */
+.light { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(70% 55% at 32% 22%, rgba(255, 255, 255, .22), transparent 60%), radial-gradient(80% 70% at 70% 85%, rgba(0, 0, 0, .35), transparent 60%), conic-gradient(from 200deg, transparent 0deg, rgba(255, 255, 255, .08) 40deg, transparent 90deg, transparent 220deg, rgba(255, 255, 255, .05) 260deg, transparent 300deg); pointer-events: none; }
+
+/* the readout: a recessed LCD window */
+.read { display: flex; flex-direction: column; gap: 1.2cqw; }
+.lcd { display: flex; align-items: flex-start; padding: 1.6cqw 2.2cqw; border-radius: 1cqw; background: linear-gradient(180deg, #0B0C0D, #121315); box-shadow: inset 0 .4cqw 1cqw rgba(0, 0, 0, .9), 0 .15cqw 0 rgba(255, 255, 255, .06); color: rgb(255, calc(196 - var(--warm) * 100), calc(130 - var(--warm) * 90)); text-shadow: 0 0 1.4cqw rgba(255, 150, 80, .45); }
+.value { font-size: 7.4cqw; font-weight: 500; line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.lcd sup { margin: .6cqw 0 0 .6cqw; font-size: 1.8cqw; opacity: .7; }
+.read small { padding-left: .4cqw; font-size: 1.3cqw; letter-spacing: .3em; color: rgba(255, 255, 255, .35); }

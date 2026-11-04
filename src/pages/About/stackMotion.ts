@@ -25,7 +25,7 @@ const SMOOTHING = 0.09;
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
-export interface StackGeometry {
+interface StackGeometry {
   /** viewport height */
   vh: number;
   /** the wrappers' sticky `top`, px */
@@ -37,7 +37,7 @@ export interface StackGeometry {
 }
 
 /** Resting [translateY px, scale, brightness] for each card at this scroll position. */
-export function stackTargets({ vh, stickyTop, listTop, heights, gap }: StackGeometry): number[][] {
+function stackTargets({ vh, stickyTop, listTop, heights, gap }: StackGeometry): number[][] {
   const n = heights.length;
   // where each wrapper would be if it weren't sticky → 0 below the viewport, 1 at its slot
   let natural = listTop;

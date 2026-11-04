@@ -15,7 +15,6 @@ import working from '../../assets/images/about/working.jpg';
 import { BentoFooter } from '../../components/layout/BentoFooter';
 import { SiteHeader } from '../../components/layout/SiteHeader';
 import { usePageMeta } from '../../components/layout/usePageMeta';
-import { AsteriskGlyph } from '../../components/ui/Asterisk';
 import { ScrubText } from '../../components/interactions/ScrubText';
 import { useScrub } from '../../hooks/useScrub';
 import { cx } from '../../lib/cx';
@@ -44,13 +43,13 @@ export default function AboutPage() {
   useScrub(page);
   useStackMotion(stack);
   usePageMeta(
-    'About — Chaitra Rao',
-    'Product designer with a finance background. Six years running Capital Design Studio for wealth management companies; now based in Melbourne.',
+    'About Chaitra Rao | Product Designer & Founder',
+    'Chaitra Rao is a Melbourne-based Product Designer and Founder of FinScribe and Capital Design Studio, combining a background in finance with product design.',
   );
 
   return (
     <div ref={page} className={s.pg}>
-      <SiteHeader current="about" card />
+      <SiteHeader current="about" />
 
       <main id="main" tabIndex={-1} aria-label="About">
         <section className={cx(s.c, s.intro)} aria-labelledby="about-h">
@@ -70,9 +69,6 @@ export default function AboutPage() {
             </ScrubText>
           </p>
           <p className={s.hint} data-scrub="intro">
-            <span className={s.ast} aria-hidden="true">
-              <AsteriskGlyph />
-            </span>
             <span>
               The rest is probably better told in photos.<span className={s.hoverHint}> Hover around.</span>
             </span>

@@ -1,11 +1,12 @@
 import { useEffect, useReducer, useRef } from 'react';
+import { TravelGuide } from '../../components/interactions/TravelGuide';
 import { BentoFooter } from '../../components/layout/BentoFooter';
 import { usePageMeta } from '../../components/layout/usePageMeta';
 import { caseStudies, sideProjects, type CaseStudyProject } from '../../data/projects';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { DESKTOP_QUERY } from '../../lib/intro';
 import { SideProjectCard } from './SideProjectCard';
 import { Sidebar } from './Sidebar';
-import { DesktopGuide } from './DesktopGuide';
 import { PhoneGuide } from './PhoneGuide';
 import { Testimonials } from './Testimonials';
 import { WorkTile } from './WorkTile';
@@ -28,8 +29,6 @@ const COLUMNS: Array<Array<[slug: string, aspect: string]>> = [
 
 /** Matches the phone breakpoint in Home.module.css. */
 const PHONE = '(max-width: 809.98px)';
-/** The sticky-sidebar layout (Home.module.css). */
-const DESKTOP = '(min-width: 1200px)';
 /** ms after leaving a project before the gist panel returns to rest. */
 const LEAVE_DELAY = 150;
 
@@ -57,11 +56,11 @@ export default function HomePage() {
   // phones: a travelling mascot tells each case study's gist
   const phone = useMediaQuery(PHONE);
   // desktop: one mascot, moving between the sidebar and the footer
-  const desktop = useMediaQuery(DESKTOP);
+  const desktop = useMediaQuery(DESKTOP_QUERY);
 
   usePageMeta(
-    'Chaitra Rao — Product designer',
-    'Product designer for high-trust financial products — onboarding, compliance and advisory tools for regulated firms. Six years running Capital Design Studio, now building FinScribe.',
+    'Chaitra Rao | Product Designer, AI & Fintech',
+    'Hi, I’m Chaitra, a Melbourne-based Product Designer with a background in finance. I design digital products across fintech and AI to make complex things easier to use.',
   );
 
   return (
@@ -114,7 +113,7 @@ export default function HomePage() {
         body="Whether you’re building a team or something new, I’d love to be part of the conversation."
       />
       {phone && <PhoneGuide />}
-      {desktop && <DesktopGuide />}
+      {desktop && <TravelGuide from="gist" />}
     </div>
   );
 }

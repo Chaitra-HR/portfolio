@@ -1,16 +1,17 @@
 .buddy svg { width: 100%; height: 100%; overflow: visible; }
-.sway { transform-origin: 100px 100px; animation: sway 7s ease-in-out infinite; }
-@keyframes sway { 50% { transform: rotate(10deg); } }
 .lids { transform-origin: 0 -4px; animation: ast-blink 5.5s infinite; }
 .pupils { transition: transform .18s ease-out; }
-.screen { mix-blend-mode: screen; }
-@media (prefers-reduced-motion: reduce) { .sway, .lids { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .lids { animation: none; } }
 
-/* layers: flat SVG body (instant / fallback), 3D glass canvas, 2D face on top */
+/* layers: a still of the glass body (instant / fallback), the live 3D canvas over it, 2D face on top. The still and
+   the canvas share one box, 130% of the mascot's, so the 3D fades in exactly over its own picture. */
 .buddy { position: relative; }
 .layer { position: absolute; inset: 0; }
 .fallback { transition: opacity .5s ease; }
+.still { position: absolute; left: -15%; top: -15%; width: 130%; height: 130%; pointer-events: none; user-select: none; }
 .canvas { position: absolute; left: -15%; top: -15%; width: 130%; height: 130%; opacity: 0; transition: opacity .5s ease; pointer-events: none; }
 .face { transform-origin: 50% 50%; will-change: transform; }
+/* until its body has loaded the face is hidden, so the eyes never float on their own */
+.bare .face { opacity: 0; }
 .ready .canvas { opacity: 1; }
 .ready .fallback { opacity: 0; }

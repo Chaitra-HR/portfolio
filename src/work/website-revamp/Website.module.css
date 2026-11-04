@@ -1,0 +1,32 @@
+/* the hero video, with its pause button sitting on the corner */
+.player { position: relative; }
+.frame { overflow: hidden; border-radius: 8px; }
+.hero-shot { display: block; width: 100%; height: auto; aspect-ratio: 8 / 5; border-radius: inherit; }
+.pause { position: absolute; right: 12px; bottom: 12px; padding: 6px 10px; border: 0; border-radius: var(--radius-pill); background: rgba(255, 255, 255, .9); color: var(--ink); font: inherit; font-size: var(--t-xs); line-height: 1; cursor: pointer; box-shadow: 0 1px 4px rgba(0, 0, 0, .12); }
+
+/* the introductory film */
+.video { margin: var(--gap-block) 0; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius-card); background: var(--card); }
+.video iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+/* the still, with a clear glass play button */
+.film { position: relative; display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+.film img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.play { position: absolute; left: 50%; top: 50%; display: flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background: rgba(255, 255, 255, .16); -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%); box-shadow: 0 8px 24px rgba(0, 0, 0, .16); color: #FFFFFF; transform: translate(-50%, -50%); transition: scale .25s var(--ease-spring); }
+.play svg { width: 22px; height: 22px; margin-left: 2px; }
+@media (max-width: 809.98px) { .play { width: 56px; height: 56px; } .play svg { width: 20px; height: 20px; } }
+.film:hover .play, .film:focus-visible .play { scale: 1.06; }
+.film:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .play { transition: none; } }
+
+/* the brand board sets its own margin, equal to its gaps, so the field adds none */
+.board-fig > div { padding: 0; }
+
+/* the case-study cut of the home film: the same flame tile, its glass window a 16:10 screen */
+.reel { overflow: hidden; border-radius: var(--radius-card); }
+.reel video { aspect-ratio: 6 / 5; }
+
+/* the home tile's film as the opening frame, at its own 6:5 */
+.cover video { aspect-ratio: 6 / 5; }
+
+/* the UI kit canvas: a single image with its own canvas grey, square like a design file */
+.kit { display: block; width: 100%; height: auto; }

@@ -11,11 +11,8 @@
 .nl { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: var(--radius-pill); color: var(--muted); text-decoration: none; font-size: 15px; font-weight: 500; transition: background-color .2s ease, color .2s ease; }
 .nl:hover { color: var(--ink); }
 .nl.on { background: var(--paper); color: var(--ink); }
-/* LinkedIn is a Pill (black flood + magnetic on hover); sized to sit with the nav links */
+/* LinkedIn is a Pill (white flood on hover); sized to sit with the nav links */
 .nav .ext { margin-left: auto; padding: 0 16px; }
-.li { width: 18px; height: 18px; border-radius: 4px; background: var(--ink); color: var(--paper); font: 700 11px/18px "Helvetica Neue", Arial, sans-serif; text-align: center; letter-spacing: -.02em; transition: background-color .3s ease, color .3s ease; }
-/* the badge inverts with the flood: white tile, black "in" */
-.nav .ext:hover .li, .nav .ext:focus-visible .li { background: var(--paper); color: var(--ink); }
 .inl { color: var(--muted); text-decoration: none; transition: color .18s ease; }
 .inl:hover { color: var(--ink); }
 
@@ -83,17 +80,21 @@
 .why { display: none; }
 
 /* side projects, card style */
-.sp { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.spc { display: block; text-decoration: none; color: var(--ink); }
-.spi { background: var(--card); border-radius: var(--radius-card); aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.shot { width: 72%; aspect-ratio: 16/10; border-radius: 10px; box-shadow: 0 14px 34px rgba(0, 0, 0, .14); display: flex; align-items: center; justify-content: center; transition: transform .5s var(--ease-spring); }
-.spc:hover .shot, .spc.on .shot { transform: translateY(-6px) scale(1.02); }
-/* Same type scale and spacing as the case-study tiles (.meta .t / .meta .s) */
-.spt { margin: 12px 2px 0; font-size: 16px; font-weight: 500; line-height: 1.3; }
+/* side projects share one row */
+.sp { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+/* Each card is a warm-grey tray (after skiper-ui.com): the media panel fills its width,
+   the words sit underneath, and the tray brightens on hover. */
+.spc { display: flex; flex-direction: column; padding: 12px 12px 16px; border: 1px solid #F5F4F3; border-radius: 20px; background: #F5F4F3; box-shadow: 0 4px 8px -2px rgba(0, 0, 0, .06); text-decoration: none; color: var(--ink); transition: background-color .25s ease; }
+.spc:hover, .spc.on { background: #FCFCFC; }
+/* the media panel: the project's own colour, edge to edge */
+.spi { position: relative; border-radius: 14px; aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.shot { position: relative; overflow: hidden; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transition: transform .5s var(--ease-spring); }
+.spc:hover .shot, .spc.on .shot { transform: scale(1.03); }
+.spt { margin: 14px 8px 0; font-size: 16px; font-weight: 500; line-height: 1.3; }
 .spt span { color: var(--grey-1); font-weight: 400; }
-.spd { margin: 2px 2px 0; font-size: 14px; line-height: 1.35; color: var(--muted); max-width: 420px; }
-.chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 0 2px; }
-.chip { background: var(--card); border-radius: var(--radius-pill); padding: 8px 14px; font-size: 14px; line-height: normal; }
+.spd { margin: 2px 8px 0; font-size: 14px; line-height: 1.35; color: var(--muted); max-width: 420px; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 8px 0; }
+.chip { background: var(--paper); border-radius: var(--radius-pill); padding: 6px 12px; font-size: 13px; line-height: normal; }
 
 /* The About-page footer (BentoFooter). About text is antialiased; match it here. */
 .footer { margin-top: 12px; -webkit-font-smoothing: antialiased; }
@@ -133,7 +134,7 @@
    above the work, and nothing is sticky. */
 @media (max-width: 1199.98px) {
   .top { flex-direction: column; }
-  .sb { position: static; flex: none; width: 100%; height: auto; overflow: visible; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .sb { position: static; flex: none; width: 100%; height: auto; overflow: visible; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .nav { grid-column: 1 / -1; }
   .intro { display: flex; flex-direction: column; }
   .intro .ctas { margin-top: auto; padding-top: 18px; }
@@ -156,14 +157,18 @@
 
 /* Phone (under 810px): one column; no gist panel (the phone guide tells each gist instead). */
 @media (max-width: 809.98px) {
-  .sb { grid-template-columns: minmax(0, 1fr); }
+  .sb { grid-template-columns: minmax(0, 1fr); padding-top: 72px; }
+  /* the nav card stays at the top while the page scrolls; at rest it is the plain grey card, and once the page moves
+     under it, frosted glass, so the page shows through it */
+  .nav { position: fixed; top: 12px; left: 12px; right: 12px; z-index: 40; transition: background-color .3s ease, box-shadow .3s ease, backdrop-filter .3s ease, -webkit-backdrop-filter .3s ease; }
+  .nav.glass { background: rgba(245, 245, 245, .62); -webkit-backdrop-filter: blur(18px) saturate(1.8); backdrop-filter: blur(18px) saturate(1.8); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .55), 0 0 0 1px rgba(0, 0, 0, .04), 0 6px 20px rgba(0, 0, 0, .06); }
   .fn, .clock { order: 0; }
   .fn { height: 440px; min-height: 0; }
   .more { display: none; }
   .tell { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; align-items: start; margin-top: 2px; }
   .mas { grid-template-columns: minmax(0, 1fr); gap: 30px; }
   .img { aspect-ratio: 1 / 1; }
-  .sp { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+  .sp { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .sh { margin-top: 0; }
 }
 @media (max-width: 420px) {
@@ -174,5 +179,4 @@
 }
 @media (max-width: 360px) {
   .nl, .nav .ext { padding: 0 10px; }
-  .li { display: none; }
 }

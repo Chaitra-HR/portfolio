@@ -1,10 +1,10 @@
 import { useEffect, useId, useRef, useState, type HTMLAttributes } from 'react';
+import glassStill from '../../assets/images/mascot/glass.webp';
 import { introPlays, othersMayBoot } from '../../lib/intro';
 import { prefersReducedMotion } from '../../lib/scroll';
 import type { GlassAsterisk } from './glass/glassAsterisk';
 import { useLookAt } from '../../hooks/useLookAt';
 import { cx } from '../../lib/cx';
-import { AsteriskArms } from '../ui/Asterisk';
 import s from './GradientBuddy.module.css';
 
 export type Outfit = 'none' | 'specs' | 'cool' | 'blush';
@@ -74,19 +74,24 @@ function Accessory({ outfit }: { outfit: Outfit }) {
 
 /**
  * The asterisk mascot in iridescent liquid glass: a 3D body (three.js, with a
- * flat SVG stand-in until it loads or without WebGL), clear in the middle with
+ * still of the same render standing in until it loads or without WebGL), clear in the middle with
  * deep violet, pink and blue rims and wet highlights; dark eyes follow the cursor;
  * it can wear an outfit and change expression. Size, shadow and click
  * behaviour come from the parent.
  */
 export function GradientBuddy({ outfit = 'none', mouth = 'rest', spin = 0, spinMs = 760, surface = '#F5F5F5', eager = false, onReady, className, ...rest }: GradientBuddyProps) {
   const root = useRef<HTMLDivElement>(null);
-  const svg = useRef<SVGSVGElement>(null);
   const face = useRef<SVGSVGElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const pupils = useRef<SVGGElement>(null);
   const glass = useRef<GlassAsterisk | null>(null);
   const [ready, setReady] = useState(false);
+  // the face waits for a body to sit on: the still (or the live 3D)
+  const [body, setBody] = useState(false);
+  const still = useRef<HTMLImageElement>(null);
+  useEffect(() => {
+    if (still.current?.complete && still.current.naturalWidth) setBody(true);
+  }, []);
   const readyCb = useRef(onReady);
   readyCb.current = onReady;
   const uid = useId();
@@ -236,117 +241,11 @@ export function GradientBuddy({ outfit = 'none', mouth = 'rest', spin = 0, spinM
       );
   }, [spin, spinMs]);
 
-  // the flat sheen only animates while it's on screen
-  useEffect(() => {
-    const el = svg.current;
-    if (!el || typeof IntersectionObserver === 'undefined') return;
-    const io = new IntersectionObserver(([entry]) => (entry.isIntersecting ? el.unpauseAnimations() : el.pauseAnimations()));
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
   return (
-    <div ref={root} className={cx(s.buddy, ready && s.ready, className)} data-ready={ready || undefined} {...rest}>
-      <svg ref={svg} className={cx(s.layer, s.fallback)} viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-        <defs>
-          <mask id={id('m')} maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
-            <g fill="#FFFFFF">
-              <AsteriskArms />
-            </g>
-          </mask>
-          {/* glass body: almost clear in the middle, a faint lavender cast */}
-          <linearGradient id={id('body')} gradientUnits="userSpaceOnUse" x1="30" y1="20" x2="170" y2="185">
-            <stop offset="0" stopColor="#FFFFFF" />
-            <stop offset=".45" stopColor="#F1EBFF" />
-            <stop offset=".8" stopColor="#D3C6FF" />
-            <stop offset="1" stopColor="#B3A1FA" />
-          </linearGradient>
-          {/* iridescence: violet → pink → lavender → sky blue → deep blue-violet, slowly turning */}
-          <linearGradient id={id('iri')} gradientUnits="userSpaceOnUse" x1="20" y1="175" x2="180" y2="25" spreadMethod="reflect">
-            <stop offset="0" stopColor="#6A4BF0" />
-            <stop offset=".22" stopColor="#E77BE0" />
-            <stop offset=".42" stopColor="#B9A4FF" />
-            <stop offset=".62" stopColor="#7FB8FF" />
-            <stop offset=".82" stopColor="#5A44E6" />
-            <stop offset="1" stopColor="#C68BFF" />
-            <animateTransform attributeName="gradientTransform" type="rotate" values="0 100 100;360 100 100" dur="18s" repeatCount="indefinite" />
-          </linearGradient>
-          {/* light bending through the liquid */}
-          <filter id={id('flow')} x="-20%" y="-20%" width="140%" height="140%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves={2} seed={11} result="n" />
-            <feDisplacementMap in="SourceGraphic" in2="n" scale={42} xChannelSelector="R" yChannelSelector="G" />
-          </filter>
-          {/* where the glass is thick: a soft band inside every edge (white = band) */}
-          <filter id={id('band')} x="-10%" y="-10%" width="120%" height="120%">
-            <feMorphology in="SourceAlpha" operator="erode" radius={7} result="core" />
-            <feGaussianBlur in="core" stdDeviation={5.5} result="soft" />
-            <feComposite in="SourceAlpha" in2="soft" operator="out" result="band" />
-            <feGaussianBlur in="band" stdDeviation={1.6} result="bandSoft" />
-            <feFlood floodColor="#FFFFFF" />
-            <feComposite in2="bandSoft" operator="in" result="white" />
-            <feComposite in="white" in2="SourceAlpha" operator="in" />
-          </filter>
-          <mask id={id('rimMask')} maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
-            <g fill="#FFFFFF" filter={url('band')}>
-              <AsteriskArms />
-            </g>
-          </mask>
-          {/* refraction depth: a cool shadow pooled on the far side inside the glass */}
-          <filter id={id('depth')} x="-10%" y="-10%" width="120%" height="120%">
-            <feOffset in="SourceAlpha" dx={-7} dy={-9} result="shift" />
-            <feGaussianBlur in="shift" stdDeviation={6} result="shiftSoft" />
-            <feComposite in="SourceAlpha" in2="shiftSoft" operator="out" result="inner" />
-            <feFlood floodColor="#5B6CFF" floodOpacity={0.42} />
-            <feComposite in2="inner" operator="in" />
-          </filter>
-          {/* a fine dark edge where the glass turns away */}
-          <filter id={id('edge')} x="-10%" y="-10%" width="120%" height="120%">
-            <feMorphology in="SourceAlpha" operator="erode" radius={1.6} result="in" />
-            <feComposite in="SourceAlpha" in2="in" operator="out" result="line" />
-            <feGaussianBlur in="line" stdDeviation={0.6} result="lineSoft" />
-            <feFlood floodColor="#3B22B8" floodOpacity={0.55} />
-            <feComposite in2="lineSoft" operator="in" />
-          </filter>
-          {/* wet highlights: a broad soft sheen plus crisp streaks along the edges */}
-          <filter id={id('spec')} x="-10%" y="-10%" width="120%" height="120%">
-            <feGaussianBlur in="SourceAlpha" stdDeviation={6} result="bump" />
-            <feSpecularLighting in="bump" surfaceScale={7} specularConstant={0.9} specularExponent={22} lightingColor="#FFFFFF" result="broad">
-              <feDistantLight azimuth={235} elevation={50} />
-            </feSpecularLighting>
-            <feGaussianBlur in="SourceAlpha" stdDeviation={2.6} result="bumpSharp" />
-            <feSpecularLighting in="bumpSharp" surfaceScale={10} specularConstant={1.3} specularExponent={55} lightingColor="#FFFFFF" result="crisp">
-              <feDistantLight azimuth={225} elevation={38} />
-            </feSpecularLighting>
-            <feMerge result="both">
-              <feMergeNode in="broad" />
-              <feMergeNode in="crisp" />
-            </feMerge>
-            <feComposite in="both" in2="SourceAlpha" operator="in" />
-          </filter>
-        </defs>
-
-        <g className={s.sway}>
-          {/* clear body with a soft caustic of light through it */}
-          <g mask={url('m')}>
-            <rect x="0" y="0" width="200" height="200" fill={url('body')} opacity={0.62} />
-            <path d="M -10 120 C 40 80 90 150 210 70 L 210 95 C 100 170 40 110 -10 145 Z" fill="#FFFFFF" opacity={0.45} filter={url('flow')} />
-          </g>
-          {/* iridescent colour gathered in the thick rims */}
-          <g mask={url('rimMask')}>
-            <rect x="-20" y="-20" width="240" height="240" fill={url('iri')} filter={url('flow')} />
-          </g>
-          <g filter={url('depth')}>
-            <AsteriskArms />
-          </g>
-          <g filter={url('edge')}>
-            <AsteriskArms />
-          </g>
-          <g filter={url('spec')} className={s.screen}>
-            <AsteriskArms />
-          </g>
-        </g>
-
-      </svg>
+    <div ref={root} className={cx(s.buddy, ready && s.ready, !(body || ready) && s.bare, className)} data-ready={ready || undefined} {...rest}>
+      {/* the glass body as a still, rendered from the 3D: shows at once, and the live 3D fades in over it (it is
+          also all a phone shows during the loading intro, and the whole body without WebGL) */}
+      <img ref={still} className={cx(s.still, s.fallback)} src={glassStill} alt="" decoding="async" draggable={false} onLoad={() => setBody(true)} />
 
       <canvas ref={canvas} className={s.canvas} aria-hidden="true" />
 

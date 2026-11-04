@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import glassStill from '../../assets/images/mascot/glass.webp';
 import { allowOthersToBoot, DESKTOP_QUERY, finishIntro, introPlays } from '../../lib/intro';
 import { GradientBuddy } from './GradientBuddy';
 import s from './Intro.module.css';
@@ -14,6 +15,10 @@ import s from './Intro.module.css';
  *     until the page shows through;
  *   - phones and tablets: a light fade and shrink (compositor-only, so smooth).
  * Click, tap or any key skips straight to the exit.
+ *
+ * Below the desktop layout (phones and tablets) it is quick: it pops on as soon as a still of the glass body has
+ * loaded (no 3D to wait for or download first), says its line faster and is gone in about a second, so the page itself is
+ * what a phone shows first.
  */
 
 const LINE = 'I’m the little asterisk. Just getting things ready for you.';
@@ -23,6 +28,9 @@ const READY_WAIT_MS = 1500;
 const SAY_MS = 1900;
 /** Never hold anyone up past this. */
 const CAP_MS = 5500;
+/** Phones and tablets: the line's time on screen, and the cap. */
+const QUICK_SAY_MS = 1000;
+const QUICK_CAP_MS = 2200;
 /** The sidebar's mascot gets this long to finish its 3D before the hand-over (it boots once ours has). */
 const HANDOVER_WAIT_MS = 1500;
 const FLY_MS = 820;
@@ -52,6 +60,7 @@ function flight(from: DOMRect, to: DOMRect): Keyframe[] {
 
 export function Intro() {
   const [phase, setPhase] = useState<Phase>(introPlays ? 'wait' : 'done');
+  const [desktop] = useState(() => typeof window !== 'undefined' && window.matchMedia(DESKTOP_QUERY).matches);
   const body = useRef<HTMLDivElement>(null);
   const ready3d = useRef<() => void>(() => {});
   const exited = useRef(false);
@@ -71,7 +80,6 @@ export function Intro() {
     const later = (fn: () => void, ms: number) => timers.push(window.setTimeout(fn, ms));
     const waitFor = (ms: number) => new Promise<void>((r) => later(r, ms));
 
-    const desktop = window.matchMedia(DESKTOP_QUERY).matches;
     const mascot3d = new Promise<void>((r) => {
       ready3d.current = () => {
         // desktop: Home's sidebar mascot boots now, to be ready to take over
@@ -130,13 +138,17 @@ export function Intro() {
       check();
     });
     // Pop on once the 3D is ready (or after a short wait), then say the line, then exit.
-    void Promise.race([mascot3d, waitFor(READY_WAIT_MS)]).then(async () => {
+    // phones and tablets don't wait for the 3D: they pop on as soon as the still of the glass body is ready
+    const still = new Image();
+    still.src = glassStill;
+    const stillReady = still.decode().catch(() => {});
+    void Promise.race(desktop ? [mascot3d, waitFor(READY_WAIT_MS)] : [stillReady, waitFor(700)]).then(async () => {
       if (exited.current) return;
       setPhase('hello');
-      await Promise.all([waitFor(SAY_MS), document.fonts?.ready ?? Promise.resolve(), pageReady]);
+      await Promise.all([waitFor(desktop ? SAY_MS : QUICK_SAY_MS), document.fonts?.ready ?? Promise.resolve(), pageReady]);
       void exit();
     });
-    later(() => void exit(), CAP_MS);
+    later(() => void exit(), desktop ? CAP_MS : QUICK_CAP_MS);
 
     const skip = () => void exit();
     window.addEventListener('pointerdown', skip);
@@ -147,16 +159,16 @@ export function Intro() {
       window.removeEventListener('keydown', skip);
       root.style.overflow = '';
     };
-  }, []);
+  }, [desktop]);
 
   if (phase === 'done') return null;
 
   return (
-    <div className={`${s.intro} ${phase === 'wait' ? '' : s.go} ${phase === 'reveal' ? s.reveal : ''} ${phase === 'fly' ? s.fly : ''} ${phase === 'fade' ? s.fade : ''}`} role="status" aria-label="Loading">
+    <div className={`${s.intro} ${desktop ? '' : s.quick} ${phase === 'wait' ? '' : s.go} ${phase === 'reveal' ? s.reveal : ''} ${phase === 'fly' ? s.fly : ''} ${phase === 'fade' ? s.fade : ''}`} role="status" aria-label="Loading">
       <div className={s.screen} aria-hidden="true" />
       <div className={s.stage} aria-hidden="true">
         <div ref={body} className={s.body}>
-          <GradientBuddy className={s.buddy} surface="#FFFFFF" eager onReady={() => ready3d.current()} />
+          <GradientBuddy className={s.buddy} surface="#FFFFFF" eager={desktop} onReady={() => ready3d.current()} />
         </div>
         <p className={s.line}>
           {LINE.split(' ').map((w, i) => (

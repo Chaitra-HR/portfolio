@@ -1,24 +1,22 @@
-/* Hover and press follow together.agency's buttons: a black fill floods out
-   from the point where the pointer enters (circle clip, slight overshoot) and
-   drains back to it on leave; pressing shrinks the pill a touch and springs back.
-   Pills are also magnetic: they lean toward the cursor (`translate`, set from
-   Pill.tsx) and spring back on leave. Press uses `scale`, so the two compose. */
-.pill { position: relative; overflow: hidden; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 20px; border-radius: var(--radius-pill); font: 500 15px/1 var(--font-sans); text-decoration: none; border: 0; cursor: pointer; --fx: 50%; --fy: 50%; transition: scale .35s cubic-bezier(.3, 1.4, .5, 1), translate .6s cubic-bezier(.3, 1.4, .5, 1); }
-.pill.hot { transition: scale .35s cubic-bezier(.3, 1.4, .5, 1), translate .25s cubic-bezier(.2, .8, .2, 1); }
-.pill:active { scale: .95; transition-duration: .12s, .25s; }
-.white, .white:hover { background: var(--paper); color: var(--ink); }
-.lilac, .lilac:hover { background: var(--lilac); color: var(--ink); }
-.grey, .grey:hover { background: var(--card); color: var(--ink); }
-.none, .none:hover { background: transparent; color: var(--ink); }
+/* Hover and press follow together.agency's buttons: a fill floods out from the
+   point where the pointer enters (circle clip, slight overshoot) and drains back
+   to it on leave; pressing shrinks the pill a touch and springs back. The flood is
+   a shade of the pill's own colour (`--flood`), so the label stays dark. */
+.pill { position: relative; overflow: hidden; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 20px; border-radius: var(--radius-pill); font: 500 15px/1 var(--font-sans); text-decoration: none; border: 0; cursor: pointer; --fx: 50%; --fy: 50%; transition: scale .35s cubic-bezier(.3, 1.4, .5, 1); }
+.pill:active { scale: .95; transition-duration: .12s; }
+.white, .white:hover { --flood: #E6E6E6; background: var(--paper); color: var(--ink); }
+/* the Resume CTA: the --lilac accent, matching the testimonial quote marks; dark text, as white on it reads at only 2:1 */
+.lilac, .lilac:hover { --flood: #C98AF2; background: var(--lilac); color: var(--ink); }
+.grey, .grey:hover { --flood: #E5E5E5; background: var(--card); color: var(--ink); }
+/* a bare pill sits on a grey card, so it floods white, like the selected tab beside it */
+.none, .none:hover { --flood: var(--paper); background: transparent; color: var(--ink); }
 
-.fill { position: absolute; inset: 0; z-index: 0; border-radius: inherit; background: var(--ink); clip-path: circle(0% at var(--fx) var(--fy)); transition: clip-path .4s cubic-bezier(.4, 0, .2, 1); pointer-events: none; }
+.fill { position: absolute; inset: 0; z-index: 0; border-radius: inherit; background: var(--flood); clip-path: circle(0% at var(--fx) var(--fy)); transition: clip-path .4s cubic-bezier(.4, 0, .2, 1); pointer-events: none; }
 .hot .fill, .pill:focus-visible .fill { clip-path: circle(150% at var(--fx) var(--fy)); transition: clip-path .45s cubic-bezier(.3, 1.25, .5, 1); }
 
-.label { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; transition: color .3s ease, translate .6s cubic-bezier(.3, 1.4, .5, 1); }
-.hot .label { transition: color .3s ease, translate .25s cubic-bezier(.2, .8, .2, 1); }
-.hot .label, .hot .label *, .pill:focus-visible .label, .pill:focus-visible .label * { color: var(--paper); }
+.label { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .pill, .pill.hot, .fill, .hot .fill, .label, .hot .label { transition: none; }
+  .pill, .fill, .hot .fill { transition: none; }
   .pill:active { scale: none; }
 }

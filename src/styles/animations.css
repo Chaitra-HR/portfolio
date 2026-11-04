@@ -15,7 +15,6 @@
    arriving after the ones below them. */
 @media (max-width: 809.98px) { .rv { animation: none; } }
 
-@keyframes ast-spin { to { transform: rotate(360deg); } }
 @keyframes ast-blink { 0%, 93%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
 
 @media (prefers-reduced-motion: reduce) {

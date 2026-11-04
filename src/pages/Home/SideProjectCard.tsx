@@ -20,8 +20,9 @@ export function SideProjectCard({ project, on, onHover, onLeave }: SideProjectCa
 
   const body: ReactNode = (
     <>
-      <span className={s.spi}>
-        <span className={s.shot} style={{ background: project.color }}>
+      {/* the media panel: the project's colour, edge to edge */}
+      <span className={s.spi} style={{ background: project.color }}>
+        <span className={s.shot}>
           {Cover && <Cover />}
         </span>
       </span>

@@ -1,5 +1,4 @@
 import type { ButtonHTMLAttributes, PointerEvent } from 'react';
-import { prefersReducedMotion } from '../../lib/scroll';
 import { cx } from '../../lib/cx';
 import { SmartLink, type SmartLinkProps } from './SmartLink';
 import s from './Pill.module.css';
@@ -22,27 +21,7 @@ function onEnter(e: PointerEvent<HTMLElement>) {
   el.classList.add(s.hot);
 }
 function onLeave(e: PointerEvent<HTMLElement>) {
-  const el = e.currentTarget;
-  el.classList.remove(s.hot);
-  el.style.translate = '';
-  const label = el.lastElementChild as HTMLElement | null;
-  if (label) label.style.translate = '';
-}
-
-/** Magnetic pull: the pill leans toward the cursor; the label leans a little further. */
-const PULL = 0.3;
-const LABEL_PULL = 0.15;
-function onMove(e: PointerEvent<HTMLElement>) {
-  if (e.pointerType !== 'mouse' || prefersReducedMotion()) return;
-  const el = e.currentTarget;
-  const r = el.getBoundingClientRect();
-  // measure from the resting centre (undo the current pull)
-  const [tx, ty] = (el.style.translate || '0px 0px').split(' ').map((v) => parseFloat(v) || 0);
-  const dx = e.clientX - (r.left - tx + r.width / 2);
-  const dy = e.clientY - (r.top - ty + r.height / 2);
-  el.style.translate = `${(dx * PULL).toFixed(1)}px ${(dy * PULL).toFixed(1)}px`;
-  const label = el.lastElementChild as HTMLElement | null;
-  if (label) label.style.translate = `${(dx * LABEL_PULL).toFixed(1)}px ${(dy * LABEL_PULL).toFixed(1)}px`;
+  e.currentTarget.classList.remove(s.hot);
 }
 
 /** The rounded call-to-action used on every page. Renders a link when given `href`. */
@@ -54,7 +33,7 @@ export function Pill({ fill = 'white', className, children, ...rest }: PillProps
       <span className={s.label}>{children}</span>
     </>
   );
-  const motion = { onPointerEnter: onEnter, onPointerLeave: onLeave, onPointerMove: onMove };
+  const motion = { onPointerEnter: onEnter, onPointerLeave: onLeave };
   if (typeof rest.href === 'string') {
     return (
       <SmartLink {...(rest as SmartLinkProps)} {...motion} className={classes}>

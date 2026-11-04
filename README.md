@@ -18,10 +18,12 @@ Node 20.19 or later (Vite 7); `.nvmrc` pins 22 for local work, CI and hosts.
 ## Deploy
 
 `dist/` is a static single-page app. Every path that isn't a file must fall
-back to `index.html` so `/about` and `/work/gather` load directly:
+back to `index.html` so `/about` and `/work/<study>` load directly, and the old
+case-study URLs (`/work/gather` and the like) redirect permanently to the new ones:
 
-- **Vercel** — `vercel.json` already rewrites to `index.html`.
-- **Netlify** — `public/_redirects` (`/* /index.html 200`) is copied into `dist/`.
+- **Vercel** — `vercel.json` has the redirects, the rewrite to `index.html`, and
+  cache headers: a year (immutable) for the fingerprinted `/assets/`, a month for `/fonts/`.
+- **Netlify** — `public/_redirects` (the redirects, then `/* /index.html 200`) is copied into `dist/`.
 - **Anything else** — configure the same fallback (e.g. nginx `try_files $uri /index.html;`).
 
 Build command `npm run build`, output directory `dist`, Node from `.nvmrc`
@@ -37,15 +39,21 @@ src/
   components/
     layout/       SiteHeader, BentoFooter (+ FooterParts), usePageMeta
     ui/           Pill, SmartLink, StatusDot, Asterisk (arms + glyph), SvgDefs
-    interactions/ CustomCursor, GradientBuddy (cursor-following mascot), PokeBuddy, ScrubText
-  hooks/          useMelbourneTime, useLookAt, useCopyToClipboard,
-                  useActiveSection, useMediaQuery, useReadAlong
+    interactions/ CustomCursor, GradientBuddy (cursor-following mascot), PokeBuddy, ScrubText,
+                  ReadWords, Intro, TravelGuide, glass/ (three.js mascot)
+  hooks/          useMelbourneTime, useLookAt, useCopyToClipboard, useMediaQuery,
+                  useReadAlong, useScrub, useBandReveal
+  lib/            cx (class names), intro, scroll
   data/           site.ts (links + contact), projects.ts (metadata), testimonials.ts
-  work/           per-project art and case-study pages, plus the index.ts registry
+  work/           one folder per project (cover + case-study page + its own visuals),
+                  finscribe-app/ (the FinScribe app UI shared by the FinScribe and
+                  Compliance studies), FilmCover (video tiles), covers.module.css
+                  and the index.ts registry
   pages/
     Home/         sidebar, gist panel (+ GistBuddy), tiles, testimonials
     About/        page + Photo
-    CaseStudy/    route.tsx (loader + page shell) and kit/ (case-study building blocks)
+    CaseStudy/    route.tsx (loader + page shell) and kit/ (case-study building blocks:
+                  layout, editorial blocks, Figure, PointCards and study.module.css)
     NotFound/
   styles/         tokens.css, global.css, animations.css
 public/fonts/     Mabry Pro Regular + Medium (Latin subset, WOFF2)
@@ -54,11 +62,13 @@ public/fonts/     Mabry Pro Regular + Medium (Latin subset, WOFF2)
 **Styling.** Design tokens are CSS variables in `styles/tokens.css`. Each page
 and component has a CSS Module. The exports' CSS was carried over with its
 selectors intact, so the cascade (and the rendering) matches. Kebab-case
-classes in CSS are used as camelCase in TSX (`.mk-h` → `s.mkH`). Global
+classes in CSS are used as camelCase in TSX (`.side-head` → `s.sideHead`). Global
 classes are kept to the few utilities repeated verbatim across the exports:
 `.card`, `.lbl`, `.mut` and the `.rv` reveal.
 
-**Shared vs page-specific.** The header, bento footer, mascot, pills, status
+**Shared vs page-specific.** A project folder never imports from another
+project's folder: anything two studies need lives in `pages/CaseStudy/kit`
+(or `work/finscribe-app` for the FinScribe product UI). The header, bento footer, mascot, pills, status
 dot, asterisk and all the behaviour hooks are shared. The Home sidebar, gist
 panel, tiles and testimonials, the About photo layouts, and
 each case study's story stay with their page. Home's layout differs on purpose
@@ -98,21 +108,31 @@ Display headings scale fluidly with `clamp()` and hit their exported sizes at
 2. **Art.** Create `src/work/<slug>/Cover.tsx` and register it in `workArt`
    in `src/work/index.ts`. Size everything in `cqw` (see
    `src/work/covers.module.css`): the same cover then fills a Home tile and
-   shrinks into the case-study previous/next cards. To place it on Home, add
+   shrinks into the case study's More case studies tiles. To place it on Home, add
    `[slug, aspect]` to `COLUMNS` in `pages/Home/HomePage.tsx` (each column
    pairs a `24/25` card with a `6/5` one so the columns end level).
 3. **Page.** Create `src/work/<slug>/<Name>CaseStudy.tsx` with a default
-   export taking `{ project }`, and add it to `caseStudyPages` in
+   export (it's passed `{ project }` if it wants it), and add it to `caseStudyPages` in
    `src/work/index.ts`. It gets its own code-split chunk. Until it's
    registered, `/work/<slug>` shows a "not published yet" page.
 
-A case study composes what it needs from `pages/CaseStudy/kit`: `CaseHero`,
-`MediaPanel`, `CaseBody` (sticky TOC + scroll-spy), `CaseSection`, `Text`,
-`Chips`/`Chip`/`ToConfirm`/`Placeholder`, `BeforeAfter`, `DecisionList`,
-`StatGrid`, and the `Mock*` primitives. Nothing forces a template. Any element
-inside `CaseBody` with `data-sec="<id>"` and `id="cs-<id>"` joins the TOC, so a
-bespoke full-bleed section, video or interactive demo can sit between kit
-sections. Put project-only styles in a module next to the study, as
+A case study composes what it needs from `pages/CaseStudy/kit`: `CaseHero`
+(hero image, then the overview and facts, with `TeamStack` for the team),
+`CaseBody` (takes the title and the contents, with the back link, title and
+contents in a sticky left column from 1024px, centred with the study as one block, and a
+contents bar below that width; the hero and sections are its children),
+`CaseSection`, `CaseSub`, `Text`, `Evidence`, and the editorial blocks in
+`Editorial.tsx` (`Lead`, `Bullets`, `KeyInsight`, `Findings`, `Reasoning`,
+`Alternatives`, `OutcomeCards`, `Notice`, `AnnotatedImage`,
+`More`). Nothing forces a template. Any element
+inside `CaseBody` with `id="cs-<id>"` can be a contents entry, so a bespoke
+section, video or interactive demo can sit between kit sections.
+
+Figures come from the kit too: `Figure` (with `tone="field"` for screens that
+need a surface), `BeforeAfter`, `Benefits`, `Reported`, `ToAdd` and
+`PointCards`. Wrap the page in `study.study` and give the hero figure
+`study.heroFig` (`study` is the kit's shared stylesheet, exported from the
+kit). Put project-only styles in a module next to the study, as
 `work/gather/Gather.module.css` does.
 
 ## Content still to replace
@@ -120,12 +140,12 @@ sections. Put project-only styles in a module next to the study, as
 Everything in [brackets] is the exports' own placeholder text, kept verbatim:
 
 - `src/data/site.ts`: email, LinkedIn and website-carbon URLs. The
-  Résumé button points to `/resume.pdf`; add the file to `public/`.
+  Resume button points to `/resume.pdf`; add the file to `public/`.
 - `src/data/testimonials.ts`: quote, name, role and an optional square `photo` URL per card.
-- Gather case study: grey `[...]` notes and the yellow "to confirm" chips.
+- Gather case study: the "3 weeks → under 4 days" figure stays marked "to
+  confirm" until it's verified (`REPORTED` in `GatherCaseStudy.tsx`, and the
+  panel at the bottom of `visuals/Results.tsx`).
 - Side projects have no links yet. Add `href` in `projects.ts`.
-- Only Gather has a case-study page. FinScribe, Compliance Trust System and
-  Website Revamp link to "not published yet".
 - There is no social preview image. Add `og:image` to `index.html` once one exists.
 
 ## Decisions and differences from the exports
@@ -145,15 +165,16 @@ to the pixel; the measured differences are:
   5px, and on phones the sections no longer run into the footer.
 - **Work tiles** were redrawn from your mock-up: shorter proportions (24:25
   and 6:5 instead of 4:5 and 7:6), FinScribe and Website on the left, Gather
-  and Compliance on the right, and new typographic covers (blurred asterisk;
-  before/after pills; "Who is this site for?"; flagged card with why + fix).
+  and Compliance on the right. FinScribe, Gather and Website covers are product
+  films; Compliance's is its review dashboard, animated in code on a white-to-orange
+  wash.
   Titles stay below the cards. FinScribe's field is now light grey.
-- **Kind words** is now a swipeable deck of quote cards; the export's large
-  photos with blurred side panels are gone. Portraits are small 44px avatars.
-  Motion runs on a small spring engine (`pages/Home/deckMotion.ts`, no
-  dependency): drag 1:1, flick momentum carried into the throw, the next card
-  rising as you pull, the thrown card tucking in behind; also trackpad
-  two-finger swipes, arrow buttons and arrow keys. Reduced motion snaps.
+- **Kind words** is one quote at a time on a flat grey panel: the gradient
+  quote mark and count up top, the person (square 52px portrait, name, role)
+  anchored at the bottom, and the arrows docked in the bottom-right corner as
+  one joined control. Slides glide sideways on a track: drag 1:1 and flick,
+  trackpad two-finger swipes, arrow buttons and arrow keys. Reduced motion
+  snaps.
 - **Asterisk mascot** (`GradientBuddy`) is a 3D asterisk in iridescent liquid
   glass, rendered with three.js (`glass/glassAsterisk.ts`). Its shape is
   exactly the 2D mark's (six straight rounded arms, as in the Home sidebar),
@@ -184,7 +205,7 @@ to the pixel; the measured differences are:
   body. In the footer, each poke spins it a full turn into a new outfit, face
   and line (`PokeBuddy` → `STEPS`): reading glasses ("open to new
   roles"), shades + headphones ("that song again"), a blush ("the purple
-  one’s her résumé"), then back to bare ("AI helps her build…"); each has its
+  one’s her resume"), then back to bare ("AI helps her build…"); each has its
   own mouth. Edit the lines in `STEPS`.
 - **Phone guide** (Home, phones only; like adamperlis.com on mobile): hover
   means nothing on touch, so each case study shows its gist in a speech
@@ -260,14 +281,14 @@ to the pixel; the measured differences are:
   Home's sidebar can take over; on phones after the intro has gone), each in
   its own idle moment; on touch devices no sooner than 1.2 s after it mounts,
   so the page's entrance plays first.
-- **Desktop mascot handover** (Home, 1200px+, `DesktopGuide`): one mascot on
+- **Desktop mascot handover** (Home, 1200px+, `TravelGuide`): one mascot on
   screen at a time. It lives in the sidebar's gist panel (`[data-buddy="gist"]`)
   until the footer comes into view, then jumps down into the footer, growing
   to full size, and hands over to the footer's pokeable mascot; scrolling back
   up sends it home. Hidden copies stop rendering.
 - **Home details**: case-study status pills (Shipped, Pre-beta) use the
   side-project chip style; testimonial cards open with a quote mark in the
-  asterisk gradient, and the arrows are Pills (black flood, magnetic, press).
+  asterisk gradient, and the arrows are Pills (grey flood, press).
 - **Copy email**: while "Email copied" shows, the envelope icon's flap
   flips open (hinged on its top edge, with a little spring) and closes again
   after.
@@ -282,17 +303,17 @@ to the pixel; the measured differences are:
 - **About on phones**: no hovering, so the intro hint drops "Hover around."
   and the photos show without caption pills or the dark caption gradient.
 - **About nav (every width)**: Home's nav card (Work and About as pills,
-  LinkedIn as the magnetic pill CTA), 520px wide on desktop and tablet (Home's
+  LinkedIn as the pill CTA), 520px wide on desktop and tablet (Home's
   is 420), full width inside the 20px gutters on phones, centred over the
   column; no name or "Let's talk" there (`SiteHeader card`). Case studies and
   the 404 keep the regular header.
-- **Buttons (pills)** follow together.agency's: on hover a black fill floods
-  out from the point the pointer enters and drains back on leave (label turns
-  white); pressing shrinks to 95% and springs back. They're magnetic too —
-  leaning toward the cursor (label a little further) and springing back on
-  leave (mouse only). No lift or shadow. Home's menu LinkedIn is a pill as well
-  (its "in" badge inverts on hover). Home's
-  intro card now offers Copy email + Résumé (the same `CopyEmailButton` as
+- **Buttons (pills)** follow together.agency's: on hover a fill floods
+  out from the point the pointer enters and drains back on leave, in a shade of
+  the pill's own colour (white → grey, purple → deeper purple, grey → darker
+  grey, a bare pill → white), so the label stays dark; pressing shrinks to 95% and springs back. No pull
+  toward the cursor, lift or shadow. Home's menu LinkedIn is a pill as well,
+  with a ↗ that nudges out on hover. Home's
+  intro card now offers Copy email + Resume (the same `CopyEmailButton` as
   the footer).
 - **Custom cursor** (`components/interactions/CustomCursor.tsx`), modelled on
   protasevich.com: a 16px rounded arrow that leans up to 60° toward the screen
@@ -329,7 +350,7 @@ to the pixel; the measured differences are:
 - **Footer (every page)** is the shared bento footer, simplified at your
   request: no "Before you go" label, status chip or LinkedIn pill; a smaller
   headline (38px desktop → 28px phone) vertically centred in its card; Copy
-  email and Résumé; the pokeable mascot, centred (no clock); © bar with an
+  email and Resume; the pokeable mascot, centred (no clock); © bar with an
   underlined footprint link (darkens on hover, dims on press; no "by
   Chaitra"). The mascot has no tap highlight on phones. Home passes its own
   copy, "You’ve made it this far. Might as well say hello."

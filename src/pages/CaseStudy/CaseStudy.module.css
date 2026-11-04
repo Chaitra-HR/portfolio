@@ -1,4 +1,48 @@
-.pg { --rv-dur: .6s; --rv-step: 80ms; color: var(--ink); background: var(--paper); box-sizing: border-box; padding: 12px; -webkit-font-smoothing: antialiased; }
-.wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+/* The case study's reading system. Everything below lives here and nowhere else.
+
+   Type: --t-h1 the title, the one large line at the top of the page; --t-sec section headlines and
+   --t-step the headlines of steps within them, a clear size apart from each other and from body;
+   --t-h2 lead numbers, --t-h3 card and visual titles,
+   --t-body prose, leads and insights, --t-small cards, facts and supporting notes, --t-xs labels,
+   captions and the contents. Every headline is Medium, the heaviest cut Mabry ships here, and size
+   does the rest: there's no Bold file, so faked bold is switched off. Mabry sets loose at display
+   sizes, so headlines are drawn in a little, --tr-h1 to --tr-h3; uppercase labels are tracked out.
+   Colours: --ink headlines and names, --ink-body everything you read, --muted labels and captions,
+   --lilac-deep your place. Bold is weight alone.
+
+   Width: one column, --col, about 75 characters of body text. Text, images and cards all
+   fill it, so both edges stay straight from top to bottom.
+   From 1024px the left column (--rail) and --col sit on the page as one centred block, --page.
+   Above them the title, subtitle and facts take --head, a narrower readable measure centred over
+   the hero image (--hero-w), text still left-aligned; the product inside the image is held at --col.
+
+   Space, from largest to smallest, always a margin on the block itself, so that neighbours
+   collapse to the larger gap instead of adding up:
+   --gap-section between sections, --gap-sub between steps, --gap-block around visuals and cards,
+   --gap-heading under a headline, --gap-text between paragraphs, --gap-tight within a group. */
+.pg {
+  /* type matches the About page: the shared --h1/--h2/--h3/--sub scale, 17px body at 1.5,
+     About's body ink */
+  --t-h1: var(--h1); --t-h2: var(--h2); --t-h3: 18px;
+  --t-sec: var(--h2); --t-step: var(--h3);
+  --t-body: 17px; --t-small: var(--sub); --t-xs: 14px;
+  --tr-h1: -.03em; --tr-h2: -.02em; --tr-h3: -.01em;
+  --lh-title: 1.1; --lh-h2: 1.15; --lh-h3: 1.35; --lh-step: 1.4; --lh-body: 1.5; --lh-small: 1.5;
+  --ink-body: var(--ink-soft);
+  --col: 640px; --head: 100%; --hero-w: 100%;
+  --gap-section: clamp(64px, 40px + 5vw, 96px); --gap-sub: clamp(48px, 36px + 2.5vw, 64px); --gap-block: clamp(32px, 28px + 1vw, 40px);
+  --gap-heading: 24px; --gap-text: 16px; --gap-tight: 12px;
+  --page-rule: var(--rule-alt);
+  --rv-dur: .6s; --rv-step: 80ms; font-synthesis-weight: none; color: var(--ink); box-sizing: border-box; padding: 12px; -webkit-font-smoothing: antialiased;
+  background: var(--paper);
+}
+.wrap { padding: 0 24px; }
+/* the top bar lines up with the study's page width (rail + column on desktop) */
+.nav { --nav-w: var(--page, 1020px); --phone-m: -12px 0 12px; }
 .footer { margin-top: 12px; }
-@media (max-width: 809.98px) { .wrap { padding: 0 8px; } }
+@media (min-width: 1024px) {
+  .pg { --rail: 240px; --rail-gap: 72px; --page: calc(var(--rail) + var(--rail-gap) + var(--col)); --head: 720px; --hero-w: var(--page); }
+}
+@media (max-width: 809.98px) {
+  .wrap { padding: 0 8px; }
+}

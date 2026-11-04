@@ -12,7 +12,7 @@ interface NotFoundProps {
 
 /** Fallback for unknown routes and for projects without a published case study. */
 export function NotFound({ title = 'Page not found', message = 'There’s nothing at this address.' }: NotFoundProps) {
-  usePageMeta(`${title} · Chaitra Rao`, message);
+  usePageMeta(`${title} · Chaitra Rao`, message, { noindex: true });
   return (
     <div className={s.pg}>
       <SiteHeader />

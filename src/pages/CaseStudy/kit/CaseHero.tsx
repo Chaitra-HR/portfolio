@@ -1,58 +1,77 @@
 import type { ReactNode } from 'react';
-import { GradientBuddy } from '../../../components/interactions/GradientBuddy';
-import { StatusDot } from '../../../components/ui/StatusDot';
-import type { CaseStudyProject } from '../../../data/projects';
+import engineer from '../../../assets/images/team/engineer.png';
+import founderA from '../../../assets/images/team/founder-a.png';
+import founderB from '../../../assets/images/team/founder-b.png';
+import me from '../../../assets/images/team/me.png';
+import teammate from '../../../assets/images/team/teammate.png';
 import s from './kit.module.css';
 
-export interface MetaRow {
+const AVATARS = { engineer, founderA, founderB, me, teammate };
+
+interface MetaRow {
   term: string;
-  value: ReactNode;
+  /** A list shows as chips, one per item. */
+  value: ReactNode | string[];
 }
 
 interface CaseHeroProps {
-  project: CaseStudyProject;
-  /** Wrap the closing phrase in <span className="g"> to grey it out. */
-  title: ReactNode;
-  summary: ReactNode;
   meta: MetaRow[];
+  /** The hero image, at the top of the column. */
+  media?: ReactNode;
 }
 
-/** Value for a "Status" meta row: the dot plus the project's status. */
-export function StatusValue({ project }: { project: CaseStudyProject }) {
+interface Member {
+  avatar: keyof typeof AVATARS;
+  /** Shown above their portrait on hover, focus or tap. */
+  title: string;
+}
+
+/** The people on a study, in colour: the one you point at lifts with its title and the rest go grey. */
+export function TeamStack({ members, label }: { members: Member[]; label: string }) {
   return (
-    <span className={s.status}>
-      <StatusDot />
-      {project.status}
-    </span>
+    <>
+      <span className="sr-only">{label}</span>
+      <ul className={s.team}>
+        {members.map(({ avatar, title }, i) => (
+          <li key={i}>
+            <span className={s.member} tabIndex={0} role="img" aria-label={title}>
+              <img src={AVATARS[avatar]} alt="" width="32" height="32" />
+            </span>
+            <span className={s.tip} aria-hidden="true">
+              {title}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 
-/** Case-study opener: mascot, index + status, headline, summary and the facts list. */
-export function CaseHero({ project, title, summary, meta }: CaseHeroProps) {
+/** Case-study opener under the title and subtitle: the facts in two columns, then the hero image. The title lives in `CaseBody`. */
+export function CaseHero({ meta, media }: CaseHeroProps) {
   return (
-    <section className={s.hero}>
-      <div>
-        <GradientBuddy className={`${s.buddy} rv`} surface="#FFFFFF" aria-hidden="true" />
-        <p className={`${s.idx} rv`} style={{ '--i': 1 }}>
-          <b>Case study {project.number}</b>
-          <StatusDot />
-          {project.status}
-        </p>
-        <h1 className={`${s.h1} rv`} style={{ '--i': 2 }}>
-          {title}
-        </h1>
-        <p className={`${s.sub} rv`} style={{ '--i': 3 }}>
-          {summary}
-        </p>
+    <>
+      <div className={s.head}>
+        <dl className={`${s.meta} rv`} style={{ '--i': 1 }}>
+          {meta.map((row) => (
+            <div key={row.term}>
+              <dt>{row.term}</dt>
+              <dd>
+                {Array.isArray(row.value) ? (
+                  <ul className={s.chips}>
+                    {row.value.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  row.value
+                )}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
-      <dl className={`${s.meta} rv`} style={{ '--i': 4 }}>
-        {meta.map((row) => (
-          <div key={row.term}>
-            <dt>{row.term}</dt>
-            <dd>{row.value}</dd>
-          </div>
-        ))}
-      </dl>
-    </section>
+      {media && <div className={s.hero}>{media}</div>}
+    </>
   );
 }

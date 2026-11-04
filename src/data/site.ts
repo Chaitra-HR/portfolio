@@ -4,11 +4,13 @@
  */
 export const site = {
   name: 'Chaitra Rao',
-  email: '[hello@yourdomain.com]',
-  linkedin: 'https://www.linkedin.com/in/[your-handle]',
+  /** The live address, no trailing slash: canonical links, the sitemap and social cards use it. */
+  url: 'https://chaitrarao.com',
+  email: 'hrchaitrarao@gmail.com',
+  linkedin: 'https://www.linkedin.com/in/chaitraraodesign/',
   /** Drop the PDF into public/resume.pdf. */
   resume: '/resume.pdf',
-  footprint: 'https://www.websitecarbon.com/website/[yourdomain]/',
+  footprint: 'https://www.websitecarbon.com/website/chaitrarao-com/',
 } as const;
 
 /** Footer pitch used on case studies (and the fallback page). */

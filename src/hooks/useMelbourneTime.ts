@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 
-export interface MelbourneTime {
+interface MelbourneTime {
   /** "4:51" */
   hm: string;
-  /** "07" */
-  ss: string;
   /** "PM" */
   ap: string;
 }
@@ -13,7 +11,6 @@ const formatter = new Intl.DateTimeFormat('en-AU', {
   timeZone: 'Australia/Melbourne',
   hour: 'numeric',
   minute: '2-digit',
-  second: '2-digit',
   hour12: true,
 });
 
@@ -22,12 +19,11 @@ function read(): MelbourneTime {
   for (const part of formatter.formatToParts(new Date())) parts[part.type] = part.value;
   return {
     hm: `${parts.hour}:${parts.minute}`,
-    ss: parts.second ?? '00',
     ap: (parts.dayPeriod ?? '').toUpperCase(),
   };
 }
 
-/** Live Melbourne time. Home ticks every 15s, the footers every second. */
+/** Live Melbourne time. */
 export function useMelbourneTime(intervalMs: number): MelbourneTime {
   const [time, setTime] = useState(read);
 
