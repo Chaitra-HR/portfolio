@@ -4,7 +4,8 @@ import { Alternatives, Bullets, CaseBody, CaseHero, CaseSection, CaseSub, Figure
 import { ReviewDashboard } from '../finscribe-app/ReviewDashboard';
 import { BlankComposer, CompetitorTable, PositioningMatrix } from './Market';
 import { EmptyBox, Headlines, NoTime, OwnWords } from './Moments';
-import { DraftScreen, EditorScreen, HomeScreen, IdeasScreen } from './Screens';
+import { FinScribeCover } from './Cover';
+import { DraftScreen, EditorScreen, IdeasScreen } from './Screens';
 
 const TOC: TocEntry[] = [
   { id: 'solution', label: 'Solution' },
@@ -58,10 +59,13 @@ export default function FinScribeCaseStudy() {
               term: 'Team',
               value: (
                 <TeamStack
-                  label="Chaitra Rao · Aman Pandey"
+                  label="Two marketers, a copywriter, a compliance officer & me"
                   members={[
-                    { avatar: 'me', title: 'Chaitra Rao (me)' },
-                    { avatar: 'teammate', title: 'Aman Pandey' },
+                    { avatar: 'founderA', title: 'Marketer' },
+                    { avatar: 'founderB', title: 'Marketer' },
+                    { avatar: 'teammate', title: 'Copywriter' },
+                    { avatar: 'engineer', title: 'Compliance Officer' },
+                    { avatar: 'me', title: 'Founder & Product Designer (me)' },
                   ]}
                 />
               ),
@@ -72,8 +76,11 @@ export default function FinScribeCaseStudy() {
             },
           ]}
           media={
-            <Figure tone="field" className={`${study.heroFig} rv`} style={{ '--i': 2 }} caption={ILLUSTRATIVE}>
-              <HomeScreen />
+            <Figure className={`${study.heroFig} rv`} style={{ '--i': 2 }}>
+              {/* the home tile's film, so the study opens on what the tile showed */}
+              <span style={{ position: 'relative', display: 'block', aspectRatio: '3 / 2', containerType: 'inline-size', overflow: 'hidden' }}>
+                <FinScribeCover />
+              </span>
             </Figure>
           }
         />

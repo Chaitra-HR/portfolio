@@ -39,7 +39,7 @@ function GistArticle({ project: p, on }: { project: Project; on: boolean }) {
     <article ref={root} className={cx(s.layer, on && s.on)} aria-hidden={!on}>
       <span ref={ball} className={s.raBall} aria-hidden="true" />
       <p className={cx('lbl', s.lblPad)}>
-        {p.kind === 'case' ? `Case study ${p.number}` : 'Side project'} · {p.status}
+        {p.kind === 'case' ? p.status : `Side project · ${p.status}`}
       </p>
       <h2 className={s.gistTitle}>
         <ReadWords text={p.title} />

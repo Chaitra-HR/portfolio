@@ -1,1 +1,7 @@
+# Old case-study URLs move permanently to their current addresses
+/work/finscribe          /work/finscribe-content-creation    301
+/work/gather             /work/moneyworks-client-onboarding  301
+/work/website-revamp     /work/website-redesign              301
+/work/compliance-trust   /work/finscribe-compliance-review   301
+
 /*    /index.html   200

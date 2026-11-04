@@ -16,6 +16,9 @@
 .go .line { animation: lineIn .3s ease .35s forwards; }
 .line span { color: inherit; }
 .go .line span { animation: word .28s ease forwards; animation-delay: calc(.45s + var(--w) * 100ms); }
+/* phones and tablets: quicker, so the line has lit up within the intro's second */
+.quick.go .line { animation-delay: .1s; animation-duration: .2s; }
+.quick.go .line span { animation-duration: .2s; animation-delay: calc(.15s + var(--w) * 45ms); }
 @keyframes lineIn { to { opacity: 1; } }
 @keyframes word { to { color: var(--ink); } }
 

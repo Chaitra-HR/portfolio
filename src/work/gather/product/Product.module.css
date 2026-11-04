@@ -1,9 +1,10 @@
-/* The MoneyWorks product: wide, quiet screens with hairlines instead of boxes.
+/* The MoneyWorks product: wide, quiet screens with hairlines instead of boxes. Palette, logo and type match
+   the home tile's film (gather/flow): deep green, lime tints, tight Mabry headlines.
    Sizes are in em off .inner, which follows the frame's width. */
 .screen {
-  --mw: #004E36; --mw-ink: #0E2E24;
-  --sage: #D2E4C6; --sage-soft: #E8F1E0; --sage-wash: #F3F7EE;
-  --hair: #E4E7E0; --mut-g: #5D6B63;
+  --mw: #17330A; --mw-ink: #141A12;
+  --sage: #D6EFC2; --sage-soft: #E3F5D2; --sage-wash: #F5FAEF;
+  --hair: #E9ECE5; --mut-g: #687064;
   --amber: #7A5300; --amber-bg: #FCEFCF;
   --clay: #9A3B22; --clay-bg: #FBE3DA;
 }
@@ -12,8 +13,7 @@
 .icon { display: block; width: 1em; height: 1em; flex: none; }
 
 .top { display: flex; align-items: center; justify-content: space-between; gap: 1em; padding: .9em 2.2em; border-bottom: 1px solid var(--hair); }
-.brand { display: inline-flex; align-items: center; gap: .55em; font-family: Georgia, "Times New Roman", serif; font-size: 1.12em; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--mw-ink); }
-.brand i { width: 1.1em; height: 1.1em; border-radius: 50%; box-sizing: border-box; border: .32em solid var(--mw); }
+.brand { display: block; height: 1.7em; width: auto; }
 .user { padding: .4em 1em; border-radius: 99em; box-shadow: inset 0 0 0 1px #CDD3CC; font-size: .95em; white-space: nowrap; }
 
 .tabs { display: flex; align-items: center; gap: .3em; padding: 1.2em 2.2em 0; }
@@ -26,7 +26,7 @@
 .help { padding: .52em 1.05em; border-radius: 99em; background: var(--sage); font-size: .95em; white-space: nowrap; color: var(--mw-ink); }
 
 .body { padding: 1.7em 2.2em 2em; }
-.big { margin: 0; font-size: 2.75em; line-height: 1.08; letter-spacing: -.035em; color: var(--mw-ink); }
+.big { margin: 0; font-size: 2.75em; line-height: 1.04; letter-spacing: -.045em; color: var(--mw-ink); }
 .note { margin: .55em 0 0; font-size: 1.05em; color: var(--mut-g); }
 .h { margin: 0 0 .5em; font-size: .95em; color: var(--mut-g); }
 

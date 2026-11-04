@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Link, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { findCaseStudy } from '../../../data/projects';
 import { useMediaQuery } from '../../../hooks/useMediaQuery';
 import { cx } from '../../../lib/cx';
@@ -59,7 +59,7 @@ function Contents({ toc, index, kid, onPick }: { toc: TocEntry[]; index: number;
 }
 
 /**
- * The study's frame. The way back, the title and subtitle, the facts and the hero image run across the top of the page;
+ * The study's frame. The title and subtitle, the facts and the hero image run across the top of the page;
  * under them, on wide screens, a left column holds the contents to the end of the study with
  * the current section marked, and the two columns sit on the centre of the page as one block.
  * Below that a bar at the foot of the screen opens the same list. Sections join in by carrying
@@ -129,12 +129,6 @@ export function CaseBody({ title, lede, overview, hero, toc: sections, children 
   return (
     <>
     <header id="cs-overview" className={s.top}>
-      <Link to="/" className={s.back}>
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="m10 3-5 5 5 5" />
-        </svg>
-        Back
-      </Link>
       <div className={s.head}>
         <h1 className={`${s.h1} rv`}>{title}</h1>
         {subtitle && <p className={`${s.lede} rv`}>{subtitle}</p>}

@@ -18,10 +18,12 @@ Node 20.19 or later (Vite 7); `.nvmrc` pins 22 for local work, CI and hosts.
 ## Deploy
 
 `dist/` is a static single-page app. Every path that isn't a file must fall
-back to `index.html` so `/about` and `/work/gather` load directly:
+back to `index.html` so `/about` and `/work/<study>` load directly, and the old
+case-study URLs (`/work/gather` and the like) redirect permanently to the new ones:
 
-- **Vercel** — `vercel.json` already rewrites to `index.html`.
-- **Netlify** — `public/_redirects` (`/* /index.html 200`) is copied into `dist/`.
+- **Vercel** — `vercel.json` has the redirects, the rewrite to `index.html`, and
+  cache headers: a year (immutable) for the fingerprinted `/assets/`, a month for `/fonts/`.
+- **Netlify** — `public/_redirects` (the redirects, then `/* /index.html 200`) is copied into `dist/`.
 - **Anything else** — configure the same fallback (e.g. nginx `try_files $uri /index.html;`).
 
 Build command `npm run build`, output directory `dist`, Node from `.nvmrc`

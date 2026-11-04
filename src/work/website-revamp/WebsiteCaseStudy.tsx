@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import cardsArmrest from '../../assets/images/website-revamp/brand/cards-armrest.jpg';
-import sign from '../../assets/images/website-revamp/brand/sign.jpg';
-import poster from '../../assets/images/website-revamp/showcase-poster.jpg';
+import cardsArmrest from '../../assets/images/website-revamp/brand/cards-armrest.webp';
+import sign from '../../assets/images/website-revamp/brand/sign.webp';
+import poster from '../../assets/images/website-revamp/showcase-poster.webp';
 import showcase from '../../assets/images/website-revamp/showcase.mp4';
+import coverHevc from '../../assets/images/website-revamp/film-hevc.mp4';
 import coverFilm from '../../assets/images/website-revamp/film.mp4';
-import coverPoster from '../../assets/images/website-revamp/film.jpg';
+import coverPoster from '../../assets/images/website-revamp/film.webp';
 import film from '../../assets/images/website-revamp/film-16x10.mp4';
 import filmPoster from '../../assets/images/website-revamp/film-16x10.jpg';
-import uiKit from '../../assets/images/website-revamp/ui-kit.jpg';
-import webinarPoster from '../../assets/images/website-revamp/brand/webinar-scroll-poster.jpg';
+import uiKit from '../../assets/images/website-revamp/ui-kit.webp';
+import webinarPoster from '../../assets/images/website-revamp/brand/webinar-scroll-poster.webp';
 import webinarScroll from '../../assets/images/website-revamp/brand/webinar-scroll.mp4';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { CaseBody, CaseHero, CaseSection, CaseSub, Figure, Lead, More, PointCards, study, TeamStack, Text, type TocEntry } from '../../pages/CaseStudy/kit';
@@ -40,8 +41,9 @@ const BRAND_PHOTOS: [{ src: string; alt: string }, { src: string; alt: string }]
   { src: sign, alt: 'A brown hanging sign with the cream House of Alpha wordmark on a stone building, reflected in the shop window beside it' },
 ];
 
-/** A silent loop with a way to stop it. `lazy` waits until it's on screen. Holds on the first frame for reduced motion. */
-function Preview({ src, poster, label, className, lazy }: { src: string; poster: string; label: string; className?: string; lazy?: boolean }) {
+/** A silent loop with a way to stop it. `lazy` waits until it's on screen. Holds on the first frame for reduced motion.
+ * `hevc` is a smaller HEVC copy, played where the browser supports it. */
+function Preview({ src, hevc, poster, label, className, lazy }: { src: string; hevc?: string; poster: string; label: string; className?: string; lazy?: boolean }) {
   const still = useMediaQuery('(prefers-reduced-motion: reduce)');
   const video = useRef<HTMLVideoElement>(null);
   const stopped = useRef(false);
@@ -67,7 +69,7 @@ function Preview({ src, poster, label, className, lazy }: { src: string; poster:
         key={String(still)}
         ref={video}
         className={w.heroShot}
-        src={src}
+        src={hevc ? undefined : src}
         poster={poster}
         autoPlay={!still && !lazy}
         preload={lazy ? 'none' : undefined}
@@ -77,7 +79,10 @@ function Preview({ src, poster, label, className, lazy }: { src: string; poster:
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         aria-label={label}
-      />
+      >
+        {hevc && <source src={hevc} type='video/mp4; codecs="hvc1"' />}
+        {hevc && <source src={src} type="video/mp4" />}
+      </video>
       <button
         type="button"
         className={w.pause}
@@ -97,7 +102,7 @@ function Preview({ src, poster, label, className, lazy }: { src: string; poster:
 function HeroVideo() {
   return (
     <div className={`${study.heroFig} rv`} style={{ '--i': 2 }}>
-      <Preview className={w.cover} src={coverFilm} poster={coverPoster} label="The live House of Alpha site scrolling section by section in a glass frame over a moving amber flame" />
+      <Preview className={w.cover} src={coverFilm} hevc={coverHevc} poster={coverPoster} label="The live House of Alpha site scrolling section by section in a white frame on cracked red earth" />
     </div>
   );
 }

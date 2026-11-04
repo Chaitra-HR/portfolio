@@ -1,5 +1,5 @@
 import { Alternatives, Bullets, CaseBody, CaseHero, CaseSection, CaseSub, Figure, KeyInsight, Lead, OutcomeCards, PointCards, Reasoning, study, TeamStack, Text, ToAdd, type TocEntry } from '../../pages/CaseStudy/kit';
-import { ReviewDashboard } from '../finscribe-app/ReviewDashboard';
+import { ComplianceCover } from './Cover';
 import { AuditTrail } from './AuditTrail';
 import { AnnotatedPost, FlagComponents, FlagTaxonomy, InlineReview, RegionContext, ReviewCompare, WorkflowCompare } from './InlineReview';
 
@@ -58,8 +58,11 @@ export default function ComplianceCaseStudy() {
             { term: 'Skills', value: ['Product Strategy', 'UX Research', 'AI Product Design', 'Interaction Design'] },
           ]}
           media={
-            <Figure tone="field" className={`${study.heroFig} rv`} style={{ '--i': 2 }} caption="The compliance review experience. Illustrative, with sample copy.">
-              <ReviewDashboard />
+            <Figure className={`${study.heroFig} rv`} style={{ '--i': 2 }} caption="The compliance review experience. Illustrative, with sample copy.">
+              {/* the home tile's film, so the study opens on what the tile showed */}
+              <span style={{ position: 'relative', display: 'block', aspectRatio: '3 / 2', containerType: 'inline-size', overflow: 'hidden' }}>
+                <ComplianceCover />
+              </span>
             </Figure>
           }
         />

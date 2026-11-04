@@ -37,6 +37,8 @@
   background: var(--paper);
 }
 .wrap { padding: 0 24px; }
+/* the top bar lines up with the study's page width (rail + column on desktop) */
+.nav { --nav-w: var(--page, 1020px); --phone-m: -12px 0 12px; }
 .footer { margin-top: 12px; }
 @media (min-width: 1024px) {
   .pg { --rail: 240px; --rail-gap: 72px; --page: calc(var(--rail) + var(--rail-gap) + var(--col)); --head: 720px; --hero-w: var(--page); }

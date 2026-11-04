@@ -1,13 +1,8 @@
 /* Building blocks for case studies, carried over from CaseFinal.dc.html. */
 
-/* the top of the page: the way back, the title and a one-line subtitle, the facts in two
+/* the top of the page: the title and a one-line subtitle, the facts in two
    columns with plain grey names, then the hero image, all on the same two edges */
 .top { display: flex; flex-direction: column; margin-bottom: var(--gap-section); padding: 4px 0 0; scroll-margin-top: 20px; }
-/* the way back: the site's grey pill, roomy like a close button, darkening on hover like Let's talk */
-.back { align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 22px 0 18px; border-radius: var(--radius-pill); background: var(--card); color: var(--ink); font-size: var(--t-small); font-weight: 500; text-decoration: none; transition: background-color .2s ease; }
-.back svg { width: 14px; height: 14px; transition: translate .2s ease; }
-.back:hover { background: var(--card-hover); }
-.back:hover svg, .back:focus-visible svg { translate: -2px 0; }
 .head { width: 100%; max-width: var(--head); margin: 0 auto; }
 .top > .head:first-of-type { margin-top: var(--gap-sub); }
 .h1 { margin: 0; font-size: var(--t-h1); line-height: var(--lh-title); font-weight: 500; letter-spacing: var(--tr-h1); text-wrap: pretty; }
@@ -103,5 +98,5 @@
   .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-heading); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .bar-fill, .back, .back svg, .member, .member img, .tip, .items a, .items a::before { transition: none; }
+  .bar-fill, .member, .member img, .tip, .items a, .items a::before { transition: none; }
 }

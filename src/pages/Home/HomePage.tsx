@@ -59,8 +59,8 @@ export default function HomePage() {
   const desktop = useMediaQuery(DESKTOP_QUERY);
 
   usePageMeta(
-    'Chaitra Rao — Product designer',
-    'Product designer for high-trust financial products — onboarding, compliance and advisory tools for regulated firms. Six years running Capital Design Studio, now building FinScribe.',
+    'Chaitra Rao | Product Designer, AI & Fintech',
+    'Hi, I’m Chaitra, a Melbourne-based Product Designer with a background in finance. I design digital products across fintech and AI to make complex things easier to use.',
   );
 
   return (

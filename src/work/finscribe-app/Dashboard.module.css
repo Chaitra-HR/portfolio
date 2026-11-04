@@ -19,6 +19,7 @@
 .nav-item:focus-visible { outline: 2px solid var(--orange); outline-offset: -2px; }
 .nav-item span { margin-left: auto; font-size: .85em; color: #8A8780; }
 .nav-open { background: #F9F9F7; color: var(--app-ink); font-weight: 500; }
+/* something just landed here: a brief orange wash that fades */
 .sub-nav { display: grid; gap: .1em; margin: .15em 0 .3em 1.55em; padding-left: .7em; border-left: 1px solid var(--line); color: #55524D; }
 .sub-nav li { padding: .3em .55em; border-radius: .5em; }
 .sub-on { background: var(--tint-o); color: var(--orange); font-weight: 500; }

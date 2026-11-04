@@ -50,10 +50,10 @@ const PROFILE: NavEntry[] = [
   { id: 'voice', label: 'Voice', icon: 'voice' },
 ];
 
-function NavItem({ entry, open, here, onOpen }: { entry: NavEntry; open: boolean; here?: string; onOpen: () => void }) {
+function NavItem({ entry, open, here, current, onOpen }: { entry: NavEntry; open: boolean; here?: string; current?: boolean; onOpen: () => void }) {
   return (
     <li>
-      <button type="button" className={cx(d.navItem, open && d.navOpen)} aria-expanded={entry.children ? open : undefined} onClick={onOpen}>
+      <button type="button" className={cx(d.navItem, (open || current) && d.navOpen)} aria-expanded={entry.children ? open : undefined} onClick={onOpen}>
         <Icon name={entry.icon} />
         {entry.label}
         {entry.note && <span>{entry.note}</span>}
@@ -78,12 +78,14 @@ interface AppShellProps {
   /** The path shown at the top, last part first in weight. */
   crumb: string[];
   actions?: ReactNode;
+  /** Show the open section as a single row, its pages folded away. */
+  collapsed?: boolean;
   children: ReactNode;
 }
 
 /** FinScribe's frame at full width: the app's navigation and the top bar. Illustrative. */
-export function AppShell({ section, page, crumb, actions, children }: AppShellProps) {
-  const [open, setOpen] = useState(section);
+export function AppShell({ section, page, crumb, actions, collapsed, children }: AppShellProps) {
+  const [open, setOpen] = useState(collapsed ? '' : section);
   const toggle = (id: string) => setOpen((now) => (now === id ? '' : id));
 
   return (
@@ -104,7 +106,7 @@ export function AppShell({ section, page, crumb, actions, children }: AppShellPr
           </p>
           <ul className={d.nav}>
             {MAIN.map((entry) => (
-              <NavItem key={entry.id} entry={entry} open={open === entry.id} here={page} onOpen={() => toggle(entry.id)} />
+              <NavItem key={entry.id} entry={entry} open={open === entry.id} here={page} current={collapsed && entry.id === section} onOpen={() => toggle(entry.id)} />
             ))}
           </ul>
           <p className={d.navHead}>Practice profile</p>

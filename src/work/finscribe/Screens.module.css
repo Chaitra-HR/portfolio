@@ -4,16 +4,8 @@
 .title { margin: 0; font-size: 1.6em; line-height: 1.2; font-weight: 500; }
 .sub { margin: .35em 0 0; color: var(--quiet); }
 .sub b { font-weight: 500; color: var(--app-ink); }
-.starts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1em; margin-top: 1.2em; }
-.starts h5 { margin: 0 0 .5em; font-size: 1.05em; font-weight: 500; }
-.box { display: flex; flex-direction: column; margin: 0; padding: .7em .85em; min-height: 11em; box-sizing: border-box; border-radius: .8em; box-shadow: inset 0 0 0 1px var(--line); list-style: none; }
 .chips { display: flex; flex-wrap: wrap; gap: .3em; margin: 0; padding: 0; list-style: none; font-size: .9em; }
 .chips li { padding: .2em .6em; border-radius: 99em; box-shadow: inset 0 0 0 1px var(--line); white-space: nowrap; }
-.chips .chip-on { background: var(--tint-o); box-shadow: none; color: var(--orange); font-weight: 500; }
-.ghost-text { margin: .9em 0 0; color: #A09C94; }
-.start-row { padding: .45em 0; border-top: 1px solid var(--line); font-size: .92em; color: var(--quiet); }
-.start-row:first-child { padding-top: 0; border-top: 0; }
-.start-row b { display: block; font-size: 1.08em; font-weight: 500; color: var(--app-ink); }
 
 .ideas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .7em; margin-top: 1.2em; }
 .idea { display: flex; flex-direction: column; align-items: flex-start; gap: .45em; padding: .85em .85em .75em; border: 0; border-radius: .8em; background: #FFFFFF; box-shadow: inset 0 0 0 1px var(--line); color: #55524D; font: inherit; font-size: .95em; line-height: 1.4; text-align: left; cursor: pointer; }

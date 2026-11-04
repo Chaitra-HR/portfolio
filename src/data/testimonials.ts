@@ -1,9 +1,10 @@
 /** Kind words on Home. */
-import engineer from '../assets/images/team/engineer.png';
-import founderA from '../assets/images/team/founder-a.png';
-import founderB from '../assets/images/team/founder-b.png';
+import ajith from '../assets/images/testimonials/ajith-pandey.jpg';
+import nisreen from '../assets/images/testimonials/nisreen-mamaji.jpg';
+import sameer from '../assets/images/testimonials/sameer-nesarikar.jpg';
 
 interface Testimonial {
+  /** Verbatim, as the client gave it. */
   quote: string;
   name: string;
   role: string;
@@ -11,31 +12,28 @@ interface Testimonial {
   photo?: string;
   /**
    * Written to show the layout, not said by anyone. The production build tags these "Sample"
-   * so they can't pass for real praise. Replace each with a real quote, verbatim, and drop the flag.
+   * so they can't pass for real praise.
    */
   sample?: boolean;
 }
 
 export const testimonials: Testimonial[] = [
   {
-    quote: 'Chaitra didn’t just make our onboarding form shorter. She found out why clients were stalling, and the fix changed how our advisors work, not just what clients see.',
-    name: 'Meera Iyer',
-    role: 'Head of Client Services, wealth-management firm',
-    photo: founderA,
-    sample: true,
+    quote: 'Chaitra helped us see problems in our client experience that we’d become so used to, we barely questioned them anymore. Some of the most useful changes we made came from her willingness to challenge how things had always been done.',
+    name: 'Sameer Nesarikar, CFP',
+    role: 'Founder & Wealth Advisor',
+    photo: sameer,
   },
   {
-    quote: 'She asked who the site was really for before drawing a single screen. The new site finally sounds like us, and the enquiries we get now are the ones we want.',
-    name: 'Daniel Hale',
-    role: 'Managing Director, financial-planning practice',
-    photo: founderB,
-    sample: true,
+    quote: 'Changing a brand after 20 years isn’t something you take lightly, especially when so much of your business is built on trust. Chaitra helped us rethink our identity, website, and overall client experience, bringing everything up to date without losing the familiarity and trust we’d spent two decades building.',
+    name: 'Nisreen Mamaji, CFP',
+    role: 'Co-founder, MoneyWorks',
+    photo: nisreen,
   },
   {
-    quote: 'Working with Chaitra on FinScribe, compliance stopped being the last-minute blocker. Every flag explains itself, so advisors fix things without waiting on me.',
-    name: 'Priya Nair',
-    role: 'Compliance Officer, licensee group',
-    photo: engineer,
-    sample: true,
+    quote: 'When we started Investment Climb Advisory, we wanted to get our financial planning technology right from day one. Chaitra helped us set up the application around how we wanted to work with clients, making sure the experience was simple for them and practical for our advisors. It gave us a solid foundation to build the business on.',
+    name: 'Ajith Pandey, CFP',
+    role: 'Founder, Investment Climb Advisory',
+    photo: ajith,
   },
 ];

@@ -1,10 +1,10 @@
 import { BeforeAfter, Benefits, Bullets, CaseBody, CaseHero, CaseSection, CaseSub, Evidence, Figure, KeyInsight, Lead, More, Reasoning, Reported, study, TeamStack, Text, type TocEntry } from '../../pages/CaseStudy/kit';
+import { GatherCover } from './Cover';
 import { AdvisorScreen, GatewayScreen } from './product/Product';
 import { Capture } from './visuals/Capture';
 import { Directions } from './visuals/Directions';
 import { FRICTION } from './content';
 import { Frictions, Quotes } from './visuals/Findings';
-import { HeroComposition } from './visuals/HeroComposition';
 import { JourneyMap } from './visuals/JourneyMap';
 import { Outcomes, Results } from './visuals/Outcomes';
 import { Pathways } from './visuals/Pathways';
@@ -79,8 +79,11 @@ export default function GatherCaseStudy() {
             { term: 'Scope', value: ['Product Design', 'UX Research', 'Interaction Design'] },
           ]}
           media={
-            <Figure tone="field" className={`${study.heroFig} rv`} style={{ '--i': 2 }}>
-              <HeroComposition />
+            <Figure className={`${study.heroFig} rv`} style={{ '--i': 2 }}>
+              {/* the home tile's film, so the study opens on what the tile showed */}
+              <span className={g.heroFilm}>
+                <GatherCover />
+              </span>
             </Figure>
           }
         />

@@ -18,7 +18,7 @@ import { MarchingCubes } from 'three/examples/jsm/objects/MarchingCubes.js';
  */
 
 /** Where the body is this frame, so the 2D face can ride on it. */
-export interface Pose {
+interface Pose {
   /** Tilt toward the pointer (radians). */
   rx: number;
   ry: number;

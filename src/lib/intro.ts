@@ -3,7 +3,7 @@ import { prefersReducedMotion } from './scroll';
 /*
  * The loading intro (components/interactions/Intro.tsx) plays on every full
  * page load (not on in-app navigation). Page entrances wait for it to start
- * revealing the page (`introDone`). The other 3D mascots wait for
+ * revealing the page (`introDone`); below the desktop layout it is quick (about a second). The other 3D mascots wait for
  * `othersMayBoot`: on desktop that is as soon as the intro's own mascot is
  * ready (Home's sidebar mascot has to be ready to take over from it); on
  * phones and tablets, after the intro has gone, so nothing competes with it.
@@ -33,8 +33,9 @@ if (!introPlays) {
 } else {
   // page entrances (.rv) hold until the intro reveals the page
   document.documentElement.classList.add('intro-active');
-  // start fetching the 3D straight away, in parallel with the page
-  void import('../components/interactions/glass/glassAsterisk');
+  // desktop: start fetching the 3D straight away, in parallel with the page (phones show the flat body in the
+  // quick intro, and their mascots fetch the 3D after it, so nothing competes with the page's first paint)
+  if (window.matchMedia(DESKTOP_QUERY).matches) void import('../components/interactions/glass/glassAsterisk');
 }
 
 export function finishIntro() {

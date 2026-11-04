@@ -13,6 +13,14 @@ export default defineConfig({
     // Keep the exports' kebab-case class names in CSS, use camelCase in TSX.
     modules: { localsConvention: 'camelCaseOnly' },
   },
-  // three.js is one lazy chunk (the glass mascot), loaded only near the footer
-  build: { chunkSizeWarningLimit: 600 },
+  build: {
+    // three.js is one lazy chunk (the glass mascot), loaded only near the footer
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        // React and the router change far less often than the site, so they get their own long-cached chunk
+        manualChunks: (id) => (/node_modules\/(react|react-dom|react-router|scheduler)\//.test(id) ? 'vendor' : undefined),
+      },
+    },
+  },
 });

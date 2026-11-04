@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import { CopyEmailButton } from '../../components/layout/FooterParts';
 import { ExternalArrow } from '../../components/ui/ExternalArrow';
 import { Pill } from '../../components/ui/Pill';
+import { useScrolled } from '../../hooks/useScrolled';
 import { StatusDot } from '../../components/ui/StatusDot';
 import { caseStudyPath } from '../../data/projects';
 import { site } from '../../data/site';
@@ -18,10 +19,12 @@ interface SidebarProps {
 
 export function Sidebar({ hot, hops }: SidebarProps) {
   const { hm, ap } = useMelbourneTime(15000);
+  /* on phones the nav is pinned, and turns to glass once the page moves under it */
+  const scrolled = useScrolled();
 
   return (
     <aside className={s.sb} aria-label="Chaitra Rao">
-      <nav className={cx(s.card, s.nav, 'rv')} aria-label="Primary">
+      <nav className={cx(s.card, s.nav, scrolled && s.glass, 'rv')} aria-label="Primary">
         {/* Work: the top of Home (on phones the case studies sit below the intro) */}
         <a className={cx(s.nl, s.on)} href="/" aria-current="true" onClick={smoothScrollToTop}>
           Work
@@ -37,16 +40,17 @@ export function Sidebar({ hot, hops }: SidebarProps) {
 
       <header className={cx(s.card, s.intro, 'rv')} style={{ '--i': 1 }}>
         <h1 className={s.name}>{site.name}</h1>
+        <p className={s.pitch}>Product &amp; Web Designer with 6+ years of experience designing digital products and websites.</p>
         <p className={s.pitch}>
-          Product designer for high-trust financial products — onboarding, compliance and advisory tools for regulated firms. Six years running{' '}
+          Currently running{' '}
           <Link className={s.inl} to="/about">
             Capital Design Studio
-          </Link>
-          , now building{' '}
+          </Link>{' '}
+          and building{' '}
           <Link className={s.inl} to={caseStudyPath('finscribe')}>
             FinScribe
           </Link>
-          .
+          , an AI marketing companion for financial advisors.
         </p>
         <div className={s.ctas}>
           <CopyEmailButton />

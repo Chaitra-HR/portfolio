@@ -5,8 +5,8 @@
 .pill { position: relative; overflow: hidden; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 20px; border-radius: var(--radius-pill); font: 500 15px/1 var(--font-sans); text-decoration: none; border: 0; cursor: pointer; --fx: 50%; --fy: 50%; transition: scale .35s cubic-bezier(.3, 1.4, .5, 1); }
 .pill:active { scale: .95; transition-duration: .12s; }
 .white, .white:hover { --flood: #E6E6E6; background: var(--paper); color: var(--ink); }
-/* the Resume CTA: a deeper purple than the --lilac accent, with white text */
-.lilac, .lilac:hover { --flood: #9A5DB6; background: #AA6EC5; color: #FFF; }
+/* the Resume CTA: the --lilac accent, matching the testimonial quote marks; dark text, as white on it reads at only 2:1 */
+.lilac, .lilac:hover { --flood: #C98AF2; background: var(--lilac); color: var(--ink); }
 .grey, .grey:hover { --flood: #E5E5E5; background: var(--card); color: var(--ink); }
 /* a bare pill sits on a grey card, so it floods white, like the selected tab beside it */
 .none, .none:hover { --flood: var(--paper); background: transparent; color: var(--ink); }

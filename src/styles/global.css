@@ -13,6 +13,15 @@
   font-display: swap;
 }
 /* No Bold file exists; weight 700 is synthesised from Medium, as in the exports. */
+/* Inter (variable, OFL, rsms): the typeface of the MoneyWorks screens in the Gather film. Subset to Latin, general
+   punctuation, arrows and the ₹ and € signs (100KB instead of 352KB); re-subset from the full file if more is needed. */
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 html { -webkit-text-size-adjust: 100%; caret-color: var(--select-ink); }
 /* text selection: a soft lavender wash with the text in violet, instead of the browser's blue.

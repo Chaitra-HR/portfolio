@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import logo from '../../../assets/images/gather/moneyworks-logo.png';
 import { cx } from '../../../lib/cx';
 import p from './Product.module.css';
 
@@ -45,10 +46,7 @@ function App({ tabs, user, action, children }: AppProps) {
     <div className={p.screen}>
       <div className={p.inner}>
         <div className={p.top}>
-          <span className={p.brand}>
-            <i aria-hidden="true" />
-            MoneyWorks
-          </span>
+          <img className={p.brand} src={logo} alt="MoneyWorks" />
           <span className={p.user}>{user}</span>
         </div>
         {tabs && (

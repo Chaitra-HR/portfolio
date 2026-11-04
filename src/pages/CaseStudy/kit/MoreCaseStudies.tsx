@@ -7,7 +7,7 @@ function Tile({ project }: { project: CaseStudyProject }) {
   const Art = workArt[project.slug]?.Cover;
   return (
     <Link className={s.tile} to={caseStudyPath(project.slug)} data-cursor-tooltip="View">
-      <span className={s.th} style={{ background: project.color }} aria-hidden="true">
+      <span className={s.th} aria-hidden="true">
         {Art && <Art className={s.art} />}
       </span>
       <span className={s.title}>

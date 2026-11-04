@@ -8,7 +8,10 @@ type ProjectStatus = 'Shipped' | 'Pre-beta';
 
 export interface CaseStudyProject {
   kind: 'case';
+  /** Internal key: art, page module and home layout use it. */
   slug: string;
+  /** The public URL segment, /work/<path>. Old slug URLs redirect here. */
+  path: string;
   /** "01" — also the case-study order. */
   number: string;
   title: string;
@@ -41,8 +44,9 @@ export const caseStudies: CaseStudyProject[] = [
   {
     kind: 'case',
     slug: 'gather',
+    path: 'moneyworks-client-onboarding',
     number: '01',
-    title: 'Gather',
+    title: 'Client Onboarding',
     summary: 'Wealth-management onboarding',
     status: 'Shipped',
     color: '#1D3FE0',
@@ -56,6 +60,7 @@ export const caseStudies: CaseStudyProject[] = [
   {
     kind: 'case',
     slug: 'finscribe',
+    path: 'finscribe-content-creation',
     number: '02',
     title: 'FinScribe',
     summary: '0-to-1 AI content tool for advisors',
@@ -64,13 +69,14 @@ export const caseStudies: CaseStudyProject[] = [
     proves: 'Proves: designing a 0-to-1 AI product.',
     gist: {
       problem: '“Tell the AI what to write” left advisors with the hardest part.',
-      decision: 'Start from what matters to each advisor’s business. Built with Aman Pandey.',
+      decision: 'Start from what matters to each advisor’s business.',
       outcome: 'Pre-beta with 12 advisors. No launch metrics yet.',
     },
   },
   {
     kind: 'case',
     slug: 'compliance-trust',
+    path: 'finscribe-compliance-review',
     number: '03',
     title: 'Compliance Trust System',
     summary: 'AI compliance review, explained inline',
@@ -86,6 +92,7 @@ export const caseStudies: CaseStudyProject[] = [
   {
     kind: 'case',
     slug: 'website-revamp',
+    path: 'website-redesign',
     number: '04',
     title: 'Website Revamp',
     cardTitle: 'Website Revamp for Conversions',
@@ -104,25 +111,25 @@ export const caseStudies: CaseStudyProject[] = [
 export const sideProjects: SideProject[] = [
   {
     kind: 'side',
-    slug: 'screenedu',
-    title: 'ScreenEdu',
-    role: 'Co-founded',
-    status: 'Founder',
-    description: 'A product I co-founded outside client work. Now used in 16+ schools.',
-    chips: ['Founder', '16+ schools'],
-    color: '#B9DB4C',
-    gist: 'Co-founded. Now used in 16+ schools.',
-  },
-  {
-    kind: 'side',
     slug: 'reframe',
     title: 'Reframe',
     role: 'Prototype',
     status: 'Shipped',
-    description: 'A shipped emotional-design prototype.',
+    description: 'A calm iOS app for catching a spiralling thought and finding a gentler way to hold it.',
     chips: ['Emotional design', 'Shipped'],
-    color: '#000000',
-    gist: 'A shipped emotional-design prototype.',
+    color: '#EADFD0',
+    gist: 'A shipped emotional-design prototype: capture a thought, see the pattern, get a gentler perspective.',
+  },
+  {
+    kind: 'side',
+    slug: 'dial',
+    title: 'Dial',
+    role: 'Interaction study',
+    status: 'Interaction study',
+    description: 'A machined thermostat knob that turns with your pointer and clicks into each step.',
+    chips: ['Interaction', 'Tactile UI'],
+    color: '#17181B',
+    gist: 'An interaction study: a thermostat dial that follows your pointer.',
   },
   {
     kind: 'side',
@@ -140,9 +147,10 @@ export const sideProjects: SideProject[] = [
 
 export type Project = CaseStudyProject | SideProject;
 
-export const findCaseStudy = (slug: string | undefined) => caseStudies.find((p) => p.slug === slug);
+/** Looks a study up by its public path, or by its old slug URL (the loader redirects those). */
+export const findCaseStudy = (segment: string | undefined) => caseStudies.find((p) => p.path === segment) ?? caseStudies.find((p) => p.slug === segment);
 
-export const caseStudyPath = (slug: string) => `/work/${slug}`;
+export const caseStudyPath = (slug: string) => `/work/${caseStudies.find((p) => p.slug === slug)?.path ?? slug}`;
 
 /** Previous and next case studies, wrapping around the list. */
 export function neighbours(slug: string): { previous: CaseStudyProject; next: CaseStudyProject } | null {

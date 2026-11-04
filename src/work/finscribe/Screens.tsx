@@ -10,46 +10,6 @@ const IDEAS = [
   { format: 'Carousel', title: 'Why holding cash feels safe, and what it can cost', why: 'From market moments', detail: 'A question you keep explaining in meetings.' },
 ];
 
-/** Home: a place to start from whatever the advisor has, or from nothing at all. Illustrative, with sample copy. */
-export function HomeScreen() {
-  return (
-    <AppShell section="home" page="" crumb={['Home']} actions={<span className={d.primary}>Start writing</span>}>
-      <div className={f.page}>
-        <h4 className={f.title}>What’s on your mind?</h4>
-        <p className={f.sub}>Start from a rough thought, or from what FinScribe has found for you.</p>
-        <div className={f.starts}>
-          <section>
-            <h5>I have something</h5>
-            <div className={f.box}>
-              <ul className={f.chips}>
-                <li className={f.chipOn}>Client question</li>
-                <li>Rough thought</li>
-                <li>Market reaction</li>
-              </ul>
-              <p className={f.ghostText}>Jot down the idea, or paste a note from a meeting…</p>
-            </div>
-          </section>
-          <section>
-            <h5>I have nothing</h5>
-            <ul className={f.box}>
-              {[
-                ['Client questions', 'What people have been asking you'],
-                ['Market moments', 'What’s happening this week'],
-                ['Seasonal moments', 'EOFY and other dates ahead'],
-              ].map(([name, note]) => (
-                <li key={name} className={f.startRow}>
-                  <b>{name}</b>
-                  {note}
-                </li>
-              ))}
-            </ul>
-          </section>
-        </div>
-      </div>
-    </AppShell>
-  );
-}
-
 /** Ideas: directions worth talking about, each showing where it came from. Pick one. Illustrative, with sample copy. */
 export function IdeasScreen({ chosen = null }: { chosen?: number | null }) {
   const [picked, setPicked] = useState(chosen);
