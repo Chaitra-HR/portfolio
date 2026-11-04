@@ -39,9 +39,10 @@ const FILTERS: { id: Kind; label: string }[] = [
 ];
 
 /** A draft under review: the post on the left, what may need attention beside it. Pick a finding and its words light up. Illustrative, with sample copy. */
-export function ReviewDashboard() {
+export function ReviewDashboard({ pick }: { /** Drives the open finding from outside, as the home cover's film does. */ pick?: string } = {}) {
   const [filter, setFilter] = useState<Kind>('all');
-  const [picked, setPicked] = useState('promise');
+  const [chosen, setPicked] = useState('promise');
+  const picked = pick ?? chosen;
   const shown = FINDINGS.filter((finding) => filter === 'all' || finding.kind === filter);
   const on = (id: string) => (id === picked ? d.markOn : undefined);
 
@@ -88,7 +89,7 @@ export function ReviewDashboard() {
           </article>
         </div>
 
-        <aside className={d.review}>
+        <aside className={d.review} data-findings>
           <div className={d.reviewHead}>
             <h5>Review</h5>
             <span>Australia, ASIC</span>

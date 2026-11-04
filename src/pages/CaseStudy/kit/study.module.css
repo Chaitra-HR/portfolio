@@ -1,0 +1,64 @@
+/* The shared frame every case study is set in: its paper-note colours, figures and captions,
+   the hero frame, and the few small blocks more than one study uses. Lilac, the Résumé
+   button's colour, is the only accent: the marker on your place, the active toggle, the one
+   sentence the research lands on. Amber means not yet verified. */
+.study {
+  --note-yellow: #FCE68F; --note-peach: #FBCDB4; --note-lilac: #EBD3FC; --note-mint: #C8EBCF;
+  --tint: var(--card);
+}
+
+/* figures take the full column. What's drawn inside one is a product screen or a diagram, not
+   prose, so it keeps its own fixed sizes whatever the reading text does. */
+.fig { margin: var(--gap-block) 0; min-width: 0; }
+.field, .plain { --t-h2: 20px; --t-h3: 16px; --t-body: 15px; --t-small: 15px; --t-xs: 13px; }
+.field { padding: var(--gap-heading); border-radius: var(--radius-card); background: var(--tint); }
+.cap { margin: var(--gap-tight) 0 0; font-size: var(--t-xs); line-height: var(--lh-small); color: var(--muted); text-wrap: pretty; }
+.cap b { font-weight: 500; color: var(--ink); }
+/* the hero's frame: a pale gap and a hairline, outside the image */
+.hero-fig { margin: 5px; }
+.hero-fig > :first-child { border-radius: 6px; box-shadow: 0 0 0 4px #F7F7F7, 0 0 0 5px rgba(0, 0, 0, .08); }
+.hero-fig .field { overflow: hidden; }
+/* the caption lines up with the text, not the frame's inner edge, and clears the frame's outer edge */
+.hero-fig .cap { margin: calc(var(--gap-tight) + 5px) 0 var(--gap-tight) -5px; }
+/* on wide screens the frame is wider than the text, and the product keeps its size inside it */
+@media (min-width: 1024px) {
+  .hero-fig .field { padding: clamp(var(--gap-heading), 5vw, 72px); }
+  .hero-fig .field > * { max-width: var(--col); margin-inline: auto; }
+  .hero-fig .cap { max-width: var(--head); margin-inline: auto; }
+}
+
+.pin { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 20px; height: 20px; border-radius: 50%; background: var(--ink); color: #FFFFFF; font-size: 11px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.reported { display: inline-block; padding: 2px 8px; border-radius: 6px; background: var(--tbc-bg); color: var(--tbc-ink); font-size: var(--t-xs); line-height: var(--lh-small); }
+
+/* before / after: the Résumé button, doing a job */
+.toggle { display: flex; gap: 2px; width: max-content; margin: 0 auto 20px; padding: 4px; border-radius: var(--radius-pill); background: var(--paper); }
+.toggle button { min-width: 84px; padding: 7px 16px; border: 0; border-radius: var(--radius-pill); background: none; color: var(--muted); font: inherit; font-size: var(--t-body); font-weight: 500; line-height: 1.4; cursor: pointer; transition: color .2s ease, background-color .2s ease; }
+.toggle button:hover { color: var(--ink); }
+.toggle .toggle-on { background: var(--lilac); color: var(--ink); }
+.swap { animation: swap-in .3s ease; }
+@keyframes swap-in { from { opacity: 0; } }
+
+/* three across, the shape the study's lists all take */
+.notice-head { margin: var(--gap-heading) 0 0; font-size: var(--t-xs); line-height: var(--lh-small); color: var(--muted); }
+.benefits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap-heading); margin: 8px 0 0; padding: var(--gap-tight) 0 0; border-top: 1px solid var(--page-rule); list-style: none; counter-reset: benefit; }
+.benefits li { font-size: var(--t-small); line-height: var(--lh-small); color: var(--ink-body); counter-increment: benefit; }
+.benefits li::before { content: counter(benefit); display: block; margin-bottom: 4px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* the sentence the research lands on */
+.insight { margin: var(--gap-block) 0; padding: var(--gap-heading); border-radius: var(--radius-card); background: var(--lilac); color: var(--ink); font-size: var(--t-body); line-height: var(--lh-body); font-weight: 500; text-wrap: balance; }
+.insight em { font-style: normal; }
+
+/* a visual or passage still to come: dashed and tagged, so it can't pass for finished work */
+.todo { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 10px; min-height: 120px; padding: var(--gap-heading); border: 1px dashed var(--grey-3); border-radius: var(--radius-card); font-size: var(--t-small); line-height: var(--lh-small); color: var(--muted); }
+
+@media (max-width: 809.98px) {
+  .field { padding: var(--gap-tight); }
+  .benefits { grid-template-columns: minmax(0, 1fr); gap: var(--gap-text); }
+  .benefits li { display: grid; grid-template-columns: 20px minmax(0, 1fr); }
+  .benefits li::before { margin: 0; }
+  .toggle { margin-bottom: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .swap { animation: none; }
+  .toggle button { transition: none; }
+}

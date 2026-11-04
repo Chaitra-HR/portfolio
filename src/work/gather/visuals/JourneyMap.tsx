@@ -91,6 +91,15 @@ const STAGES: Stage[] = [
   },
 ];
 
+/** The stages grouped the way advisors talked about them: [name, how many stages]. */
+const PHASES: [string, number][] = [
+  ['Getting started', 2],
+  ['Gathering', 1],
+  ['Review and plan', 3],
+];
+
+const LANES = ['Journey stages', 'What happens', 'What we saw', 'Where clients pause', 'Team interventions'];
+
 type Kind = Mark | 'team';
 
 const LEGEND: [string, Kind][] = [
@@ -100,13 +109,31 @@ const LEGEND: [string, Kind][] = [
   ['Positive moment', 'good'],
 ];
 
+/** How far down the feeling line each kind of stage sits, out of the curve's 64px. */
+const FEEL: Record<Mark, number> = { good: 14, pause: 32, dependency: 50 };
+
 /** The hand that stuck each note up: no two lean the same way. */
 const tilt = (stage: number, note: number) => [-.5, .4, -.3, .5, -.4, .3][(stage + note * 2) % 6];
 
+/** One stretch of the feeling line: in from halfway to the last stage, out to halfway to the next. */
+function curve(i: number) {
+  const y = FEEL[STAGES[i].mark];
+  const before = i > 0 ? (FEEL[STAGES[i - 1].mark] + y) / 2 : y;
+  const after = i < STAGES.length - 1 ? (FEEL[STAGES[i + 1].mark] + y) / 2 : y;
+  return `M0 ${before}C25 ${before} 25 ${y} 50 ${y}S75 ${after} 100 ${after}`;
+}
+
+const Arrow = () => (
+  <svg className={s.arrow} viewBox="0 0 12 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M6 1.5v16M1.5 13 6 17.5 10.5 13" />
+  </svg>
+);
+
 /**
- * Visual 03. The advisors' walkthrough as a research wall: six stages read across, four
- * lanes read down. The legend filters it. On phones it's a swipe, one stage at a time,
- * with its numbers as the way to jump.
+ * Visual 03. The advisors' walkthrough as a journey board: phases along the top, six
+ * stages read across, five lanes read down, with a line through the pauses for how each
+ * stage felt. The legend filters it. Narrower than the board, it scrolls under its pinned
+ * lane names; on phones each stage becomes its own card.
  */
 export function JourneyMap() {
   const [only, setOnly] = useState<Kind | null>(null);
@@ -118,7 +145,8 @@ export function JourneyMap() {
     if (!el) return;
     const columns = [...el.querySelectorAll<HTMLElement>('[data-stage]')];
     const step = columns[1].offsetLeft - columns[0].offsetLeft;
-    setStage(Math.round(el.scrollLeft / step));
+    const end = el.scrollLeft >= el.scrollWidth - el.clientWidth - 2;
+    setStage(end ? columns.length - 1 : Math.round(el.scrollLeft / step));
   };
   const jump = (i: number) => {
     const el = scroller.current;
@@ -126,51 +154,92 @@ export function JourneyMap() {
     if (el && column) el.scrollTo({ left: column.offsetLeft - el.querySelector<HTMLElement>('[data-stage="0"]')!.offsetLeft, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
   };
 
+  let start = 2;
   return (
     <div className={s.frame} data-only={only ?? undefined}>
-      <p className={s.swipe}>Swipe to see all six stages →</p>
-      <div className={s.jump}>
-        {STAGES.map((item, i) => (
-          <button key={item.name} type="button" className={cx(i === stage && s.jumpOn)} aria-label={`Stage ${i + 1}: ${item.name}`} aria-current={i === stage ? 'step' : undefined} onClick={() => jump(i)}>
-            {i + 1}
-          </button>
-        ))}
+      <div className={s.top}>
+        <p className={s.swipe}>Scroll to see all six stages →</p>
+        <div className={s.jump}>
+          {STAGES.map((item, i) => (
+            <button key={item.name} type="button" className={cx(i === stage && s.jumpOn)} aria-label={`Stage ${i + 1}: ${item.name}`} aria-current={i === stage ? 'step' : undefined} onClick={() => jump(i)}>
+              {i + 1}
+            </button>
+          ))}
+        </div>
       </div>
       <div ref={scroller} className={s.scroll} tabIndex={0} role="group" aria-label="Current-state journey across six stages" onScroll={onScroll}>
         <div className={s.map}>
+          <div className={s.corner} aria-hidden="true" />
+          {PHASES.map(([name, span], p) => {
+            const column = `${start} / span ${span}`;
+            start += span;
+            return (
+              <p key={name} className={cx(s.phase, s[`phase${p + 1}`])} style={{ gridColumn: column }}>
+                {name}
+              </p>
+            );
+          })}
+
+          <div className={s.labels} aria-hidden="true">
+            {LANES.map((lane, l) => (
+              <p key={lane} className={cx(s.label, s[`band${l + 1}`])}>
+                {lane}
+                {l === 3 && (
+                  <span className={s.scale}>
+                    <span>Smooth</span>
+                    <span>Stuck</span>
+                  </span>
+                )}
+              </p>
+            ))}
+          </div>
+
           {STAGES.map((item, i) => (
-            <section key={item.name} className={s.col} data-stage={i}>
-              <p className={s.lane}>Journey stages</p>
-              <h4 className={s.stage}>
-                <span aria-hidden="true">{i + 1}</span>
-                {item.name}
-              </h4>
+            <section key={item.name} className={s.col} data-stage={i} style={{ gridColumn: i + 2 }}>
+              <div className={cx(s.cell, s.band1)}>
+                <Sticky className={s.stageNote} tilt={tilt(i + 1, 0)}>
+                  <h4 className={s.stage}>
+                    <span aria-hidden="true">{i + 1}</span>
+                    {item.name}
+                  </h4>
+                </Sticky>
+              </div>
 
-              <p className={s.lane}>What happens</p>
-              <div className={s.happens}>
-                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d={item.icon} />
+              <div className={cx(s.cell, s.band2)}>
+                <Arrow />
+                <p className={s.lane}>{LANES[1]}</p>
+                <div className={s.happens}>
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d={item.icon} />
+                  </svg>
+                  <p>{item.happens}</p>
+                </div>
+              </div>
+
+              <div className={cx(s.cell, s.band3)}>
+                <Arrow />
+                <p className={s.lane}>{LANES[2]}</p>
+                <div className={s.notes}>
+                  {item.saw.map(([text, mark], n) => (
+                    <Sticky key={text} className={cx(s.note, s[mark])} tilt={tilt(i, n)}>
+                      <p>{text}</p>
+                    </Sticky>
+                  ))}
+                </div>
+              </div>
+
+              <div className={cx(s.cell, s.band4, s.pauseCell)}>
+                <p className={s.lane}>{LANES[3]}</p>
+                <svg className={s.curve} viewBox="0 0 100 64" preserveAspectRatio="none" aria-hidden="true">
+                  <path d={curve(i)} vectorEffect="non-scaling-stroke" />
                 </svg>
-                <p>{item.happens}</p>
-              </div>
-
-              <p className={s.lane}>What we saw</p>
-              <div className={s.notes}>
-                {item.saw.map(([text, mark], n) => (
-                  <Sticky key={text} className={cx(s.note, s[mark])} tilt={tilt(i, n)}>
-                    <p>{text}</p>
-                  </Sticky>
-                ))}
-              </div>
-
-              <p className={s.lane}>Where clients pause</p>
-              <div className={s.pauseCell}>
-                <i className={s[item.mark]} aria-hidden="true" />
+                <i className={s[item.mark]} style={{ '--y': `${FEEL[item.mark]}px` }} aria-hidden="true" />
                 <p>{item.pause}</p>
               </div>
 
-              <p className={s.lane}>Team interventions</p>
-              <div className={s.notes}>
+              <div className={cx(s.cell, s.band5)}>
+                <Arrow />
+                <p className={s.lane}>{LANES[4]}</p>
                 <p className={cx(s.card, s.team)}>{item.team}</p>
               </div>
             </section>
@@ -181,7 +250,7 @@ export function JourneyMap() {
       <p className={s.insight}>
         <b>Key insight.</b> The biggest friction came from asking everything upfront, without tailoring to the client’s situation. Advisors carried the load of clarification and follow-up.
       </p>
-      <div className={s.legend} role="group" aria-label="Filter the wall by kind of note">
+      <div className={s.legend} role="group" aria-label="Filter the board by kind of note">
         {LEGEND.map(([label, kind]) => (
           <button
             key={label}

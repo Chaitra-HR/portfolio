@@ -2,7 +2,7 @@ import { Fragment, useEffect, useLayoutEffect, useRef, useState, type FormEvent,
 import sam from '../../assets/images/compliance/sam.jpg';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { cx } from '../../lib/cx';
-import g from '../gather/Gather.module.css';
+import { study } from '../../pages/CaseStudy/kit';
 import c from './Compliance.module.css';
 
 type Outcome = 'open' | 'accepted' | 'rewritten' | 'kept';
@@ -370,10 +370,10 @@ export function AnnotatedPost() {
           <span className={c.liFollow}>+ Follow</span>
         </header>
         <p className={c.liText}>
-          Markets have been noisy this year, but our growth portfolio <span className={c.markStill}>is guaranteed to beat inflation</span> <span className={g.pin}>1</span>. It <span className={c.markStill}>returned 14% last year</span> <span className={g.pin}>2</span>.
+          Markets have been noisy this year, but our growth portfolio <span className={c.markStill}>is guaranteed to beat inflation</span> <span className={study.pin}>1</span>. It <span className={c.markStill}>returned 14% last year</span> <span className={study.pin}>2</span>.
           <br />
           <br />
-          Book a call and we’ll talk it through. <span className={g.pin}>3</span>
+          Book a call and we’ll talk it through. <span className={study.pin}>3</span>
         </p>
         <div className={c.liStats}>
           <span className={c.liReact}>
@@ -399,7 +399,7 @@ export function AnnotatedPost() {
       <ol className={c.risks}>
         {POST_RISKS.map((item, i) => (
           <li key={item.title}>
-            <span className={g.pin}>{i + 1}</span>
+            <span className={study.pin}>{i + 1}</span>
             <div>
               <b>{item.title}</b>
               {item.risk}

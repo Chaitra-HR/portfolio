@@ -1,9 +1,6 @@
-import { Alternatives, Bullets, CaseBody, CaseHero, CaseSection, CaseSub, KeyInsight, Lead, OutcomeCards, Reasoning, TeamStack, Text, type TocEntry } from '../../pages/CaseStudy/kit';
-import { Figure, ToAdd } from '../gather/Figure';
-import g from '../gather/Gather.module.css';
-import { PointCards } from '../website-revamp/PointCards';
+import { Alternatives, Bullets, CaseBody, CaseHero, CaseSection, CaseSub, Figure, KeyInsight, Lead, OutcomeCards, PointCards, Reasoning, study, TeamStack, Text, ToAdd, type TocEntry } from '../../pages/CaseStudy/kit';
+import { ReviewDashboard } from '../finscribe-app/ReviewDashboard';
 import { AuditTrail } from './AuditTrail';
-import { ReviewDashboard } from './ReviewDashboard';
 import { AnnotatedPost, FlagComponents, FlagTaxonomy, InlineReview, RegionContext, ReviewCompare, WorkflowCompare } from './InlineReview';
 
 const TOC: TocEntry[] = [
@@ -28,7 +25,7 @@ const ILLUSTRATIVE = 'Illustrative, with sample copy.';
 
 export default function ComplianceCaseStudy() {
   return (
-    <div className={g.study}>
+    <div className={study.study}>
       <CaseBody title="Making AI-generated financial content safer to publish" toc={TOC} overview={
             <>
               Designing a compliance review experience for financial advisors, with region-specific guidance and a built-in review history.
@@ -61,7 +58,7 @@ export default function ComplianceCaseStudy() {
             { term: 'Skills', value: ['Product Strategy', 'UX Research', 'AI Product Design', 'Interaction Design'] },
           ]}
           media={
-            <Figure tone="field" className={`${g.heroFig} rv`} style={{ '--i': 2 }} caption="The compliance review experience. Illustrative, with sample copy.">
+            <Figure tone="field" className={`${study.heroFig} rv`} style={{ '--i': 2 }} caption="The compliance review experience. Illustrative, with sample copy.">
               <ReviewDashboard />
             </Figure>
           }
@@ -175,7 +172,7 @@ export default function ComplianceCaseStudy() {
             ]}
           />
           <Text>One advisor put it simply:</Text>
-          <blockquote className={g.insight} style={{ marginInline: 0 }}>
+          <blockquote className={study.insight} style={{ marginInline: 0 }}>
             “I don’t need it to rewrite everything. <em>Just tell me what I should be careful about.”</em>
           </blockquote>
           <Text>I liked that response because it challenged something I’d taken for granted. When you’re building an AI writing product, it’s tempting to make the AI do more. Suggest a better sentence. Fix the warning. Remove the friction.</Text>

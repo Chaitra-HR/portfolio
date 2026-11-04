@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { cx } from '../../../lib/cx';
 import { DOCUMENTS, FRICTION, QUESTIONS, SHEET, type Friction, type Question } from '../content';
+import { study } from '../../../pages/CaseStudy/kit';
 import g from '../Gather.module.css';
 import st from './Sticky.module.css';
 import s from './Spreadsheet.module.css';
@@ -12,7 +13,7 @@ const TILT = [-.4, .3, -.3];
 const PINNED: Record<number, Friction> = { 12: 'relevance', 23: 'effort', 34: 'trust' };
 
 function Pin({ type, className }: { type: Friction; className?: string }) {
-  return <span className={cx(g.pin, g[type], className)}>{FRICTION[type].n}</span>;
+  return <span className={cx(study.pin, g[type], className)}>{FRICTION[type].n}</span>;
 }
 
 function Row({ q, pin }: { q: Question; pin?: boolean }) {

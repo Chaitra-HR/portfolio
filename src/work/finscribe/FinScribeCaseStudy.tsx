@@ -1,10 +1,7 @@
 import { Link } from 'react-router';
 import { caseStudyPath } from '../../data/projects';
-import { Alternatives, Bullets, CaseBody, CaseHero, CaseSection, CaseSub, Findings, KeyInsight, Lead, TeamStack, Text, type TocEntry } from '../../pages/CaseStudy/kit';
-import { ReviewDashboard } from '../compliance-trust/ReviewDashboard';
-import { Figure } from '../gather/Figure';
-import g from '../gather/Gather.module.css';
-import { PointCards } from '../website-revamp/PointCards';
+import { Alternatives, Bullets, CaseBody, CaseHero, CaseSection, CaseSub, Figure, Findings, KeyInsight, Lead, PointCards, study, TeamStack, Text, type TocEntry } from '../../pages/CaseStudy/kit';
+import { ReviewDashboard } from '../finscribe-app/ReviewDashboard';
 import { BlankComposer, CompetitorTable, PositioningMatrix } from './Market';
 import { EmptyBox, Headlines, NoTime, OwnWords } from './Moments';
 import { DraftScreen, EditorScreen, HomeScreen, IdeasScreen } from './Screens';
@@ -41,7 +38,7 @@ const SOURCES = 'Based on public product information, November 2026.';
 
 export default function FinScribeCaseStudy() {
   return (
-    <div className={g.study}>
+    <div className={study.study}>
       <CaseBody title="Designing an AI writing workflow for financial advisors" toc={TOC} overview={
             <>
               What does an AI writing tool look like when the user doesn’t know what to write?
@@ -75,7 +72,7 @@ export default function FinScribeCaseStudy() {
             },
           ]}
           media={
-            <Figure tone="field" className={`${g.heroFig} rv`} style={{ '--i': 2 }} caption={ILLUSTRATIVE}>
+            <Figure tone="field" className={`${study.heroFig} rv`} style={{ '--i': 2 }} caption={ILLUSTRATIVE}>
               <HomeScreen />
             </Figure>
           }

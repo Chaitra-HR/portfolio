@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { cx } from '../../lib/cx';
-import { AppShell } from '../compliance-trust/AppShell';
-import d from '../compliance-trust/Dashboard.module.css';
+import { AppShell } from '../finscribe-app/AppShell';
+import d from '../finscribe-app/Dashboard.module.css';
 import f from './Screens.module.css';
 
 const IDEAS = [

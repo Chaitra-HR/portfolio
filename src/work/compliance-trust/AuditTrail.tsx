@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { cx } from '../../lib/cx';
-import { AppShell, Icon } from './AppShell';
-import d from './Dashboard.module.css';
+import { AppShell, Icon } from '../finscribe-app/AppShell';
+import d from '../finscribe-app/Dashboard.module.css';
 
 type Event = 'Approval' | 'Sent' | 'Edit' | 'Flag' | 'Draft';
 

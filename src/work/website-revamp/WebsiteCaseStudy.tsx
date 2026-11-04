@@ -11,12 +11,9 @@ import uiKit from '../../assets/images/website-revamp/ui-kit.jpg';
 import webinarPoster from '../../assets/images/website-revamp/brand/webinar-scroll-poster.jpg';
 import webinarScroll from '../../assets/images/website-revamp/brand/webinar-scroll.mp4';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { CaseBody, CaseHero, CaseSection, CaseSub, Lead, More, TeamStack, Text, type TocEntry } from '../../pages/CaseStudy/kit';
-import { Figure } from '../gather/Figure';
-import g from '../gather/Gather.module.css';
-import { Confetti } from './Confetti';
+import { CaseBody, CaseHero, CaseSection, CaseSub, Figure, Lead, More, PointCards, study, TeamStack, Text, type TocEntry } from '../../pages/CaseStudy/kit';
 import { BrandBento } from './BrandBento';
-import { PointCards } from './PointCards';
+import { Confetti } from './Confetti';
 import w from './Website.module.css';
 
 const FILM = 's8fdT4_3L_U';
@@ -99,7 +96,7 @@ function Preview({ src, poster, label, className, lazy }: { src: string; poster:
 /** The home page's tile film, on the page's opening frame. */
 function HeroVideo() {
   return (
-    <div className={`${g.heroFig} rv`} style={{ '--i': 2 }}>
+    <div className={`${study.heroFig} rv`} style={{ '--i': 2 }}>
       <Preview className={w.cover} src={coverFilm} poster={coverPoster} label="The live House of Alpha site scrolling section by section in a glass frame over a moving amber flame" />
     </div>
   );
@@ -134,7 +131,7 @@ function IntroVideo() {
 
 export default function WebsiteCaseStudy() {
   return (
-    <div className={g.study}>
+    <div className={study.study}>
       <CaseBody title={
       <>
         Redesigning House of Alpha’s website <span className="g">to attract better-fit clients</span>
@@ -229,7 +226,7 @@ export default function WebsiteCaseStudy() {
                 ]}
               />
             </More>
-            <div className={g.heroFig}>
+            <div className={study.heroFig}>
               <Preview src={showcase} poster={poster} label="Screens from the redesigned House of Alpha website" lazy />
             </div>
             <Figure tone="plain">

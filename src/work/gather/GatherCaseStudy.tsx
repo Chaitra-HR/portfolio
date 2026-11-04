@@ -1,5 +1,4 @@
-import { Bullets, CaseBody, CaseHero, CaseSection, CaseSub, Evidence, KeyInsight, Lead, More, Reasoning, TeamStack, Text, type TocEntry } from '../../pages/CaseStudy/kit';
-import { Benefits, BeforeAfter, Figure, Reported } from './Figure';
+import { BeforeAfter, Benefits, Bullets, CaseBody, CaseHero, CaseSection, CaseSub, Evidence, Figure, KeyInsight, Lead, More, Reasoning, Reported, study, TeamStack, Text, type TocEntry } from '../../pages/CaseStudy/kit';
 import { AdvisorScreen, GatewayScreen } from './product/Product';
 import { Capture } from './visuals/Capture';
 import { Directions } from './visuals/Directions';
@@ -45,7 +44,7 @@ const ADVISORS = 'Reported by advisors. Client records weren’t available to me
 
 export default function GatherCaseStudy() {
   return (
-    <div className={g.study}>
+    <div className={study.study}>
       <CaseBody title={
       <>
         Reducing onboarding <span className="g">from 3 weeks to under 4 days</span>
@@ -80,7 +79,7 @@ export default function GatherCaseStudy() {
             { term: 'Scope', value: ['Product Design', 'UX Research', 'Interaction Design'] },
           ]}
           media={
-            <Figure tone="field" className={`${g.heroFig} rv`} style={{ '--i': 2 }}>
+            <Figure tone="field" className={`${study.heroFig} rv`} style={{ '--i': 2 }}>
               <HeroComposition />
             </Figure>
           }
@@ -180,7 +179,7 @@ export default function GatherCaseStudy() {
             <Text>
               The spreadsheet treated every question as equally relevant and immediately answerable. <b>Neither assumption held up.</b>
             </Text>
-            <p className={g.insight}>
+            <p className={study.insight}>
               The problem wasn’t simply the number of questions. It was expecting clients to have <em>every answer ready at once.</em>
             </p>
           </CaseSub>

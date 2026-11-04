@@ -1,7 +1,7 @@
 import { useState, type CSSProperties, type ReactNode } from 'react';
-import { cx } from '../../lib/cx';
-import { Notice } from '../../pages/CaseStudy/kit';
-import g from './Gather.module.css';
+import { cx } from '../../../lib/cx';
+import { Notice } from './Editorial';
+import g from './study.module.css';
 
 interface FigureProps {
   /** Most visuals sit straight on the page; `field` is for screens that need a surface. */

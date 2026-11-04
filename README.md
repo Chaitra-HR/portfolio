@@ -43,12 +43,15 @@ src/
                   useReadAlong, useScrub, useBandReveal
   lib/            cx (class names), intro, scroll
   data/           site.ts (links + contact), projects.ts (metadata), testimonials.ts
-  work/           per-project covers and case-study pages, FilmCover (video tiles),
-                  plus the index.ts registry
+  work/           one folder per project (cover + case-study page + its own visuals),
+                  finscribe-app/ (the FinScribe app UI shared by the FinScribe and
+                  Compliance studies), FilmCover (video tiles), covers.module.css
+                  and the index.ts registry
   pages/
     Home/         sidebar, gist panel (+ GistBuddy), tiles, testimonials
     About/        page + Photo
-    CaseStudy/    route.tsx (loader + page shell) and kit/ (case-study building blocks)
+    CaseStudy/    route.tsx (loader + page shell) and kit/ (case-study building blocks:
+                  layout, editorial blocks, Figure, PointCards and study.module.css)
     NotFound/
   styles/         tokens.css, global.css, animations.css
 public/fonts/     Mabry Pro Regular + Medium (Latin subset, WOFF2)
@@ -61,7 +64,9 @@ classes in CSS are used as camelCase in TSX (`.side-head` → `s.sideHead`). Glo
 classes are kept to the few utilities repeated verbatim across the exports:
 `.card`, `.lbl`, `.mut` and the `.rv` reveal.
 
-**Shared vs page-specific.** The header, bento footer, mascot, pills, status
+**Shared vs page-specific.** A project folder never imports from another
+project's folder: anything two studies need lives in `pages/CaseStudy/kit`
+(or `work/finscribe-app` for the FinScribe product UI). The header, bento footer, mascot, pills, status
 dot, asterisk and all the behaviour hooks are shared. The Home sidebar, gist
 panel, tiles and testimonials, the About photo layouts, and
 each case study's story stay with their page. Home's layout differs on purpose
@@ -119,7 +124,13 @@ contents bar below that width; the hero and sections are its children),
 `Alternatives`, `OutcomeCards`, `Notice`, `AnnotatedImage`,
 `More`). Nothing forces a template. Any element
 inside `CaseBody` with `id="cs-<id>"` can be a contents entry, so a bespoke
-section, video or interactive demo can sit between kit sections. Put project-only styles in a module next to the study, as
+section, video or interactive demo can sit between kit sections.
+
+Figures come from the kit too: `Figure` (with `tone="field"` for screens that
+need a surface), `BeforeAfter`, `Benefits`, `Reported`, `ToAdd` and
+`PointCards`. Wrap the page in `study.study` and give the hero figure
+`study.heroFig` (`study` is the kit's shared stylesheet, exported from the
+kit). Put project-only styles in a module next to the study, as
 `work/gather/Gather.module.css` does.
 
 ## Content still to replace
@@ -133,8 +144,6 @@ Everything in [brackets] is the exports' own placeholder text, kept verbatim:
   confirm" until it's verified (`REPORTED` in `GatherCaseStudy.tsx`, and the
   panel at the bottom of `visuals/Results.tsx`).
 - Side projects have no links yet. Add `href` in `projects.ts`.
-- Only Gather has a case-study page. FinScribe, Compliance Trust System and
-  Website Revamp link to "not published yet".
 - There is no social preview image. Add `og:image` to `index.html` once one exists.
 
 ## Decisions and differences from the exports
@@ -154,8 +163,9 @@ to the pixel; the measured differences are:
   5px, and on phones the sections no longer run into the footer.
 - **Work tiles** were redrawn from your mock-up: shorter proportions (24:25
   and 6:5 instead of 4:5 and 7:6), FinScribe and Website on the left, Gather
-  and Compliance on the right, and new typographic covers (blurred asterisk;
-  before/after pills; "Who is this site for?"; flagged card with why + fix).
+  and Compliance on the right. FinScribe, Gather and Website covers are product
+  films; Compliance's is its review dashboard, animated in code on a white-to-orange
+  wash.
   Titles stay below the cards. FinScribe's field is now light grey.
 - **Kind words** is now a swipeable deck of quote cards; the export's large
   photos with blurred side panels are gone. Portraits are small 44px avatars.

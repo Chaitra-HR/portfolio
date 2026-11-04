@@ -1,44 +1,89 @@
-.frame { container-type: inline-size; display: flex; flex-direction: column; gap: 16px; }
+.frame {
+  container-type: inline-size; display: flex; flex-direction: column; gap: 16px;
+  /* the board's own paper: phases along the top, a tint per lane */
+  --phase-1: #DCDEFB; --phase-2: #FAEDB3; --phase-3: #F8D8D3;
+  --band-1: #FFFFFF; --band-2: #FFFCF0; --band-3: #FFF8E3; --band-4: #FDF0EE; --band-5: #F7F4FE;
+  --board-rule: rgba(0, 0, 0, .07);
+  --label-w: 132px;
+}
 .pause { --note: var(--note-peach); }
 .dependency { --note: var(--note-yellow); }
 .good { --note: var(--note-mint); }
 .team { --note: #FFFFFF; }
+.stage-note { --note: #CFE1F7; }
 
-/* Six columns sharing their rows, so each lane lines up across the wall. */
-.map { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: repeat(10, auto); }
-.col { display: grid; grid-row: 1 / -1; grid-template-rows: subgrid; min-width: 0; }
-.lane { min-height: 15px; margin: 16px 0 0; padding: 12px 5px 8px; border-top: 1px solid var(--page-rule); font-size: var(--t-xs); line-height: 1.15; white-space: nowrap; color: var(--muted); }
-.lane:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
-.col:not(:first-child) .lane { color: transparent; }
+.band1 { background: var(--band-1); }
+.band2 { background: var(--band-2); }
+.band3 { background: var(--band-3); }
+.band4 { background: var(--band-4); }
+.band5 { background: var(--band-5); }
 
-/* stages: numbered stops along one hairline */
-.stage { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0 8px 0 5px; font-size: var(--t-xs); line-height: 1.3; font-weight: 500; color: var(--ink); }
-.stage span { display: flex; align-items: center; gap: 8px; color: var(--muted); font-weight: 400; font-variant-numeric: tabular-nums; }
-.stage span::after { content: ""; flex: 1; height: 1px; margin-right: -13px; background: var(--page-rule); }
-.col:last-child .stage span::after { display: none; }
+/* The board: a pinned column of lane names, then six stages sharing their rows. */
+.scroll { overflow-x: auto; overscroll-behavior-x: contain; border-radius: 12px; box-shadow: 0 0 0 1px var(--board-rule); background: var(--band-1); scrollbar-width: thin; }
+.scroll:focus-visible { outline: 2px solid var(--lilac-deep); outline-offset: 3px; }
+.map { display: grid; grid-template-columns: var(--label-w) repeat(6, minmax(152px, 1fr)); grid-template-rows: auto repeat(5, auto); min-width: calc(var(--label-w) + 6 * 152px); }
 
-.happens { padding: 0 8px 0 5px; color: var(--ink); }
+.corner, .labels { position: sticky; left: 0; z-index: 2; }
+.corner { grid-row: 1; grid-column: 1; background: var(--band-1); box-shadow: 1px 0 0 var(--board-rule); }
+.labels { display: grid; grid-row: 2 / -1; grid-column: 1; grid-template-rows: subgrid; box-shadow: 1px 0 0 var(--board-rule), 6px 0 12px -8px rgba(0, 0, 0, .18); }
+.label { display: flex; flex-direction: column; margin: 0; padding: 16px 12px; border-top: 1px solid var(--board-rule); font-size: var(--t-xs); line-height: 1.25; font-weight: 500; color: var(--ink); }
+/* the feeling line's scale sits level with the line; the lane name drops to the pause notes */
+.label:has(.scale) { position: relative; justify-content: flex-end; padding-top: 88px; }
+.scale { position: absolute; top: 18px; left: 12px; display: flex; flex-direction: column; justify-content: space-between; height: 52px; padding-left: 10px; border-left: 1px solid rgba(0, 0, 0, .25); font-size: 11px; font-weight: 400; color: var(--muted); }
+
+.phase { grid-row: 1; margin: 0; padding: 12px 14px; border-left: 1px solid rgba(255, 255, 255, .7); font-size: var(--t-xs); line-height: 1.3; font-weight: 500; text-align: center; color: var(--ink); }
+.phase1 { background: var(--phase-1); }
+.phase2 { background: var(--phase-2); }
+.phase3 { background: var(--phase-3); }
+
+.col { display: grid; grid-row: 2 / -1; grid-template-rows: subgrid; min-width: 0; }
+.cell { position: relative; display: flex; flex-direction: column; min-width: 0; padding: 16px 10px; border-top: 1px solid var(--board-rule); border-left: 1px dashed var(--board-rule); }
+/* a lane's name lives in the pinned column; inside the stage it's for screen readers */
+.lane { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
+
+/* each lane leads to the next */
+.arrow { display: block; flex: none; width: 12px; height: 18px; margin: -10px auto 8px; color: rgba(0, 0, 0, .45); }
+
+/* stages: blue notes, numbered */
+.stage-note { flex: 1; }
+.stage-note > div { display: flex; align-items: center; min-height: 76px; padding: 10px 12px; }
+.stage { display: flex; flex-direction: column; gap: 4px; margin: 0; font-size: var(--t-xs); line-height: 1.3; font-weight: 500; color: var(--ink); }
+.stage span { color: rgba(0, 0, 0, .55); font-weight: 400; font-variant-numeric: tabular-nums; }
+
+.happens { flex: 1; display: flex; flex-direction: column; color: var(--ink); }
 .happens svg { display: block; width: 20px; height: 20px; margin-bottom: 6px; }
 .happens p { margin: 0; font-size: var(--t-xs); line-height: 1.4; color: var(--ink-body); }
 
-.notes { display: flex; flex-direction: column; gap: 8px; padding: 2px 5px; }
+.notes { display: flex; flex-direction: column; gap: 10px; }
 .note { flex: 1; transition: opacity .18s ease; }
 .note > div { padding: 10px; }
 .note p { margin: 0; font-size: var(--t-xs); line-height: 1.4; }
 /* the team's own notes are index cards, not research */
-.card { margin: 0; padding: 0 5px; font-size: var(--t-xs); line-height: 1.4; color: var(--ink-body); transition: opacity .18s ease; }
+.card { flex: 1; margin: 0; padding: 10px; border-radius: 3px; background: var(--note); box-shadow: 0 1px 2px rgba(0, 0, 0, .08), 0 4px 10px -4px rgba(0, 0, 0, .12); font-size: var(--t-xs); line-height: 1.4; color: var(--ink-body); transition: opacity .18s ease; }
 
-.pause-cell { position: relative; padding: 0 8px 0 5px; }
-.pause-cell::before { content: ""; position: absolute; left: 5px; right: 0; top: 7px; height: 1px; background: var(--page-rule); }
-.col:last-child .pause-cell::before { right: auto; width: 12px; }
-.pause-cell i { position: relative; display: block; width: 14px; height: 14px; border-radius: 50%; background: var(--note); box-shadow: 0 0 0 1px rgba(0, 0, 0, .12); margin-bottom: 8px; transition: opacity .18s ease; }
-.pause-cell p { margin: 0; font-size: var(--t-xs); line-height: 1.4; color: var(--ink-body); }
+/* where clients pause: one line through every stage, high when it's smooth, low when it stalls */
+.pause-cell { padding-top: 80px; }
+.curve { position: absolute; top: 12px; left: 0; width: 100%; height: 64px; overflow: visible; }
+.curve path { fill: none; stroke: rgba(0, 0, 0, .4); stroke-width: 1.5; }
+.pause-cell i { position: absolute; z-index: 1; top: calc(12px + var(--y) - 8px); left: calc(50% - 8px); width: 16px; height: 16px; border-radius: 50%; background: var(--note); box-shadow: 0 0 0 2px var(--band-4), 0 0 0 3px rgba(0, 0, 0, .18); transition: opacity .18s ease; }
+.pause-cell p { margin: 0; font-size: var(--t-xs); line-height: 1.4; color: var(--ink-body); text-align: center; }
 
 .frame[data-only] :is(.note, .card, .pause-cell i) { opacity: .16; }
 .frame[data-only="pause"] :is(.note.pause, .pause-cell i.pause),
 .frame[data-only="dependency"] :is(.note.dependency, .pause-cell i.dependency),
 .frame[data-only="good"] :is(.note.good, .pause-cell i.good),
 .frame[data-only="team"] .card { opacity: 1; }
+
+/* only shown while the board is wider than its frame */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.swipe { margin: 0; font-size: var(--t-xs); color: var(--muted); }
+.jump { display: flex; gap: 4px; }
+.jump button { width: 28px; height: 28px; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--muted); font: inherit; font-size: var(--t-xs); font-variant-numeric: tabular-nums; cursor: pointer; transition: color .15s ease, background-color .15s ease; }
+.jump button:hover { color: var(--ink); background: var(--card); }
+.jump .jump-on { background: var(--lilac); color: var(--ink); }
+@container (min-width: 1050px) {
+  .top { display: none; }
+}
 
 .insight { margin: 0; font-size: var(--t-body); line-height: 1.55; color: var(--ink-body); }
 .insight b { font-weight: 500; color: var(--ink); }
@@ -48,30 +93,30 @@
 .key i { width: 14px; height: 14px; border-radius: 2px; background: var(--note); box-shadow: 0 0 0 1px rgba(0, 0, 0, .1); }
 .key:hover, .key-on { background: var(--lilac); color: var(--ink); }
 
-.swipe, .jump { display: none; }
-
-/* Too narrow for six columns: the stages stack, all on show, with every lane named inside each. */
-@container (max-width: 779.98px) {
-  .map { display: flex; flex-direction: column; gap: 32px; }
-  .col { display: flex; flex-direction: column; width: 100%; }
-  .stage { flex-direction: row; align-items: center; gap: 8px; padding-left: 0; font-size: var(--t-body); }
-  .stage span::after { display: none; }
-  .lane { padding-left: 0; }
-  .lane:first-child { display: none; }
-  .happens { padding: 0; }
+/* Phones: no board to scroll. Each stage is its own card, its lanes named and tinted inside it. */
+@container (max-width: 559.98px) {
+  .top, .corner, .labels, .phase, .arrow, .curve { display: none; }
+  .scroll { overflow: visible; border-radius: 0; box-shadow: none; background: none; }
+  .map { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+  .col { display: flex; flex-direction: column; overflow: hidden; border-radius: 12px; box-shadow: 0 0 0 1px var(--board-rule); }
+  .cell { padding: 14px; border-left: 0; }
+  .cell:first-child { border-top: 0; }
+  .lane { position: static; width: auto; height: auto; overflow: visible; clip-path: none; margin: 0 0 8px; font-size: var(--t-xs); font-weight: 500; color: var(--muted); }
+  .stage-note > div { min-height: 0; }
+  .stage { flex-direction: row; gap: 8px; font-size: var(--t-body); }
   .happens p { font-size: var(--t-body); line-height: 1.45; }
   /* side by side, so a note stays note-shaped */
-  .notes { flex-direction: row; gap: 10px; padding: 2px 0; }
+  .notes { flex-direction: row; }
   .note { flex: 1 1 0; min-width: 0; }
   .note p { font-size: var(--t-body); line-height: 1.35; }
   .note > div { min-height: 132px; padding: 12px; }
-  .card { flex: 1; padding: 0; font-size: var(--t-body); line-height: 1.45; }
-  .pause-cell { padding: 0; display: flex; gap: 8px; }
-  .pause-cell::before { display: none; }
-  .pause-cell i { flex: none; margin: 4px 0 0; }
-  .pause-cell p { font-size: var(--t-body); line-height: 1.45; }
+  .card { font-size: var(--t-body); line-height: 1.45; }
+  .pause-cell { display: grid; grid-template-columns: 16px minmax(0, 1fr); column-gap: 10px; padding-top: 14px; }
+  .pause-cell .lane { grid-column: 1 / -1; color: var(--muted); text-align: left; }
+  .pause-cell i { position: static; margin-top: 3px; }
+  .pause-cell p:last-child { font-size: var(--t-body); line-height: 1.45; text-align: left; }
   .legend { justify-content: flex-start; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .note, .card, .pause-cell i { transition: none; }
+  .note, .card, .pause-cell i, .jump button { transition: none; }
 }

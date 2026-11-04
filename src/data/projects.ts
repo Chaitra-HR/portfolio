@@ -75,7 +75,7 @@ export const caseStudies: CaseStudyProject[] = [
     title: 'Compliance Trust System',
     summary: 'AI compliance review, explained inline',
     status: 'Pre-beta',
-    color: '#000000',
+    color: '#FDC79F',
     proves: 'Proves: trust and human control in AI.',
     gist: {
       problem: 'Pass/fail AI warnings said something was wrong, but not why.',

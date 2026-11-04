@@ -26,7 +26,7 @@ export const workArt: Record<string, WorkArt> = {
   reframe: { Cover: ReframeCover },
 };
 
-export interface CaseStudyProps {
+interface CaseStudyProps {
   project: CaseStudyProject;
 }
 

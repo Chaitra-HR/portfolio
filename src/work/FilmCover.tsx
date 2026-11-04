@@ -1,27 +1,31 @@
 import { useEffect, useRef } from 'react';
-import { useMediaQuery } from '../hooks/useMediaQuery';
 import { cx } from '../lib/cx';
 import c from './covers.module.css';
 
-/** A product film for a work tile. It plays while it's on screen; reduced motion gets its poster. */
+/** A product film for a work tile. It plays from the start and keeps looping, whatever the motion setting. */
 export function FilmCover({ film, poster, className }: { film: string; poster: string; className?: string }) {
-  const still = useMediaQuery('(prefers-reduced-motion: reduce)');
   const video = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const el = video.current;
-    if (still || !el) return;
-    const seen = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) void el.play().catch(() => {});
-      else el.pause();
+    if (!el) return;
+    // React doesn't always carry `muted` onto the element, and browsers only autoplay muted video.
+    el.muted = true;
+    // A browser that blocks autoplay outright still lets the film start on the visitor's first click or key.
+    const retry = () => void el.play().catch(() => {});
+    el.play().catch(() => {
+      document.addEventListener('pointerdown', retry, { once: true });
+      document.addEventListener('keydown', retry, { once: true });
     });
-    seen.observe(el);
-    return () => seen.disconnect();
-  }, [still]);
+    return () => {
+      document.removeEventListener('pointerdown', retry);
+      document.removeEventListener('keydown', retry);
+    };
+  }, []);
 
   return (
     <span className={cx(c.cover, className)}>
-      {still ? <img className={c.film} src={poster} alt="" /> : <video ref={video} className={c.film} src={film} poster={poster} muted loop playsInline preload="metadata" />}
+      <video ref={video} className={c.film} src={film} poster={poster} autoPlay muted loop playsInline />
     </span>
   );
 }
