@@ -9,7 +9,7 @@ export const site = {
   email: 'hrchaitrarao@gmail.com',
   linkedin: 'https://www.linkedin.com/in/chaitraraodesign/',
   resume: 'https://drive.google.com/file/d/1PUNue1seACz4psTQJaryU-5rVkiBHQdZ/view?usp=sharing',
-  footprint: 'https://www.websitecarbon.com/website/chaitrarao-com/',
+  footprint: 'https://1clickimpact.com/website-carbon/chaitrarao.com',
 } as const;
 
 /** Footer pitch used on case studies (and the fallback page). */
