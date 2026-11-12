@@ -13,7 +13,7 @@
     <meta property="og:site_name" content="Chaitra Rao" />
     <meta property="og:locale" content="en_AU" />
     <meta property="og:url" content="https://chaitrarao.com/" />
-    <meta property="og:image" content="https://chaitrarao.com/og.png" />
+    <meta property="og:image" content="https://chaitrarao.com/og.png?v=2" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Chaitra Rao, Product Designer, AI and Fintech" />
@@ -22,7 +22,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Chaitra Rao | Product Designer, AI &amp; Fintech" />
     <meta name="twitter:description" content="Hi, I’m Chaitra, a Melbourne-based Product Designer with a background in finance. I design digital products across fintech and AI to make complex things easier to use." />
-    <meta name="twitter:image" content="https://chaitrarao.com/og.png" />
+    <meta name="twitter:image" content="https://chaitrarao.com/og.png?v=2" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=4" />
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png?v=4" />
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png?v=4" />
@@ -33,6 +33,7 @@
       {
         "@context": "https://schema.org",
         "@type": "Person",
+        "@id": "https://chaitrarao.com/#person",
         "name": "Chaitra Rao",
         "url": "https://chaitrarao.com/",
         "image": "https://chaitrarao.com/og.png",
@@ -44,6 +45,9 @@
         "address": { "@type": "PostalAddress", "addressLocality": "Melbourne", "addressCountry": "AU" }
       }
     </script>
+    <!-- The prerendered page (for crawlers) stays hidden until the app renders in its place; without scripts it shows. -->
+    <style>#root[data-prerendered]{display:none}</style>
+    <noscript><style>#root[data-prerendered]{display:block}</style></noscript>
     <link rel="preload" href="/fonts/MabryPro-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/MabryPro-Medium.woff2" as="font" type="font/woff2" crossorigin />
   </head>

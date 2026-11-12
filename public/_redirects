@@ -1,7 +1,9 @@
+# Netlify (the site is hosted on Vercel; vercel.json is the live config). Kept in step with vercel.json.
 # Old case-study URLs move permanently to their current addresses
 /work/finscribe          /work/finscribe-content-creation    301
 /work/gather             /work/moneyworks-client-onboarding  301
 /work/website-revamp     /work/website-redesign              301
 /work/compliance-trust   /work/finscribe-compliance-review   301
 
-/*    /index.html   200
+# Every page is prerendered to its own .html file (scripts/prerender.mjs), which Netlify serves at the
+# extensionless address; anything else gets 404.html with a real 404 status. No SPA catch-all.
