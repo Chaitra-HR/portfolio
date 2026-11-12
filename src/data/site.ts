@@ -8,8 +8,7 @@ export const site = {
   url: 'https://chaitrarao.com',
   email: 'hrchaitrarao@gmail.com',
   linkedin: 'https://www.linkedin.com/in/chaitraraodesign/',
-  /** Drop the PDF into public/resume.pdf. */
-  resume: '/resume.pdf',
+  resume: 'https://drive.google.com/file/d/1PUNue1seACz4psTQJaryU-5rVkiBHQdZ/view?usp=sharing',
   footprint: 'https://www.websitecarbon.com/website/chaitrarao-com/',
 } as const;
 
